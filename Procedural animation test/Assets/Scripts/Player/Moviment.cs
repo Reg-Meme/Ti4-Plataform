@@ -1,0 +1,261 @@
+using UnityEngine;
+using UnityEngine.Animations.Rigging;
+using UnityEngine.InputSystem;
+using DG.Tweening;
+using Unity.Cinemachine;
+
+public class Moviment : MonoBehaviour
+{
+    public Transform Body; 
+    Rigidbody Rig;
+    FixedJoint fixedJoint;
+    CapsuleCollider BodyCollider;
+    public IKFootSolverDaveJones[] Legs;
+    PlayerInput Input;
+    Gamepad Control;
+    InputAction MoveAction;
+    [SerializeField] InputActionReference Crouch;
+    public LayerMask Ground;
+    public float hoverRadius = 0.5f;
+    public float HoverHeight = 2f;
+    public float hoverForce = 100f;
+    public float hoverDamp = 15f; 
+    public float coyoteDuration = 0.2f; 
+    float coyoteTimer;  
+
+    public float acceleration = 50f;
+    public float maxSpeed = 15f;
+    public float RollForce = 10f;
+    public float movementSmoothTime = 0.01f;
+
+    public float lateralFriction = 5f;
+    public float brakingDrag = 2f;
+    public float stabilizer = 20f;
+    public float Soften = 1.0f;
+
+    public Vector2 currentInput;
+    Vector2 inputVelocity;
+    public float rotationSpeed = 10f;
+    public bool BottleMode;
+    public float HoverTim=0.5f;
+    float timer;
+    public Vector3 BottleModeCOM;
+    public float BMAngle;
+    float CheckUpDis = 0.3f;
+    public CinemachineCamera CinCam;
+    CinemachineBasicMultiChannelPerlin CamShake;
+    public float DecMag;
+    public float CamShakeAmp;
+    public float CamShakeFreq;
+    public float DecMagLil;
+    public float DecMagASF;
+    public float CamShakeAmpASF;
+    public float CamShakeFreqASF;
+    public float Mass;
+    bool NoBottleMode; //esse bool só serve pra não ficar tocando os 0 dos efeitos de rumble e Shake Toda hora
+    void Start()
+    {
+        
+        fixedJoint = GetComponent<FixedJoint>();
+        Rig = Body.GetComponent<Rigidbody>();
+        BodyCollider = Body.GetComponent<CapsuleCollider>();
+        Input = GetComponent<PlayerInput>();
+        MoveAction = Input.actions.FindAction("Move");
+        CamShake = CinCam.GetComponent<CinemachineBasicMultiChannelPerlin>();
+        Control = Gamepad.current;
+    }
+    public void Update()
+    {
+         
+    Vector2 targetInput = MoveAction.ReadValue<Vector2>();
+    currentInput = Vector2.SmoothDamp(currentInput, targetInput, ref inputVelocity, movementSmoothTime);
+    float BodyAngle = Vector3.Angle(Body.up, Vector3.up);
+    bool FacingDown = BodyAngle > BMAngle; 
+
+    if (!CellingChecker())
+    {
+        if (FacingDown)
+        {
+            BottleMode = true;
+        }
+        else
+        {
+            BottleMode = Crouch.action.IsPressed(); 
+        }
+    }
+        //Camerashake
+        if (BottleMode)
+        {
+            bool isMovingLil = Rig.linearVelocity.magnitude > DecMagLil;
+            bool isMoving = Rig.linearVelocity.magnitude > DecMag;
+            bool isMovingASF = Rig.linearVelocity.magnitude > DecMagASF;
+            if (OnOffOptions.Instance.CameraShake)
+        {
+            CamShake.AmplitudeGain = isMovingASF ? CamShakeAmpASF : (isMoving ? CamShakeAmp : 0f);
+            CamShake.FrequencyGain = isMovingASF ? CamShakeFreqASF : (isMoving ? CamShakeFreq : 0f);
+        }
+            
+            if (Control != null) 
+        {
+            if (OnOffOptions.Instance.Rumble)
+        {
+            if (isMovingASF)
+                Control.SetMotorSpeeds(0.21f, 0.3f); 
+            else if (isMoving)
+                Control.SetMotorSpeeds(0.1f, 0.15f);
+            else if (isMovingLil)
+                Control.SetMotorSpeeds(0.01f, 0.08f); 
+            else
+                Control.SetMotorSpeeds(0f, 0f);    
+        }
+        }
+
+        }
+        else if (NoBottleMode)
+    {
+        
+        CamShake.AmplitudeGain = 0f;
+        CamShake.FrequencyGain = 0f;
+        Control?.SetMotorSpeeds(0f, 0f);
+    }
+    
+    NoBottleMode = BottleMode;
+
+    }
+
+    public void FixedUpdate()
+    {
+        
+        CellingChecker();
+        if (!BottleMode)
+        {
+        Rig.linearDamping = 0.5f;
+        Rig.angularDamping = 2;
+        BodyCollider.height = 2f;
+        BodyCollider.center = Vector3.zero;
+        //Rig.centerOfMass = new Vector3(0,-1,0);
+        Rig.mass = 2;
+        //fixedJoint.connectedMassScale =3;
+        timer -= Time.fixedDeltaTime;
+        if (timer <= 0)
+        {
+            Hover();
+        }
+        Movement();
+        Rotation();
+        Friction();
+        Stabilization();
+        }
+        else
+        {
+            
+            Rig.linearDamping = 0.8f;
+            Rig.angularDamping = 0;
+            timer = HoverTim;
+            Rig.constraints = RigidbodyConstraints.None;
+            BottleMoviment();
+            BodyCollider.height = 2.4f;
+            Rig.centerOfMass = BottleModeCOM;
+            Rig.mass = Mass;
+            
+        }
+    }
+public bool CellingChecker()
+{
+    bool Ray = Physics.Raycast(Body.position, Vector3.up, CheckUpDis, Ground);
+    if (Ray)
+    {
+       return true;
+    }
+    else
+    {
+        return false;
+        }
+}
+void Rotation()
+{
+    Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward);
+    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+}
+void BottleMoviment()
+{
+    Vector3 RollDir = new Vector3(currentInput.y, 0, -currentInput.x); // Eixo invertido para girar certo 
+    Rig.AddTorque(RollDir * RollForce, ForceMode.Acceleration);
+}
+
+
+void Movement()
+{
+     Vector3 moveDir = new Vector3(currentInput.x, 0, currentInput.y);
+        
+    if (moveDir.magnitude > 0.01f)
+     {
+        if (Rig.linearVelocity.magnitude < maxSpeed) 
+         {
+             Rig.AddForce(moveDir * acceleration, ForceMode.Acceleration);
+         }
+     }
+    else
+    {
+          Vector3 horizontalVel = new Vector3(Rig.linearVelocity.x, 0, Rig.linearVelocity.z);
+          Rig.AddForce(-horizontalVel * brakingDrag, ForceMode.Acceleration);
+    }
+}
+
+    void Friction()
+    {
+        Vector3 rightDir = Body.right;
+
+        float sidewaysVel = Vector3.Dot(Rig.linearVelocity, rightDir);
+
+        Vector3 frictionForce = -rightDir * sidewaysVel * lateralFriction;
+        
+        Rig.AddForce(frictionForce, ForceMode.Acceleration);
+    }
+
+    void Hover()
+{
+    RaycastHit hit;
+    bool hitGround = Physics.SphereCast(Body.position, hoverRadius, Vector3.down, out hit, HoverHeight, Ground);
+
+    if (hitGround)
+    {
+        coyoteTimer = coyoteDuration;
+    }
+    else
+    {
+        coyoteTimer -= Time.fixedDeltaTime;
+    }
+
+    if (coyoteTimer > 0)
+    {
+        float currentDistance = hitGround ? hit.distance : HoverHeight;
+        float heightOff = HoverHeight - currentDistance;
+        float upwardVel = Vector3.Dot(Rig.linearVelocity, Vector3.up);
+        float dampingForce = upwardVel * hoverDamp;
+
+        if (upwardVel < 0 && heightOff < (HoverHeight * 0.5f)) 
+        {
+            dampingForce = 0;
+        }
+
+
+        float coyoteFade = hitGround ? 1.0f : (coyoteTimer / coyoteDuration);
+        Vector3 antiGravity = hitGround ? Vector3.zero : -Physics.gravity;
+
+        if (heightOff > 0 || !hitGround)
+        {
+            float springForce = heightOff * hoverForce;
+            Vector3 totalForce = Vector3.up * (springForce - dampingForce + (antiGravity.y * Rig.mass));
+            Rig.AddForce(totalForce * coyoteFade, ForceMode.Acceleration);
+        }
+    }
+}
+
+    void Stabilization()
+    {
+         Quaternion stabilize = Quaternion.FromToRotation(Body.up, Vector3.up);
+        Vector3 torque = new Vector3(stabilize.x, 0, stabilize.z) * stabilizer;
+        Rig.AddTorque(torque - Rig.angularVelocity * Soften);
+    }
+}
