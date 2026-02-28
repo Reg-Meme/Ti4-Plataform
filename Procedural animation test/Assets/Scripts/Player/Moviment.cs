@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using DG.Tweening;
 using Unity.Cinemachine;
 
+
 public class Moviment : MonoBehaviour
 {
     public Transform Body; 
@@ -52,6 +53,9 @@ public class Moviment : MonoBehaviour
     public float CamShakeAmpASF;
     public float CamShakeFreqASF;
     public float Mass;
+    public AnimationCurve moveForce;
+  
+   
     bool NoBottleMode; //esse bool só serve pra não ficar tocando os 0 dos efeitos de rumble e Shake Toda hora
     void Start()
     {
@@ -187,19 +191,28 @@ void BottleMoviment()
 void Movement()
 {
      Vector3 moveDir = new Vector3(currentInput.x, 0, currentInput.y);
-        
+
+    if(moveDir.magnitude > 1f) moveDir.Normalize(); 
+ 
+
     if (moveDir.magnitude > 0.01f)
      {
+
         if (Rig.linearVelocity.magnitude < maxSpeed) 
          {
              Rig.AddForce(moveDir * acceleration, ForceMode.Acceleration);
+             
          }
      }
     else
     {
           Vector3 horizontalVel = new Vector3(Rig.linearVelocity.x, 0, Rig.linearVelocity.z);
           Rig.AddForce(-horizontalVel * brakingDrag, ForceMode.Acceleration);
+           
     }
+
+       
+    
 }
 
     void Friction()
