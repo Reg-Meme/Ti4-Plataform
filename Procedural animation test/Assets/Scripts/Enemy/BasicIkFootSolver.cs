@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BasicIkFootSolver : MonoBehaviour
 {
-
+    public Transform bodyTarget;
     public LayerMask groundLayer;
     public float RayDis = 1.5f;
     public float footOffset = 0.1f;
@@ -11,40 +11,62 @@ public class BasicIkFootSolver : MonoBehaviour
     private Vector3 CurrentPos, newPos, oldPos;
     private Vector3 OldPos, NewPos;
     private float Lerp;
+    private Vector3 localOffset; // Distância relativa inicial
+    private Quaternion localRotationOffset; // Rotação relativa inicial
+    
+    private Vector3 currentIkOffset; // O quanto o IK deslocou o pé verticalmente
+    private float lerpY;
+    private float targetIkY;
+    private float oldIkY;
 
-    void Start()
+     void Start()
     {
-
-        CurrentPos = oldPos = newPos = transform.position;
-        OldPos = NewPos = Vector3.up;
-        Lerp = 1;
+        if (bodyTarget != null)
+        {
+            // Calcula a posição e rotação relativa no início
+            localOffset = bodyTarget.InverseTransformPoint(transform.position);
+            localRotationOffset = Quaternion.Inverse(bodyTarget.rotation) * transform.rotation;
+        }
     }
 
     void Update()
     {
-        FootNature();
+        if (bodyTarget == null) return;
+
+        // 1. Seguir a posição e rotação do corpo (mantendo o offset original)
+        Vector3 worldPos = bodyTarget.TransformPoint(localOffset);
+        transform.rotation = bodyTarget.rotation * localRotationOffset;
+
+        // 2. Lógica do IK apenas para a altura (eixo Y)
+        ApplyHeightIK(worldPos);
     }
 
-    void FootNature()
+    void ApplyHeightIK(Vector3 basePosition)
     {
-        Ray ray = new Ray(transform.parent.position + Vector3.up, Vector3.down);
+        // O raio agora sai da posição que o pé "deveria" estar se o chão fosse plano
+        Ray ray = new Ray(basePosition + Vector3.up, Vector3.down);
 
         if (Physics.Raycast(ray, out RaycastHit hit, RayDis, groundLayer))
         {
-           
-            if (Vector3.Distance(newPos, hit.point) > 0.05f)
+            float groundY = hit.point.y + footOffset;
+            float differenceY = groundY - basePosition.y;
+
+            // Se a diferença de altura mudar significativamente, inicia o Lerp
+            if (Mathf.Abs(targetIkY - differenceY) > 0.05f)
             {
-                Lerp = 0;
-                OldPos = CurrentPos;
-                NewPos = hit.point;
+                lerpY = 0;
+                oldIkY = currentIkOffset.y;
+                targetIkY = differenceY;
             }
         }
-        if (Lerp < 1)
+
+        if (lerpY < 1)
         {
-            Lerp += Time.deltaTime * Spd;
-            CurrentPos = Vector3.Lerp(oldPos, newPos, Lerp);
-            OldPos = Vector3.Lerp(OldPos, NewPos, Lerp);
+            lerpY += Time.deltaTime * Spd;
+            currentIkOffset.y = Mathf.Lerp(oldIkY, targetIkY, lerpY);
         }
-        transform.position = CurrentPos;
+
+        // Aplica a posição base (que segue o corpo) + o ajuste de altura do IK
+        transform.position = basePosition + Vector3.up * currentIkOffset.y;
     }
 }
