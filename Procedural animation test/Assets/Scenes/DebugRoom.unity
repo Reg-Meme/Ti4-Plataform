@@ -1868,7 +1868,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!136 &100466815
 CapsuleCollider:
@@ -6152,6 +6152,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
   m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_ActionId: 7d03154c-af8c-47bc-bc56-203b45734bcf
+--- !u!4 &375966073 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 217090568487406998, guid: 16c58497622ecb44a9d9359652c081c8, type: 3}
+  m_PrefabInstance: {fileID: 1532315789}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -6598,11 +6603,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
   m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_ActionId: 27c5f898-bc57-4ee1-8800-db469aca5fe3
---- !u!4 &449016681 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8132380618784611297, guid: 16c58497622ecb44a9d9359652c081c8, type: 3}
-  m_PrefabInstance: {fileID: 1532315789}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &451582260 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4901982152012507578, guid: b4a0f67972446fa4887c3ce3e558a2a9, type: 3}
@@ -12040,8 +12040,8 @@ Transform:
   m_GameObject: {fileID: 706960181}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12.84, y: -9.74, z: 10.958}
-  m_LocalScale: {x: 1, y: 1, z: 3.7110572}
+  m_LocalPosition: {x: 11.55, y: -10.69, z: 14.7}
+  m_LocalScale: {x: 3.615, y: 1, z: 6.5830445}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1082418331}
@@ -14312,6 +14312,55 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4297214528637848662, guid: 16c58497622ecb44a9d9359652c081c8, type: 3}
   m_PrefabInstance: {fileID: 1532315789}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &827642515
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 827642517}
+  - component: {fileID: 827642516}
+  m_Layer: 0
+  m_Name: PostProssesing
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &827642516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827642515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 7cd1c92203491f94dbb3bf6b266b5437, type: 2}
+--- !u!4 &827642517
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827642515}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.17237, y: -0.0122, z: 3.38293}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -14545,7 +14594,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   RayDis: 1.4
-  footOffset: 0
   Spd: 10
 --- !u!1 &872230147
 GameObject:
@@ -15069,10 +15117,10 @@ MonoBehaviour:
   m_Weight: 1
   m_Data:
     m_Root: {fileID: 837856321}
-    m_Tip: {fileID: 449016681}
+    m_Tip: {fileID: 375966073}
     m_Target: {fileID: 100466812}
     m_ChainRotationWeight: 1
-    m_TipRotationWeight: 0
+    m_TipRotationWeight: 1
     m_MaxIterations: 15
     m_Tolerance: 0.0001
     m_MaintainTargetPositionOffset: 0
@@ -19002,7 +19050,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   RayDis: 1.4
-  footOffset: 0
   Spd: 10
 --- !u!1001 &1105510308
 PrefabInstance:
@@ -24970,7 +25017,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   RayDis: 1.4
-  footOffset: 0
   Spd: 10
 --- !u!1 &1575426640
 GameObject:
@@ -29385,7 +29431,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   RayDis: 1.4
-  footOffset: 0
   Spd: 10
 --- !u!1 &2125980233
 GameObject:
@@ -31037,3 +31082,4 @@ SceneRoots:
   - {fileID: 2128861518}
   - {fileID: 1229972345}
   - {fileID: 1508317661}
+  - {fileID: 827642517}

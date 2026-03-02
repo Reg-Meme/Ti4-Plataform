@@ -11,7 +11,7 @@ public class Test : MonoBehaviour
         angle += spd * Time.deltaTime;
 
         Vector3 newpos = new Vector3(Mathf.Cos(angle) * ray, transform.position.y, Mathf.Sin(angle) * ray);
-        transform.LookAt(newpos);
+        //transform.LookAt(newpos);
         
         transform.position = newpos;
     }
