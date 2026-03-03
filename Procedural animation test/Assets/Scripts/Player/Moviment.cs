@@ -34,7 +34,6 @@ public class Moviment : MonoBehaviour
 
     [Header("Jump")]
     public float jumpForce = 100;
-
     public float lateralFriction = 5f;
     public float brakingDrag = 2f;
     public float stabilizer = 20f;
@@ -68,6 +67,9 @@ public class Moviment : MonoBehaviour
 
     public Transform groundCheck;
 
+    [Header("Camera Reference")]
+    public Transform cameraTransform;
+
     bool NoBottleMode; //esse bool só serve pra não ficar tocando os 0 dos efeitos de rumble e Shake Toda hora
     void Awake()
     {
@@ -80,34 +82,28 @@ public class Moviment : MonoBehaviour
     public void OnDisable()
     {
         inputs.Player.Disable();
-        
     }
 
     void Start()
     {
-
+        cameraTransform = Camera.main.transform;
         fixedJoint = GetComponent<FixedJoint>();
         Rig = Body.GetComponent<Rigidbody>();
         BodyCollider = Body.GetComponent<CapsuleCollider>();
         Input = GetComponent<PlayerInput>();
-         MoveAction = Input.actions.FindAction("Move");
+        MoveAction = Input.actions.FindAction("Move");
         // JumpAction = Input.actions.FindAction("Jump");
         CamShake = CinCam.GetComponent<CinemachineBasicMultiChannelPerlin>();
         Control = Gamepad.current;
     }
     public void Update()
     {
-
-         //Vector2 targetInput = MoveAction.ReadValue<Vector2>();
+        // Vector2 targetInput = MoveAction.ReadValue<Vector2>();
         Vector2 targetInput = inputs.Player.Move.ReadValue<Vector2>();
 
-        
         currentInput = Vector2.SmoothDamp(currentInput, targetInput, ref inputVelocity, movementSmoothTime);
         float BodyAngle = Vector3.Angle(Body.up, Vector3.up);
         bool FacingDown = BodyAngle > BMAngle;
-
-        
-
 
         if (!CellingChecker())
         {
@@ -146,30 +142,29 @@ public class Moviment : MonoBehaviour
                         Control.SetMotorSpeeds(0f, 0f);
                 }
             }
-
         }
         else if (NoBottleMode)
         {
-
             CamShake.AmplitudeGain = 0f;
             CamShake.FrequencyGain = 0f;
             Control?.SetMotorSpeeds(0f, 0f);
         }
-
         NoBottleMode = BottleMode;
-
     }
 
     public void FixedUpdate()
     {
+        Debug.Log("BottleMode: " + BottleMode);
         if (!isGrounded())
         {
             Debug.Log("to fazendo algo aqui ");
-           rbRealBody.AddForce(new Vector3(0, -gravityForce * gravityScale, 0), ForceMode.Acceleration);
+            //rbRealBody.AddForce(new Vector3(0, -gravityForce * gravityScale, 0), ForceMode.Acceleration);
+            Rig.AddForce(new Vector3(0, -gravityForce * gravityScale, 0), ForceMode.Acceleration);
         }
         CellingChecker();
         if (!BottleMode)
         {
+            Rig.centerOfMass = Vector3.zero;
             Rig.linearDamping = 0.5f;
             Rig.angularDamping = 2;
             BodyCollider.height = 2f;
@@ -190,7 +185,6 @@ public class Moviment : MonoBehaviour
         }
         else
         {
-
             Rig.linearDamping = 0.8f;
             Rig.angularDamping = 0;
             timer = HoverTim;
@@ -199,7 +193,6 @@ public class Moviment : MonoBehaviour
             BodyCollider.height = 2.4f;
             Rig.centerOfMass = BottleModeCOM;
             Rig.mass = Mass;
-
         }
     }
     public bool isGrounded()
@@ -231,44 +224,41 @@ public class Moviment : MonoBehaviour
         }
     }
     void Rotation()
-    {
-        Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+    { 
+        Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward); 
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime); 
     }
+
     void BottleMoviment()
     {
         Vector3 RollDir = new Vector3(currentInput.y, 0, -currentInput.x); // Eixo invertido para girar certo 
         Rig.AddTorque(RollDir * RollForce, ForceMode.Acceleration);
     }
 
-
     void Movement()
     {
-        Vector3 moveDir = new Vector3(currentInput.x, 0, currentInput.y);
+        Transform cam = Camera.main.transform;
+
+        Vector3 forward = cam.forward;
+        Vector3 right = cam.right;
+
+        forward.y = 0;
+        right.y = 0;
+        forward.Normalize();
+        right.Normalize();
+
+        Vector3 moveDir = forward * currentInput.y + right * currentInput.x;
 
         if (moveDir.magnitude > 1f) moveDir.Normalize();
 
+        Vector3 horizontalVel = new Vector3(Rig.linearVelocity.x, 0, Rig.linearVelocity.z);
+        Vector3 desiredVelocity = moveDir * maxSpeed;
+        Vector3 velocityChange = desiredVelocity - horizontalVel;
 
-        if (moveDir.magnitude > 0.01f)
-        {
-
-            if (Rig.linearVelocity.magnitude < maxSpeed)
-            {
-                Rig.AddForce(moveDir * acceleration, ForceMode.Acceleration);
-
-            }
-        }
-        else
-        {
-            Vector3 horizontalVel = new Vector3(Rig.linearVelocity.x, 0, Rig.linearVelocity.z);
-            Rig.AddForce(-horizontalVel * brakingDrag, ForceMode.Acceleration);
-
-        }
-
+        Rig.AddForce(velocityChange * acceleration, ForceMode.Acceleration);
     }
     void OnJump()
     {
-        
         if(inputs.Player.Jump.triggered && isGrounded()) Rig.AddForce(Vector3.up*jumpForce,ForceMode.Impulse);
     }
 
@@ -308,7 +298,6 @@ public class Moviment : MonoBehaviour
             {
                 dampingForce = 0;
             }
-
 
             float coyoteFade = hitGround ? 1.0f : (coyoteTimer / coyoteDuration);
             Vector3 antiGravity = hitGround ? Vector3.zero : -Physics.gravity;
