@@ -5939,7 +5939,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.30422434, y: 5.329164e-16, z: -1.7019323e-16, w: 0.9526004}
-  m_LocalPosition: {x: 3.52, y: 1.45, z: 7.79}
+  m_LocalPosition: {x: 3.52, y: 1.379, z: 7.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -21829,7 +21829,7 @@ Transform:
   m_GameObject: {fileID: 1275544534}
   serializedVersion: 2
   m_LocalRotation: {x: 0.30422434, y: 3.4496963e-16, z: 4.1831379e-16, w: 0.9526004}
-  m_LocalPosition: {x: 3.52, y: 1.45, z: 7.79}
+  m_LocalPosition: {x: 3.52, y: 1.379, z: 7.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -31011,9 +31011,17 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: HoverHeight
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: groundCheck
       value: 
       objectReference: {fileID: 699394479}
+    - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: gravityForce
+      value: 19
+      objectReference: {fileID: 0}
     - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: BottleModeCOM.y
       value: 0
@@ -31056,7 +31064,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8583857167334722344, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.08
+      value: 0.009
       objectReference: {fileID: 0}
     - target: {fileID: 8583857167334722344, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: m_LocalPosition.z

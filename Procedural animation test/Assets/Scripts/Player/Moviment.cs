@@ -106,11 +106,7 @@ public class Moviment : MonoBehaviour
         float BodyAngle = Vector3.Angle(Body.up, Vector3.up);
         bool FacingDown = BodyAngle > BMAngle;
 
-        if (!isGrounded())
-        {
-            Debug.Log("to fazendo algo aqui ");
-           rbRealBody.AddForce(new Vector3(0, -gravityForce * gravityScale, 0), ForceMode.Acceleration);
-        }
+        
 
 
         if (!CellingChecker())
@@ -166,7 +162,11 @@ public class Moviment : MonoBehaviour
 
     public void FixedUpdate()
     {
-
+        if (!isGrounded())
+        {
+            Debug.Log("to fazendo algo aqui ");
+           rbRealBody.AddForce(new Vector3(0, -gravityForce * gravityScale, 0), ForceMode.Acceleration);
+        }
         CellingChecker();
         if (!BottleMode)
         {
