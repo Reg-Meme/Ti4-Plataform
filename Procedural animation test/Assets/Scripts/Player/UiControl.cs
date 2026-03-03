@@ -2,15 +2,23 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using UnityEngine.Assertions.Must;
 public class UiControl : MonoBehaviour
 {
     PlayerInput Input;
+    Inputs inputs;
+    
     [SerializeField] InputActionReference Menu;
     public bool MenuUi;
     public GameObject MenuCanvas;
     [SerializeField]  GameObject CurrentButton;
     public UiAni MenuAni;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Awake()
+    {
+        inputs = new Inputs();
+    }
+   
     void Start()
     {
         MenuCanvas.SetActive(false);
@@ -19,12 +27,14 @@ public class UiControl : MonoBehaviour
     }
     public void OnEnable()
     {
-        Menu.action.started += OpenMenu;
+        // inputs.Global.Enable();
+         Menu.action.started += OpenMenu;
     }
 
     public void OnDisable()
     {
-        Menu.action.started -= OpenMenu;
+        // inputs.Global.Disable();
+         Menu.action.started -= OpenMenu;
     }
 
     public void OpenMenu(InputAction.CallbackContext context)
@@ -50,6 +60,11 @@ public class UiControl : MonoBehaviour
     
     void Update()
     {
+        // if(inputs.Global.Menu.triggered)
+        // {
+            
+        //  OpenMenu();
+        // }
         //Debug.Log(Input.currentActionMap);
     }
 }

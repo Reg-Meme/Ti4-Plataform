@@ -1033,7 +1033,7 @@
                     "id": "7d03154c-af8c-47bc-bc56-203b45734bcf",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "initialStateCheck": false
                 }
             ],
