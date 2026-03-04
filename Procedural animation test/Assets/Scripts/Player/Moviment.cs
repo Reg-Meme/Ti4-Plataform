@@ -63,8 +63,9 @@ public class Moviment : MonoBehaviour
     [Header("Gravity")]
     public float gravityForce = 9.81f;
     public float gravityScale = 1;
-    public Rigidbody rbRealBody;
-
+    
+    public ConstantForce Gravity;
+    bool hitGround;
     public Transform groundCheck;
 
     [Header("Camera Reference")]
@@ -155,11 +156,9 @@ public class Moviment : MonoBehaviour
     public void FixedUpdate()
     {
         Debug.Log("BottleMode: " + BottleMode);
-        if (!isGrounded())
+        if (!hitGround)
         {
-            Debug.Log("to fazendo algo aqui ");
-            //rbRealBody.AddForce(new Vector3(0, -gravityForce * gravityScale, 0), ForceMode.Acceleration);
-            Rig.AddForce(new Vector3(0, -gravityForce * gravityScale, 0), ForceMode.Acceleration);
+            //Debug.Log("to fazendo algo aqui ");
         }
         CellingChecker();
         if (!BottleMode)
@@ -173,6 +172,8 @@ public class Moviment : MonoBehaviour
             Rig.mass = 2;
             //fixedJoint.connectedMassScale =3;
             timer -= Time.fixedDeltaTime;
+            Gravity.enabled = true;
+            Rig.useGravity = false;
             if (timer <= 0)
             {
                 Hover();
@@ -188,29 +189,15 @@ public class Moviment : MonoBehaviour
             Rig.linearDamping = 0.8f;
             Rig.angularDamping = 0;
             timer = HoverTim;
-            Rig.constraints = RigidbodyConstraints.None;
+            Gravity.enabled = false;
+            Rig.useGravity = true;
             BottleMoviment();
             BodyCollider.height = 2.4f;
             Rig.centerOfMass = BottleModeCOM;
             Rig.mass = Mass;
         }
     }
-    public bool isGrounded()
-    {
-        bool cast = Physics.CheckSphere(groundCheck.position, 0.1f);
-        if (cast)
-        {
-            Debug.DrawRay(groundCheck.position, Vector3.down, Color.purple);
-            Debug.Log("chao");
-            return true;
-        }
-        else
-        {
-            Debug.DrawRay(groundCheck.position, Vector3.down, Color.green);
-            Debug.Log("nao estou no chao");
-            return false;
-        }
-    }
+   
     public bool CellingChecker()
     {
         bool Ray = Physics.Raycast(Body.position, Vector3.up, CheckUpDis, Ground);
@@ -259,7 +246,7 @@ public class Moviment : MonoBehaviour
     }
     void OnJump()
     {
-        if(inputs.Player.Jump.triggered && isGrounded()) Rig.AddForce(Vector3.up*jumpForce,ForceMode.Impulse);
+        if(inputs.Player.Jump.triggered && hitGround) Rig.AddForce(Vector3.up*jumpForce,ForceMode.Impulse);
     }
 
     void Friction()
@@ -276,7 +263,7 @@ public class Moviment : MonoBehaviour
     void Hover()
     {
         RaycastHit hit;
-        bool hitGround = Physics.SphereCast(Body.position, hoverRadius, Vector3.down, out hit, HoverHeight, Ground);
+        hitGround = Physics.SphereCast(Body.position, hoverRadius, Vector3.down, out hit, HoverHeight, Ground);
 
         if (hitGround)
         {
