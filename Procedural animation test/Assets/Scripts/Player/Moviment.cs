@@ -4,12 +4,14 @@ using UnityEngine.InputSystem;
 using DG.Tweening;
 using Unity.Cinemachine;
 using UnityEngine.UI;
+using UnityEditor.Rendering;
 
 
 public class Moviment : MonoBehaviour
 {
     public Transform Body;
     Rigidbody Rig;
+
     FixedJoint fixedJoint;
     CapsuleCollider BodyCollider;
     public IKFootSolverDaveJones[] Legs;
@@ -33,7 +35,8 @@ public class Moviment : MonoBehaviour
     public float movementSmoothTime = 0.01f;
 
     [Header("Jump")]
-    public float jumpForce = 100;
+
+    public float jumpHeight = 8;
     public float lateralFriction = 5f;
     public float brakingDrag = 2f;
     public float stabilizer = 20f;
@@ -61,10 +64,10 @@ public class Moviment : MonoBehaviour
     public AnimationCurve moveForce;
 
     [Header("Gravity")]
-    public float gravityForce = 9.81f;
-    public float gravityScale = 1;
-    
-    public ConstantForce Gravity;
+    public float gravityForce = -9.81f;
+
+
+    public ConstantForce gravity;
     bool hitGround;
     public Transform groundCheck;
 
@@ -74,7 +77,7 @@ public class Moviment : MonoBehaviour
     bool NoBottleMode; //esse bool só serve pra não ficar tocando os 0 dos efeitos de rumble e Shake Toda hora
     void Awake()
     {
-       inputs = new Inputs();
+        inputs = new Inputs();
     }
     public void OnEnable()
     {
@@ -158,6 +161,7 @@ public class Moviment : MonoBehaviour
         Debug.Log("BottleMode: " + BottleMode);
         if (!hitGround)
         {
+
             //Debug.Log("to fazendo algo aqui ");
         }
         CellingChecker();
@@ -172,7 +176,7 @@ public class Moviment : MonoBehaviour
             Rig.mass = 2;
             //fixedJoint.connectedMassScale =3;
             timer -= Time.fixedDeltaTime;
-            Gravity.enabled = true;
+            gravity.enabled = true;
             Rig.useGravity = false;
             if (timer <= 0)
             {
@@ -182,6 +186,7 @@ public class Moviment : MonoBehaviour
             Rotation();
             Friction();
             OnJump();
+            JumpImprove();
             Stabilization();
         }
         else
@@ -189,15 +194,20 @@ public class Moviment : MonoBehaviour
             Rig.linearDamping = 0.8f;
             Rig.angularDamping = 0;
             timer = HoverTim;
-            Gravity.enabled = false;
+            gravity.enabled = false;
             Rig.useGravity = true;
             BottleMoviment();
             BodyCollider.height = 2.4f;
             Rig.centerOfMass = BottleModeCOM;
             Rig.mass = Mass;
         }
+        if (isGrounded())
+        {
+            gravity.force = Physics.gravity;
+
+        }
     }
-   
+
     public bool CellingChecker()
     {
         bool Ray = Physics.Raycast(Body.position, Vector3.up, CheckUpDis, Ground);
@@ -211,9 +221,9 @@ public class Moviment : MonoBehaviour
         }
     }
     void Rotation()
-    { 
-        Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward); 
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime); 
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
     }
 
     void BottleMoviment()
@@ -246,7 +256,47 @@ public class Moviment : MonoBehaviour
     }
     void OnJump()
     {
-        if(inputs.Player.Jump.triggered && hitGround) Rig.AddForce(Vector3.up*jumpForce,ForceMode.Impulse);
+        if (inputs.Player.Jump.IsPressed() && isGrounded())
+        {
+
+            Rig.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
+
+        }
+        //Aumentar a gravidade caso o botão de pular seja solto
+        if (!inputs.Player.Jump.IsPressed() && Rig.linearVelocity.y > 0)
+        {
+            Rig.AddForce(Vector3.down * Rig.linearVelocity.y * 0.3f, ForceMode.VelocityChange);
+        }
+    }
+    void JumpImprove()
+    {
+
+        //Chegar na altura maxima do pulo
+        if (Rig.linearVelocity.y < 0)
+         //aumentar a gravidade da queda 
+          SetGravityScale(1.5f, gravity);
+    }
+    void SetGravityScale(float gravityScale, ConstantForce gravity)
+    {
+        Vector3 gravityVec;
+        gravityVec = new Vector3(0, gravityForce * gravityScale, 0);
+        gravity.force = gravityVec;
+    }
+    public bool isGrounded()
+    {
+        bool cast = Physics.CheckSphere(groundCheck.position, 0.1f);
+        if (cast)
+        {
+            Debug.DrawRay(groundCheck.position, Vector3.down, Color.purple);
+            Debug.Log("chao");
+            return true;
+        }
+        else
+        {
+            Debug.DrawRay(groundCheck.position, Vector3.down, Color.green);
+            Debug.Log("nao estou no chao");
+            return false;
+        }
     }
 
     void Friction()
@@ -265,8 +315,10 @@ public class Moviment : MonoBehaviour
         RaycastHit hit;
         hitGround = Physics.SphereCast(Body.position, hoverRadius, Vector3.down, out hit, HoverHeight, Ground);
 
+
         if (hitGround)
         {
+
             coyoteTimer = coyoteDuration;
         }
         else
