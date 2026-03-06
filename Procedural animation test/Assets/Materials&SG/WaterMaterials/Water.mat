@@ -108,6 +108,7 @@ Material:
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
+    - _Spdy: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
@@ -122,6 +123,8 @@ Material:
     - _foamcutoff: 10.56
     - _foamscale: 200
     - _foamspd: 1.93
+    - _foamspdx: 1.93
+    - _foamspdy: 1.93
     - _scale: 1
     - _spd: 0.05
     m_Colors:
