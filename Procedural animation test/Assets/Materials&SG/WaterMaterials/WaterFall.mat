@@ -108,7 +108,7 @@ Material:
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
-    - _Spdy: 0
+    - _Spdy: 0.44
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
@@ -124,9 +124,9 @@ Material:
     - _foamscale: 200
     - _foamspd: 1.93
     - _foamspdx: 1
-    - _foamspdy: 0
+    - _foamspdy: 0.44
     - _scale: 1
-    - _spd: 0.44
+    - _spd: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0.089915335, g: 0.5254902, b: 0.06666668, a: 0.7058824}
