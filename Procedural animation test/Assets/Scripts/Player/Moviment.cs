@@ -255,11 +255,12 @@ public class Moviment : MonoBehaviour
         Rig.AddForce(velocityChange * acceleration, ForceMode.Acceleration);
     }
     void OnJump()
-    {
+    {   
         if (inputs.Player.Jump.IsPressed() && isGrounded())
         {
 
-            Rig.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
+           // Rig.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
+           Rig.linearVelocity = Vector3.up * jumpHeight;
 
         }
         //Aumentar a gravidade caso o botão de pular seja solto
