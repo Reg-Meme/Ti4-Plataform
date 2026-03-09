@@ -181,6 +181,7 @@ public class Moviment : MonoBehaviour
             if (timer <= 0)
             {
                 Hover();
+                jumpHeight=3;
             }
             Movement();
             Rotation();
@@ -191,6 +192,7 @@ public class Moviment : MonoBehaviour
         }
         else
         {
+            jumpHeight=1.6f;
             Rig.linearDamping = 0.8f;
             Rig.angularDamping = 0;
             timer = HoverTim;
