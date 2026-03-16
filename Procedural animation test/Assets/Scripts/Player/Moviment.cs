@@ -359,4 +359,5 @@ public class Moviment : MonoBehaviour
         Vector3 torque = new Vector3(stabilize.x, 0, stabilize.z) * stabilizer;
         Rig.AddTorque(torque - Rig.angularVelocity * Soften);
     }
+    
 }
