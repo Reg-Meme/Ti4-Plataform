@@ -161,7 +161,6 @@ public class Moviment : MonoBehaviour
         Debug.Log("BottleMode: " + BottleMode);
         if (!hitGround)
         {
-
             //Debug.Log("to fazendo algo aqui ");
         }
         CellingChecker();
@@ -237,12 +236,13 @@ public class Moviment : MonoBehaviour
     void Movement()
     {
         Transform cam = Camera.main.transform;
-
+        
         Vector3 forward = cam.forward;
         Vector3 right = cam.right;
 
         forward.y = 0;
         right.y = 0;
+
         forward.Normalize();
         right.Normalize();
 
