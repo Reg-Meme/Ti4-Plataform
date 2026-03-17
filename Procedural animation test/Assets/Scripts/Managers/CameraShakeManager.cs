@@ -34,7 +34,7 @@ public class CameraShakeManager : MonoBehaviour
 
         while (elapsedTime < Dur)
         {
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.unscaledDeltaTime;
             float lerpPercent = elapsedTime / Dur;
 
             CamShake.AmplitudeGain = Mathf.Lerp(startAmp, 0f, lerpPercent);

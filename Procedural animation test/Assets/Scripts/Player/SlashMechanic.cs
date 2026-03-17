@@ -12,6 +12,10 @@ public class SlashMechanic : MonoBehaviour
     public float cutPlanSpeed;
     public bool bladeMode;
     public LayerMask layerMask;
+    //camera shake
+    public float amp;
+    public float freq;
+    public float dur;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -37,14 +41,18 @@ public class SlashMechanic : MonoBehaviour
         {
             RotatePlan();
             if (input.Player.Attack.triggered)
+            {
+                
                 Slice();
-
+            }
+                
         }
       
     }
     
     public void Slice()
     {
+        
         Collider[] hits = Physics.OverlapBox(cutPlane.transform.position, new Vector3(10, 0.1f, 10), cutPlane.transform.rotation, layerMask);
         if (hits.Length <= 0) return;
         for (int i = 0; i < hits.Length; i++)
@@ -52,6 +60,7 @@ public class SlashMechanic : MonoBehaviour
             SlicedHull hull = SliceObject(hits[i].gameObject, null);
             if (hull != null)
             {
+                
                 GameObject bottom = hull.CreateLowerHull(hits[i].gameObject, null);
                 GameObject top = hull.CreateUpperHull(hits[i].gameObject, null);
                 AddHullComponents(top);
@@ -62,7 +71,7 @@ public class SlashMechanic : MonoBehaviour
     }
     public void AddHullComponents(GameObject go)
     {
-
+        CameraShakeManager.Shaker.ShakePulse(amp,freq,dur);
         go.layer = LayerMask.NameToLayer("Cut");
         Rigidbody rb = go.AddComponent<Rigidbody>();
         rb.interpolation = RigidbodyInterpolation.Interpolate;
@@ -80,6 +89,7 @@ public class SlashMechanic : MonoBehaviour
     }
     public SlicedHull SliceObject(GameObject obj, Material crossMaterial = null)
     {
+        
         if (obj.GetComponent<MeshFilter>() == null) return null;
         return obj.Slice(cutPlane.transform.position, cutPlane.transform.up, crossMaterial);
     }
