@@ -3227,7 +3227,7 @@ GameObject:
   - component: {fileID: 211689330}
   - component: {fileID: 211689329}
   - component: {fileID: 211689328}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15423,7 +15423,7 @@ GameObject:
   - component: {fileID: 293218121}
   - component: {fileID: 293218120}
   - component: {fileID: 293218119}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: Cube (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15915,7 +15915,6 @@ GameObject:
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
   - component: {fileID: 330585548}
-  - component: {fileID: 330585549}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -15990,8 +15989,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.27400002, y: 0.806, z: -2.016}
+  m_LocalRotation: {x: 0.14867243, y: -3.514749e-11, z: 5.284187e-12, w: 0.98888654}
+  m_LocalPosition: {x: 0, y: 0.8010605, z: -1.4336895}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -16074,25 +16073,6 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
---- !u!114 &330585549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 330585543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0521821e1ec229b41a343247ab33adb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NierCameraController
-  player: {fileID: 1254179497}
-  cameraTarget: {fileID: 1902783759}
-  lookAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  mouseSensitivity: 0.1
-  controllerSensitivity: 100
-  minVerticalAngle: -30
-  maxVerticalAngle: 60
 --- !u!43 &338349627
 Mesh:
   m_ObjectHideFlags: 0
@@ -16919,7 +16899,7 @@ GameObject:
   - component: {fileID: 417461307}
   - component: {fileID: 417461306}
   - component: {fileID: 417461305}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: Cube (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19702,7 +19682,7 @@ GameObject:
   - component: {fileID: 669973567}
   - component: {fileID: 669973566}
   - component: {fileID: 669973565}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: Cube (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20623,7 +20603,7 @@ GameObject:
   - component: {fileID: 721996863}
   - component: {fileID: 721996862}
   - component: {fileID: 721996861}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: Cube (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26078,8 +26058,8 @@ Transform:
   m_GameObject: {fileID: 1056821067}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.6702566, y: -0.07511551, z: -5.0860195}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 5.6702566, y: -0.1335, z: -5.0860195}
+  m_LocalScale: {x: 1, y: 1.7781514, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1527344760}
@@ -35924,7 +35904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e81e908f405cda49b4767d0ea5c52ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraShakeManager
-  CamShake: {fileID: 4445237590908208950}
+  CamShake: {fileID: 0}
 --- !u!4 &1343459383
 Transform:
   m_ObjectHideFlags: 0
@@ -43134,7 +43114,7 @@ GameObject:
   - component: {fileID: 1590013029}
   - component: {fileID: 1590013028}
   - component: {fileID: 1590013027}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: Cube (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49366,7 +49346,7 @@ GameObject:
   - component: {fileID: 1879770040}
   - component: {fileID: 1879770039}
   - component: {fileID: 1879770038}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: Cube (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50109,7 +50089,7 @@ GameObject:
   - component: {fileID: 1925468351}
   - component: {fileID: 1925468350}
   - component: {fileID: 1925468349}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50641,7 +50621,7 @@ GameObject:
   - component: {fileID: 1950480322}
   - component: {fileID: 1950480321}
   - component: {fileID: 1950480320}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53566,7 +53546,7 @@ GameObject:
   - component: {fileID: 1992968427}
   - component: {fileID: 1992968426}
   - component: {fileID: 1992968425}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: Cube (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56900,34 +56880,34 @@ PrefabInstance:
     - target: {fileID: 4862008910214154234, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: Target.TrackingTarget
       value: 
-      objectReference: {fileID: 1902783759}
+      objectReference: {fileID: 1254179497}
     - target: {fileID: 6469108829441528758, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.27400002
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6469108829441528758, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.806
+      value: 0.8010605
       objectReference: {fileID: 0}
     - target: {fileID: 6469108829441528758, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.016
+      value: -1.4336895
       objectReference: {fileID: 0}
     - target: {fileID: 6469108829441528758, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.98888654
       objectReference: {fileID: 0}
     - target: {fileID: 6469108829441528758, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0.1486724
       objectReference: {fileID: 0}
     - target: {fileID: 6469108829441528758, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -3.4787846e-11
       objectReference: {fileID: 0}
     - target: {fileID: 6469108829441528758, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 2.8920755e-12
       objectReference: {fileID: 0}
     - target: {fileID: 6469108829441528758, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -56967,17 +56947,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
---- !u!114 &4445237590908208950 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4927688785942319750, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
-  m_PrefabInstance: {fileID: 2205791326521597901}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3875593475707899419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineBasicMultiChannelPerlin
 --- !u!4 &5286305016222460154 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6469108829441528758, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
@@ -57056,6 +57025,14 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 356874948406070635, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: Ground.m_Bits
+      value: 2056
+      objectReference: {fileID: 0}
+    - target: {fileID: 473302500232488865, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: Ground.m_Bits
+      value: 2056
+      objectReference: {fileID: 0}
     - target: {fileID: 1875837843650682480, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: m_TagString
       value: Player
@@ -57072,6 +57049,10 @@ PrefabInstance:
       propertyPath: BatteryFade
       value: 
       objectReference: {fileID: 1225644947}
+    - target: {fileID: 1944538211628390412, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: Ground.m_Bits
+      value: 2056
+      objectReference: {fileID: 0}
     - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: Mass
       value: 20
@@ -57141,6 +57122,10 @@ PrefabInstance:
       value: -9.81
       objectReference: {fileID: 0}
     - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: Ground.m_Bits
+      value: 2056
+      objectReference: {fileID: 0}
+    - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: BottleModeCOM.y
       value: 0
       objectReference: {fileID: 0}
@@ -57148,6 +57133,10 @@ PrefabInstance:
       propertyPath: cameraTransform
       value: 
       objectReference: {fileID: 330585546}
+    - target: {fileID: 3662907307577047529, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: Ground.m_Bits
+      value: 2056
+      objectReference: {fileID: 0}
     - target: {fileID: 3842541870642142504, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -57232,7 +57221,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: ForceRbBasedPlayerInput
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4870285115264257507, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+    - {fileID: 709719487522637964, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 8583857167334722344, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
