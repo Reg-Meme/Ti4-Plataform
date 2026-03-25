@@ -71,9 +71,6 @@ public class Moviment : MonoBehaviour
     bool hitGround;
     public Transform groundCheck;
 
-    [Header("Camera Reference")]
-    public Transform cameraTransform;
-
     bool NoBottleMode; //esse bool só serve pra não ficar tocando os 0 dos efeitos de rumble e Shake Toda hora
     void Awake()
     {
@@ -90,7 +87,6 @@ public class Moviment : MonoBehaviour
 
     void Start()
     {
-        cameraTransform = Camera.main.transform;
         fixedJoint = GetComponent<FixedJoint>();
         Rig = Body.GetComponent<Rigidbody>();
         BodyCollider = Body.GetComponent<CapsuleCollider>();
@@ -228,10 +224,22 @@ public class Moviment : MonoBehaviour
     }
 
     void BottleMoviment()
-    {
-        Vector3 RollDir = new Vector3(currentInput.y, 0, -currentInput.x); // Eixo invertido para girar certo 
-        Rig.AddTorque(RollDir * RollForce, ForceMode.Acceleration);
-    }
+{
+    Transform cam = Camera.main.transform;
+        
+    Vector3 forward = cam.forward;
+    Vector3 right = cam.right;
+
+    forward.y = 0;
+    right.y = 0;
+
+    forward.Normalize();
+    right.Normalize();
+
+    Vector3 rollDir = (right * currentInput.y) + (forward * -currentInput.x); // Eixo invertido para girar certo 
+
+    Rig.AddTorque(rollDir * RollForce, ForceMode.Acceleration);
+}
 
     void Movement()
     {
