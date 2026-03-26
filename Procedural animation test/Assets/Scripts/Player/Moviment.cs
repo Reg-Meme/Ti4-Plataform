@@ -193,6 +193,10 @@ public class Moviment : MonoBehaviour
             timer = HoverTim;
             gravity.enabled = false;
             Rig.useGravity = true;
+            if (Rig.linearVelocity.y > 0)
+            {
+            Rig.AddForce(Vector3.down * 5f, ForceMode.Acceleration); 
+            }
             BottleMoviment();
             BodyCollider.height = 2.4f;
             Rig.centerOfMass = BottleModeCOM;

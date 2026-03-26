@@ -9,6 +9,7 @@ public class SlashMechanic : MonoBehaviour
     public GameObject cutPlane;
     public GameObject slashCam;
     public GameObject aimSlashCam;
+    public Material CrossSectionMat;
     public float cutPlanSpeed;
     public bool bladeMode;
     public LayerMask layerMask;
@@ -57,12 +58,12 @@ public class SlashMechanic : MonoBehaviour
         if (hits.Length <= 0) return;
         for (int i = 0; i < hits.Length; i++)
         {
-            SlicedHull hull = SliceObject(hits[i].gameObject, null);
+            SlicedHull hull = SliceObject(hits[i].gameObject,CrossSectionMat);
             if (hull != null)
             {
                 
-                GameObject bottom = hull.CreateLowerHull(hits[i].gameObject, null);
-                GameObject top = hull.CreateUpperHull(hits[i].gameObject, null);
+                GameObject bottom = hull.CreateLowerHull(hits[i].gameObject, CrossSectionMat);
+                GameObject top = hull.CreateUpperHull(hits[i].gameObject, CrossSectionMat);
                 AddHullComponents(top);
                 AddHullComponents(bottom);
                 Destroy(hits[i].gameObject);
