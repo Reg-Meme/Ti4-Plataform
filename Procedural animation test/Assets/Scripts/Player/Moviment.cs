@@ -5,6 +5,7 @@ using DG.Tweening;
 using Unity.Cinemachine;
 using UnityEngine.UI;
 using UnityEditor.Rendering;
+using UnityEngine.SceneManagement;
 
 
 public class Moviment : MonoBehaviour
@@ -95,6 +96,8 @@ public class Moviment : MonoBehaviour
         // JumpAction = Input.actions.FindAction("Jump");
         CamShake = CinCam.GetComponent<CinemachineBasicMultiChannelPerlin>();
         Control = Gamepad.current;
+        inputs.Player.Reset.started += ResetLevel;
+       // inputs.Player.Move.performed += 
     }
     public void Update()
     {
@@ -151,6 +154,10 @@ public class Moviment : MonoBehaviour
         }
         NoBottleMode = BottleMode;
     }
+    void Movement(InputAction.CallbackContext contex)
+    {
+        
+    }
 
     public void FixedUpdate()
     {
@@ -193,10 +200,7 @@ public class Moviment : MonoBehaviour
             timer = HoverTim;
             gravity.enabled = false;
             Rig.useGravity = true;
-            if (Rig.linearVelocity.y > 0)
-            {
-            Rig.AddForce(Vector3.down * 5f, ForceMode.Acceleration); 
-            }
+            
             BottleMoviment();
             BodyCollider.height = 2.4f;
             Rig.centerOfMass = BottleModeCOM;
@@ -207,6 +211,11 @@ public class Moviment : MonoBehaviour
             gravity.force = Physics.gravity;
 
         }
+    }
+    void ResetLevel(InputAction.CallbackContext context)
+    {
+        Debug.Log("dsadsada");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public bool CellingChecker()

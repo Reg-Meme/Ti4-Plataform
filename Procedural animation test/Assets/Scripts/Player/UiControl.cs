@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEngine.Assertions.Must;
+using UnityEngine.SceneManagement;
 public class UiControl : MonoBehaviour
 {
     PlayerInput Input;
@@ -24,6 +25,8 @@ public class UiControl : MonoBehaviour
         MenuCanvas.SetActive(false);
         Input = GetComponent<PlayerInput>();
         Input.actions.FindActionMap("Global").Enable();
+    
+        
     }
     public void OnEnable()
     {
@@ -57,6 +60,7 @@ public class UiControl : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(null);
         }
     }
+    
     
     void Update()
     {
