@@ -200,11 +200,10 @@ public class Moviment : MonoBehaviour
             Rig.angularDamping = 0;
             timer = HoverTim;
             gravity.enabled = false;
-            Rig.useGravity = true;
-            
+            Rig.useGravity = true;     
             BottleMoviment();
             BodyCollider.height = 2.4f;
-            Rig.centerOfMass = BottleModeCOM;
+             
             Rig.mass = Mass;
         }
         if (isGrounded())
@@ -242,6 +241,7 @@ public class Moviment : MonoBehaviour
 
     void BottleMoviment()
     {
+        
         bool IsSided = Physics.Raycast(transform.position, Vector3.down, RollCheck, Ground);
         Transform cam = Camera.main.transform;
             Vector3 forward = cam.forward;
@@ -254,11 +254,28 @@ public class Moviment : MonoBehaviour
 
             Vector3 rollDir = (right * currentInput.y) + (forward * -currentInput.x);// Eixo invertido para girar certo 
 
-            Rig.AddTorque(rollDir * RollForce, ForceMode.Acceleration); 
-        if (IsSided && Rig.linearVelocity.y > 0)
-        {
-            
             Rig.AddForce(Vector3.down * 8, ForceMode.Acceleration);
+        Vector3 GoDown = (right * currentInput.x) + (forward * currentInput.y);
+
+
+    if (GoDown.magnitude > 0.1f && IsSided)
+    {
+   
+            Rig.AddTorque(rollDir * RollForce, ForceMode.Acceleration); 
+            
+            if (currentInput.x > 0.01f)
+        {
+            Rig.centerOfMass = BottleModeCOM;
+        }
+        else if (currentInput.x < -0.01f)
+        {
+            Rig.centerOfMass = -BottleModeCOM;
+        }
+        else
+        {
+            Rig.centerOfMass = Vector3.zero; 
+        }
+            
         }
 
     }
