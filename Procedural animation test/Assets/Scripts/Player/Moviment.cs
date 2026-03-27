@@ -52,6 +52,7 @@ public class Moviment : MonoBehaviour
     public Vector3 BottleModeCOM;
     public float BMAngle;
     float CheckUpDis = 0.3f;
+    public float RollCheck ; 
     public CinemachineCamera CinCam;
     CinemachineBasicMultiChannelPerlin CamShake;
     public float DecMag;
@@ -236,23 +237,31 @@ public class Moviment : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
     }
 
+
+
+
     void BottleMoviment()
-{
-    Transform cam = Camera.main.transform;
-        
-    Vector3 forward = cam.forward;
-    Vector3 right = cam.right;
+    {
+        bool IsSided = Physics.Raycast(transform.position, Vector3.down, RollCheck, Ground);
+        Transform cam = Camera.main.transform;
+            Vector3 forward = cam.forward;
+            Vector3 right = cam.right;
 
-    forward.y = 0;
-    right.y = 0;
+            forward.y = 0;
+            right.y = 0;
+            forward.Normalize();
+            right.Normalize();
 
-    forward.Normalize();
-    right.Normalize();
+            Vector3 rollDir = (right * currentInput.y) + (forward * -currentInput.x);// Eixo invertido para girar certo 
 
-    Vector3 rollDir = (right * currentInput.y) + (forward * -currentInput.x); // Eixo invertido para girar certo 
+            Rig.AddTorque(rollDir * RollForce, ForceMode.Acceleration); 
+        if (IsSided && Rig.linearVelocity.y > 0)
+        {
+            
+            Rig.AddForce(Vector3.down * 8, ForceMode.Acceleration);
+        }
 
-    Rig.AddTorque(rollDir * RollForce, ForceMode.Acceleration);
-}
+    }
 
     void Movement()
     {
