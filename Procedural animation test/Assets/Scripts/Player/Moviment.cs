@@ -220,7 +220,7 @@ public class Moviment : MonoBehaviour
       
           if(!CellingChecker())
         {
-            if(FacingDown)
+            if(!FacingDown)
                 BottleMode = true;          
         }  
     }
