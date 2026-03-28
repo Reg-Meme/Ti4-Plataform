@@ -3,7 +3,7 @@ using EzySlice;
 using DG.Tweening;
 using Unity.VisualScripting;
 
-public class SlashMechanic : MonoBehaviour
+public class SlashMechanic : Mechanics
 {
     Inputs input;
     public GameObject cutPlane;
@@ -23,14 +23,7 @@ public class SlashMechanic : MonoBehaviour
         input = new Inputs();
 
     }
-    public void OnEnable()
-    {
-        input.Player.Enable();
-    }
-    public void OnDisable()
-    {
-        input.Player.Disable();
-    }
+  
 
     // Update is called once per frame
     void Update()
@@ -44,14 +37,14 @@ public class SlashMechanic : MonoBehaviour
             if (input.Player.Attack.triggered)
             {
                 
-                Slice();
+                //Slice();
             }
                 
         }
       
     }
     
-    public void Slice()
+    public override void Use()
     {
         
         Collider[] hits = Physics.OverlapBox(cutPlane.transform.position, new Vector3(10, 0.1f, 10), cutPlane.transform.rotation, layerMask);

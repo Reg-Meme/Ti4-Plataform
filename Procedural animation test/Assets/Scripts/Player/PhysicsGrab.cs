@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PhysicsGrab : MonoBehaviour
+public class PhysicsGrab : Mechanics
 {
     [Header("Physic Grab")]
     public Transform grabPoint;
@@ -35,7 +35,7 @@ public class PhysicsGrab : MonoBehaviour
         CheckHighlight();
         if (interact.action.WasPressedThisFrame())
         {
-            if (grabbedObject == null) TryGrab();
+            if (grabbedObject == null) Use();
             else Release();
         }
 
@@ -54,7 +54,7 @@ public class PhysicsGrab : MonoBehaviour
         }
     }
 
-    void TryGrab()
+    public override void Use()
     {
         if (battery <= 0) return;
 

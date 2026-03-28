@@ -6,6 +6,7 @@ using Unity.Cinemachine;
 using UnityEngine.UI;
 using UnityEditor.Rendering;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 
 public class Moviment : MonoBehaviour
@@ -16,20 +17,20 @@ public class Moviment : MonoBehaviour
     FixedJoint fixedJoint;
     CapsuleCollider BodyCollider;
     public IKFootSolverDaveJones[] Legs;
-    PlayerInput Input;
+
     Gamepad Control;
-    Inputs inputs;
-    InputAction MoveAction;
-    InputAction JumpAction;
+    [SerializeField] private InputInfo inputInfo;
+
     [SerializeField] InputActionReference Crouch;
     public LayerMask Ground;
+    [Header("Hover")]
     public float hoverRadius = 0.5f;
     public float HoverHeight = 2f;
     public float hoverForce = 100f;
     public float hoverDamp = 15f;
     public float coyoteDuration = 0.2f;
     float coyoteTimer;
-
+    [Header("Speed")]
     public float acceleration = 50f;
     public float maxSpeed = 15f;
     public float RollForce = 10f;
@@ -44,15 +45,18 @@ public class Moviment : MonoBehaviour
     public float Soften = 1.0f;
 
     public Vector2 currentInput;
+    public Vector2 inputValue;
+
     Vector2 inputVelocity;
     public float rotationSpeed = 10f;
     public bool BottleMode;
+     bool FacingDown;
     public float HoverTim = 0.5f;
     float timer;
     public Vector3 BottleModeCOM;
     public float BMAngle;
     float CheckUpDis = 0.3f;
-    public float RollCheck ; 
+    public float RollCheck;
     public CinemachineCamera CinCam;
     CinemachineBasicMultiChannelPerlin CamShake;
     public float DecMag;
@@ -63,7 +67,7 @@ public class Moviment : MonoBehaviour
     public float CamShakeAmpASF;
     public float CamShakeFreqASF;
     public float Mass;
-    public AnimationCurve moveForce;
+   
 
     [Header("Gravity")]
     public float gravityForce = -9.81f;
@@ -76,50 +80,52 @@ public class Moviment : MonoBehaviour
     bool NoBottleMode; //esse bool só serve pra não ficar tocando os 0 dos efeitos de rumble e Shake Toda hora
     void Awake()
     {
-        inputs = new Inputs();
+
+        inputInfo.Initialize();
+
+        //atribuicao de eventos
+        InputInfo.OnMoveEvent += MoveInput;
+        InputInfo.OnJumpEvent += OnJump;
+        InputInfo.OnReleaseJumpEvent += OnJumpRelease;
+        InputInfo.OnResetEvent += ResetLevel;
+        InputInfo.OnCrouchEvent += BottleModeEnter;
+        InputInfo.OnCrouchReleaseEvent += BottleModeExit;
+
     }
-    public void OnEnable()
-    {
-        inputs.Player.Enable();
-    }
-    public void OnDisable()
-    {
-        inputs.Player.Disable();
-    }
+
 
     void Start()
     {
         fixedJoint = GetComponent<FixedJoint>();
         Rig = Body.GetComponent<Rigidbody>();
         BodyCollider = Body.GetComponent<CapsuleCollider>();
-        Input = GetComponent<PlayerInput>();
-        MoveAction = Input.actions.FindAction("Move");
-        // JumpAction = Input.actions.FindAction("Jump");
+
+
         CamShake = CinCam.GetComponent<CinemachineBasicMultiChannelPerlin>();
         Control = Gamepad.current;
-        inputs.Player.Reset.started += ResetLevel;
-       // inputs.Player.Move.performed += 
+
+
     }
     public void Update()
     {
         // Vector2 targetInput = MoveAction.ReadValue<Vector2>();
-        Vector2 targetInput = inputs.Player.Move.ReadValue<Vector2>();
+        //Vector2 targetInput = inputs.Player.Move.ReadValue<Vector2>();
 
-        currentInput = Vector2.SmoothDamp(currentInput, targetInput, ref inputVelocity, movementSmoothTime);
+        currentInput = Vector2.SmoothDamp(currentInput, inputValue, ref inputVelocity, movementSmoothTime);
         float BodyAngle = Vector3.Angle(Body.up, Vector3.up);
-        bool FacingDown = BodyAngle > BMAngle;
+         FacingDown = BodyAngle > BMAngle;
 
-        if (!CellingChecker())
-        {
-            if (FacingDown)
-            {
-                BottleMode = true;
-            }
-            else
-            {
-                BottleMode = Crouch.action.IsPressed();
-            }
-        }
+        // if (!CellingChecker())
+        // {
+        //     if (FacingDown)
+        //     {
+        //         BottleMode = true;
+        //     }
+        //     else
+        //     {
+        //         BottleMode = Crouch.action.IsPressed();
+        //     }
+        // }
         //Camerashake
         if (BottleMode)
         {
@@ -155,10 +161,7 @@ public class Moviment : MonoBehaviour
         }
         NoBottleMode = BottleMode;
     }
-    void Movement(InputAction.CallbackContext contex)
-    {
-        
-    }
+
 
     public void FixedUpdate()
     {
@@ -184,26 +187,26 @@ public class Moviment : MonoBehaviour
             if (timer <= 0)
             {
                 Hover();
-                jumpHeight=3;
+                jumpHeight = 5;
             }
             Movement();
             Rotation();
             Friction();
-            OnJump();
+
             JumpImprove();
             Stabilization();
         }
         else
         {
-            jumpHeight=1.6f;
+            jumpHeight = 1.6f;
             Rig.linearDamping = 0.8f;
             Rig.angularDamping = 0;
             timer = HoverTim;
             gravity.enabled = false;
-            Rig.useGravity = true;     
+            Rig.useGravity = true;
             BottleMoviment();
             BodyCollider.height = 2.4f;
-             
+
             Rig.mass = Mass;
         }
         if (isGrounded())
@@ -212,9 +215,22 @@ public class Moviment : MonoBehaviour
 
         }
     }
-    void ResetLevel(InputAction.CallbackContext context)
+    void BottleModeEnter()
     {
-        Debug.Log("dsadsada");
+      
+          if(!CellingChecker())
+        {
+            if(FacingDown)
+                BottleMode = true;          
+        }  
+    }
+    void BottleModeExit()
+    {
+        BottleMode = false;
+    }
+    void ResetLevel()
+    {
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -237,53 +253,56 @@ public class Moviment : MonoBehaviour
     }
 
 
-
-
     void BottleMoviment()
     {
-        
-        bool IsSided = Physics.Raycast(transform.position, Vector3.down, RollCheck, Ground);
+
+        bool IsSided = Physics.Raycast(Body.position, Vector3.down, RollCheck, Ground);
         Transform cam = Camera.main.transform;
-            Vector3 forward = cam.forward;
-            Vector3 right = cam.right;
+        Vector3 forward = cam.forward;
+        Vector3 right = cam.right;
 
-            forward.y = 0;
-            right.y = 0;
-            forward.Normalize();
-            right.Normalize();
+        forward.y = 0;
+        right.y = 0;
+        forward.Normalize();
+        right.Normalize();
 
-            Vector3 rollDir = (right * currentInput.y) + (forward * -currentInput.x);// Eixo invertido para girar certo 
+        Vector3 rollDir = (right * currentInput.y) + (forward * -currentInput.x);// Eixo invertido para girar certo 
 
-            Rig.AddForce(Vector3.down * 8, ForceMode.Acceleration);
+        Rig.AddForce(Vector3.down * 8, ForceMode.Acceleration);
         Vector3 GoDown = (right * currentInput.x) + (forward * currentInput.y);
 
 
-    if (GoDown.magnitude > 0.1f && IsSided)
-    {
-   
-            Rig.AddTorque(rollDir * RollForce, ForceMode.Acceleration); 
-            
+        if (GoDown.magnitude > 0.1f && IsSided)
+        {
+
+            Rig.AddTorque(rollDir * RollForce, ForceMode.Acceleration);
+
             if (currentInput.x > 0.01f)
-        {
-            Rig.centerOfMass = BottleModeCOM;
-        }
-        else if (currentInput.x < -0.01f)
-        {
-            Rig.centerOfMass = -BottleModeCOM;
-        }
-        else
-        {
-            Rig.centerOfMass = Vector3.zero; 
-        }
-            
+            {
+                Rig.centerOfMass = BottleModeCOM;
+                Rig.AddForce(Vector3.up * 2, ForceMode.Force);
+            }
+            else if (currentInput.x < -0.01f)
+            {
+                Rig.centerOfMass = -BottleModeCOM;
+                Rig.AddForce(Vector3.up * 2, ForceMode.Force);
+            }
+            else
+            {
+                Rig.centerOfMass = Vector3.zero;
+            }
+
         }
 
     }
-
+    private void MoveInput(Vector2 v2)
+    {
+        inputValue = v2;
+    }
     void Movement()
     {
         Transform cam = Camera.main.transform;
-        
+
         Vector3 forward = cam.forward;
         Vector3 right = cam.right;
 
@@ -304,18 +323,19 @@ public class Moviment : MonoBehaviour
         Rig.AddForce(velocityChange * acceleration, ForceMode.Acceleration);
     }
     void OnJump()
-    {   
-        if (inputs.Player.Jump.IsPressed() && isGrounded())
-        {
+    {
+        // Rig.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
+        if (isGrounded())
+            Rig.linearVelocity = Vector3.up * jumpHeight;
 
-           // Rig.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
-           Rig.linearVelocity = Vector3.up * jumpHeight;
-
-        }
+    }
+    void OnJumpRelease()
+    {
         //Aumentar a gravidade caso o botão de pular seja solto
-        if (!inputs.Player.Jump.IsPressed() && Rig.linearVelocity.y > 0)
+        if (Rig.linearVelocity.y > 0 && !isGrounded())
         {
             Rig.AddForce(Vector3.down * Rig.linearVelocity.y * 0.3f, ForceMode.VelocityChange);
+
         }
     }
     void JumpImprove()
@@ -323,8 +343,8 @@ public class Moviment : MonoBehaviour
 
         //Chegar na altura maxima do pulo
         if (Rig.linearVelocity.y < 0)
-         //aumentar a gravidade da queda 
-          SetGravityScale(1.5f, gravity);
+            //aumentar a gravidade da queda 
+            SetGravityScale(1.5f, gravity);
     }
     void SetGravityScale(float gravityScale, ConstantForce gravity)
     {
@@ -406,5 +426,5 @@ public class Moviment : MonoBehaviour
         Vector3 torque = new Vector3(stabilize.x, 0, stabilize.z) * stabilizer;
         Rig.AddTorque(torque - Rig.angularVelocity * Soften);
     }
-    
+
 }
