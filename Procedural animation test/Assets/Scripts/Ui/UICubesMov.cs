@@ -9,14 +9,14 @@ public class UICubesMov : MonoBehaviour
     public float SubRay;
     public float Spd2;
     public Eixo SecSpin;
-    public float RotVel ;
+    public float RotSpd ;
     private float Angle;
     private float SubAngle;
-
+    private Vector3 InitialPos;
 
     void Start()
     {
-        
+        InitialPos = transform.position;
     }
 
     void Update()
@@ -25,8 +25,8 @@ public class UICubesMov : MonoBehaviour
         Vector3 offset = CalcularOffset(Angle, Ray, MainSpin);
         SubAngle += Spd2 * Time.deltaTime;
         Vector3 SubOffset = CalcularOffset(SubAngle, SubRay, SecSpin);
-        transform.position = transform.position + offset + SubOffset;
-        transform.Rotate(new Vector3(0,1,0), RotVel * 1 * Time.deltaTime);
+        transform.position = InitialPos+ offset + SubOffset;
+        transform.Rotate(new Vector3(0,1,0), RotSpd * -1 * Time.deltaTime);
     }
 
     Vector3 CalcularOffset(float Tim, float r, Eixo eixo)
