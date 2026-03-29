@@ -42,7 +42,7 @@ public class UiAni : MonoBehaviour
     public float ButtonsGroupFinalAnchor;
     public float BGFadeTime;
 
-    //optionsTweens
+    //optionsTweens&Deco
     public bool options;
     [SerializeField] RectTransform OptionsGroup;
     [SerializeField] RectTransform OptionsBg;
@@ -50,6 +50,9 @@ public class UiAni : MonoBehaviour
     [SerializeField] CanvasGroup OptionsTxTCG;
     [SerializeField] RectTransform Optionsicon;
     [SerializeField] CanvasGroup OptionsiconCG;
+    public GameObject CubesDeco;
+    public GameObject CabesDeco;
+    public GameObject CamUi;
     public GameObject Settings;
     public float OptionsGpSizeStart;
     public float OptionsGpSizeFinal;
@@ -113,6 +116,7 @@ public class UiAni : MonoBehaviour
 
         //UI BackGound Looping Elements
         RotatingCircle.DORotate(new Vector3(0, 0, 360), RotationTime, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Restart).SetRelative(true).SetEase(Ease.Linear).SetUpdate(true);
+        CabesDeco.transform.DORotate(new Vector3(0,360, 0), RotationTime/2, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Restart).SetRelative(true).SetEase(Ease.Linear).SetUpdate(true);
     }
     public void UIIntro()
     {
@@ -210,22 +214,26 @@ public class UiAni : MonoBehaviour
         outro.Insert(fixedInsertOut, UpPart.DOAnchorPosY(UpPartStartAnchor, TweenDur));
         outro.Insert(fixedInsertOut, DownPart.DOAnchorPosY(DownPartStartAnchor, TweenDur));
     }
-
+    private bool OptionsisAni = false;
     public void OptionsToggle()
     {
+        if (OptionsisAni) return;
         options = !options;
     }
     public void OptionsAni()
     {
+        
         OptionsGroup.DOKill();
         OptionsBg.DOKill();
         Optionsicon.DOKill();
         OptionsTxT.DOKill();
         OptionsTxTCG.DOKill();
         OptionsiconCG.DOKill();
-
+        CubesDeco.transform.DOKill();
+        CabesDeco.transform.DOKill();
         if (options)
         {
+            OptionsisAni = true;
             // Options intro
             OptionsTxT.DOScaleX(1, 0.3f).SetUpdate(true);
             Settings.SetActive(true);
@@ -234,6 +242,7 @@ public class UiAni : MonoBehaviour
 
             intro.Join(SchemesGroup.DOFade(0,0.5f));
             intro.Join(OptionsGroup.DOScaleY(OptionsGpSizeFinal, OptionsTweenDur));
+            intro.Join(CabesDeco.transform.DOLocalMoveZ(-5.63f, TweenDur).SetEase(Ease.OutCubic));
 
 
             float fixedInsert = OptionsTweenDur - OptionsOverlapTime;
@@ -241,22 +250,23 @@ public class UiAni : MonoBehaviour
             
             intro.Insert(fixedInsert, OptionsBg.DOAnchorPosX(OptionsBgFinalAnchor, OptionsTweenDur));
             intro.Insert(fixedInsert, OptionsBg.DOScaleX(OptionsBgSizeFinalAnchor, OptionsTweenDur));
-
+            intro.Insert(fixedInsertTwo,CubesDeco.transform.DOScale(1,OptionsTweenDur+1));
             intro.Insert(fixedInsertTwo, Optionsicon.DOAnchorPosY(OptionsIconFinalAnchor, OptionsTweenDur));
             intro.Insert(fixedInsertTwo, Optionsicon.DORotate(new Vector3(0, 0, 360), TweenDur, RotateMode.FastBeyond360).SetEase(Ease.OutCubic));
-
             intro.Insert(fixedInsert, OptionsiconCG.DOFade(1, OptionsTweenDur).SetEase(Ease.InFlash));
             intro.Insert(fixedInsertTwo, OptionsTxT.DOAnchorPosX(OptionsTxTFinalAnchor, OptionsTweenDur));
             intro.Insert(fixedInsert, OptionsTxTCG.DOFade(1, OptionsTweenDur).SetEase(Ease.InFlash));
+            intro.OnComplete(() => OptionsisAni = false);
         }
         else
         {
+            OptionsisAni = true;
             // Options Outro
             Sequence outro = DOTween.Sequence().SetUpdate(true).OnComplete(() => Settings.SetActive(false));
-
-           
+            outro.Join(CubesDeco.transform.DOScale(0,OptionsTweenDur).SetEase(Ease.OutFlash));
             outro.Join(OptionsBg.DOAnchorPosX(OptionsBgStartAnchor, OptionsTweenDur));
             outro.Join(OptionsBg.DOScaleX(OptionsBgSizeStartAnchor, OptionsTweenDur));
+            outro.Join(CabesDeco.transform.DOLocalMoveZ(-4.13f, OptionsTweenDur).SetEase(Ease.InFlash));
             outro.Join(Optionsicon.DOAnchorPosY(OptionsIconStartAnchor, OptionsTweenDur));
             outro.Join(Optionsicon.DORotate(new Vector3(0, 0, -360), TweenDur, RotateMode.FastBeyond360).SetEase(Ease.OutCubic));
             outro.Join(OptionsiconCG.DOFade(0, 0.2f).SetEase(Ease.InFlash));
@@ -265,11 +275,13 @@ public class UiAni : MonoBehaviour
 
 
             float fixedInsertOut = OptionsTweenDur - OptionsOverlapTime;
+            outro.Insert(fixedInsertOut,CubesDeco.transform.DOScale(0,0.1f).SetEase(Ease.InCubic));
             outro.Insert(Mathf.Max(0, fixedInsertOut), OptionsGroup.DOScaleY(OptionsGpSizeStart, OptionsTweenDur));
             outro.Insert(fixedInsertOut,SchemesGroup.DOFade(1,BGFadeTime));
+            outro.OnComplete(() => {OptionsisAni = false;});
 
         }
-
+        
     }
 
     public void Resume()
