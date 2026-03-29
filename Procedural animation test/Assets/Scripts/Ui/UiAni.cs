@@ -131,7 +131,7 @@ public class UiAni : MonoBehaviour
         DownPartBlock.DOKill();
         ButtonsGroup.DOKill();
         RotatingCircleCG.DOKill();
-
+        
         // 2. Reset de posição inicial (Instantâneo)
         UiCG.alpha = 0;
         UpPartBlockCG.alpha = 0;
@@ -145,6 +145,7 @@ public class UiAni : MonoBehaviour
 
         // 3. Sequência sincronizada
         Sequence intro = DOTween.Sequence().SetUpdate(true);
+        CamUi.SetActive(true);
 
         // intro Fade
         intro.Join(UiCG.DOFade(1, 1));
@@ -205,7 +206,7 @@ public class UiAni : MonoBehaviour
         outro.Join(ButtonsGroupCG.DOFade(0, BGFadeTime).SetEase(Ease.InFlash));
 
         // Outro fade
-        outro.Join(UiCG.DOFade(0, 1).SetEase(Ease.InFlash).OnComplete(() => UI.SetActive(false)));
+        outro.Join(UiCG.DOFade(0, 1).SetEase(Ease.InFlash).OnComplete(() =>{ UI.SetActive(false);CamUi.SetActive(false);}));
 
         // Bars 
         float maxInitialDur = Mathf.Max(BRotationime, 1f);
