@@ -1,7 +1,11 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public abstract class  Mechanics : MonoBehaviour 
+public abstract class  Mechanics 
 {
-    public abstract void Use();
+    public abstract void AttackButton();
+    public virtual void UpdateState(Vector2 v2) {}
+    public abstract void AimButton();
+    public abstract void ReleaseAim();
      
 }

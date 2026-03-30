@@ -99,33 +99,22 @@ public class Moviment : MonoBehaviour
         fixedJoint = GetComponent<FixedJoint>();
         Rig = Body.GetComponent<Rigidbody>();
         BodyCollider = Body.GetComponent<CapsuleCollider>();
-
-
         CamShake = CinCam.GetComponent<CinemachineBasicMultiChannelPerlin>();
         Control = Gamepad.current;
-
+        transform.position = CheckPointManager.haveCheckPoint ? CheckPointManager.checkPointPosition : transform.position;
+       
+        Debug.Log("checkpoint position: " + CheckPointManager.checkPointPosition);
+        Debug.Log(" position: " + transform.position);
 
     }
     public void Update()
     {
-        // Vector2 targetInput = MoveAction.ReadValue<Vector2>();
-        //Vector2 targetInput = inputs.Player.Move.ReadValue<Vector2>();
-
+        
         currentInput = Vector2.SmoothDamp(currentInput, inputValue, ref inputVelocity, movementSmoothTime);
         float BodyAngle = Vector3.Angle(Body.up, Vector3.up);
          FacingDown = BodyAngle > BMAngle;
 
-        // if (!CellingChecker())
-        // {
-        //     if (FacingDown)
-        //     {
-        //         BottleMode = true;
-        //     }
-        //     else
-        //     {
-        //         BottleMode = Crouch.action.IsPressed();
-        //     }
-        // }
+     
         //Camerashake
         if (BottleMode)
         {
@@ -165,7 +154,7 @@ public class Moviment : MonoBehaviour
 
     public void FixedUpdate()
     {
-        Debug.Log("BottleMode: " + BottleMode);
+       
         if (!hitGround)
         {
             //Debug.Log("to fazendo algo aqui ");
@@ -187,7 +176,7 @@ public class Moviment : MonoBehaviour
             if (timer <= 0)
             {
                 Hover();
-                jumpHeight = 5;
+                jumpHeight = 8;
             }
             Movement();
             Rotation();
@@ -358,13 +347,13 @@ public class Moviment : MonoBehaviour
         if (cast)
         {
             Debug.DrawRay(groundCheck.position, Vector3.down, Color.purple);
-            Debug.Log("chao");
+            
             return true;
         }
         else
         {
             Debug.DrawRay(groundCheck.position, Vector3.down, Color.green);
-            Debug.Log("nao estou no chao");
+            
             return false;
         }
     }

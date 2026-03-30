@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class InputInfo : MonoBehaviour, Inputs.IPlayerActions, Inputs.IGlobalActions
 {
-    public static InputInfo inputInfo {get; set;}
+    public static InputInfo inputInfo { get; set; }
 
     Inputs input;
 
@@ -21,7 +21,9 @@ public class InputInfo : MonoBehaviour, Inputs.IPlayerActions, Inputs.IGlobalAct
     public static event Action OnAttackEvent;
     public static event Action OnAimEvent;
     public static event Action OnResetEvent;
-    public static event  Action OnMenuEvent;
+    public static event Action OnMenuEvent;
+    public static event Action OnReleaseAimEvent;
+    public static event Action OnTradeEvent;
 
 
 
@@ -31,21 +33,21 @@ public class InputInfo : MonoBehaviour, Inputs.IPlayerActions, Inputs.IGlobalAct
         if (inputInfo == null) inputInfo = this;
         else Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
-       
+
     }
 
     public void Initialize()
     {
-        
+
         ClearEvents();
-        if(input == null)
+        if (input == null)
         {
             input = new Inputs();
             input.Player.SetCallbacks(this);
             input.Global.SetCallbacks(this);
         }
         SetGameplay();
-        Debug.Log("to aqui pelo menos");
+        
     }
     private void ClearEvents()
     {
@@ -59,6 +61,17 @@ public class InputInfo : MonoBehaviour, Inputs.IPlayerActions, Inputs.IGlobalAct
         OnAimEvent = () => { };
         OnResetEvent = () => { };
         OnMenuEvent = () => { };
+        OnCrouchReleaseEvent = () => { };
+        OnReleaseJumpEvent = () => { };
+        OnReleaseAimEvent = () => { };
+        OnTradeEvent = () => { };
+    }
+    public void ClearMechanicsEvent()
+    {
+        OnAttackEvent= () => { };
+        OnAimEvent= () => { };
+        OnReleaseAimEvent= () => { };
+       
     }
     public void SetGameplay()
     {
@@ -75,7 +88,7 @@ public class InputInfo : MonoBehaviour, Inputs.IPlayerActions, Inputs.IGlobalAct
     #region PlayerAction
     public void OnMove(InputAction.CallbackContext context)
     {
-        Debug.Log("eu chego aqui");
+       
         OnMoveEvent(context.ReadValue<Vector2>());
     }
 
@@ -97,38 +110,45 @@ public class InputInfo : MonoBehaviour, Inputs.IPlayerActions, Inputs.IGlobalAct
     {
         if (context.started)
             OnCrouchEvent();
-        else if(context.canceled) 
-            OnCrouchReleaseEvent(); 
+        else if (context.canceled)
+            OnCrouchReleaseEvent();
 
     }
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.started)
             OnJumpEvent();
-        else if(context.canceled) 
+        else if (context.canceled)
             OnReleaseJumpEvent();
     }
     public void OnAim(InputAction.CallbackContext context)
     {
         if (context.started)
             OnAimEvent();
+        else if (context.canceled)
+            OnReleaseAimEvent();
     }
     public void OnAttack(InputAction.CallbackContext context)
     {
         if (context.started)
             OnAttackEvent();
     }
-     public void OnReset(InputAction.CallbackContext context)
+    public void OnReset(InputAction.CallbackContext context)
     {
         if (context.started)
-             OnResetEvent();
+            OnResetEvent();
+    }
+    public void OnTrade(InputAction.CallbackContext context)
+    {
+        if (context.started)
+            OnTradeEvent();
     }
 
-#endregion
+    #endregion
     public void OnMenu(InputAction.CallbackContext context)
     {
-        if(context.started)
-           OnMenuEvent();
+        if (context.started)
+            OnMenuEvent();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

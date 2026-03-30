@@ -2229,7 +2229,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d54be901d359f10468f6daba12b7dd17, type: 3}
       propertyPath: m_Name
-      value: ForceRbBasedPlayerInput
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d54be901d359f10468f6daba12b7dd17, type: 3}
       propertyPath: m_IsActive
@@ -2306,9 +2306,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d54be901d359f10468f6daba12b7dd17, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5178541962549889074}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d54be901d359f10468f6daba12b7dd17, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4870285115264257507}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d54be901d359f10468f6daba12b7dd17, type: 3}
       insertIndex: -1
       addedObject: {fileID: 709719487522637964}
@@ -2512,6 +2509,7 @@ MonoBehaviour:
   - {fileID: 356874948406070635}
   - {fileID: 473302500232488865}
   - {fileID: 3662907307577047529}
+  inputInfo: {fileID: 0}
   Crouch: {fileID: 0}
   Ground:
     serializedVersion: 2
@@ -2531,11 +2529,13 @@ MonoBehaviour:
   stabilizer: 10
   Soften: 2
   currentInput: {x: 0, y: 0}
+  inputValue: {x: 0, y: 0}
   rotationSpeed: 1.5
   BottleMode: 0
   HoverTim: 0.5
   BottleModeCOM: {x: 0, y: 0, z: 0}
   BMAngle: 100
+  RollCheck: 0
   CinCam: {fileID: 0}
   DecMag: 2
   CamShakeAmp: 0.3
@@ -2545,16 +2545,9 @@ MonoBehaviour:
   CamShakeAmpASF: 0.5
   CamShakeFreqASF: 0.5
   Mass: 20
-  moveForce:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   gravityForce: -9.81
   gravity: {fileID: 7044019434580665940}
   groundCheck: {fileID: 5654548086625706075}
-  cameraTransform: {fileID: 0}
 --- !u!114 &258218863758828389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2645,29 +2638,6 @@ MonoBehaviour:
   MaxEffectPower: 1
   maxVignetteSize: 0
   currentValue: 0
---- !u!114 &4870285115264257507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8958834151320785298}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4886aa69e91b9e148acedc8f99f20dfd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CameraChange
-  cutPlane: {fileID: 0}
-  slashCam: {fileID: 0}
-  aimSlashCam: {fileID: 0}
-  cutPlanSpeed: 5
-  bladeMode: 0
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 128
-  amp: 1
-  freq: 10
-  dur: 0.2
 --- !u!114 &709719487522637964
 MonoBehaviour:
   m_ObjectHideFlags: 0

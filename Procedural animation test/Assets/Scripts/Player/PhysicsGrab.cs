@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PhysicsGrab : Mechanics
+public class PhysicsGrab : MonoBehaviour
 {
     [Header("Physic Grab")]
     public Transform grabPoint;
@@ -35,7 +35,7 @@ public class PhysicsGrab : Mechanics
         CheckHighlight();
         if (interact.action.WasPressedThisFrame())
         {
-            if (grabbedObject == null) Use();
+            if (grabbedObject == null); //UseMechanic();
             else Release();
         }
 
@@ -54,7 +54,7 @@ public class PhysicsGrab : Mechanics
         }
     }
 
-    public override void Use()
+    public  void AttackButton()
     {
         if (battery <= 0) return;
 
@@ -83,6 +83,14 @@ public class PhysicsGrab : Mechanics
         }
     }
 
+    public  void AimButton()
+    {
+        throw new System.NotImplementedException();
+    }
+    public  void ReleaseAim()
+    {
+        throw new System.NotImplementedException();
+    }
     void MoveObject()
     {
         Transform targetPoint = holdingOverhead ? overheadPoint : grabPoint;
