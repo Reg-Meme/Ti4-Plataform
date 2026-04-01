@@ -67,6 +67,7 @@ public class Moviment : MonoBehaviour
     public float CamShakeAmpASF;
     public float CamShakeFreqASF;
     public float Mass;
+
    
 
     [Header("Gravity")]
@@ -305,11 +306,13 @@ public class Moviment : MonoBehaviour
 
         if (moveDir.magnitude > 1f) moveDir.Normalize();
 
-        Vector3 horizontalVel = new Vector3(Rig.linearVelocity.x, 0, Rig.linearVelocity.z);
+        Vector3 horizontalVel = new Vector3(Rig.linearVelocity.x, Rig.linearVelocity.y, Rig.linearVelocity.z);
+        Debug.Log("vel y " + Rig.linearVelocity.y);
         Vector3 desiredVelocity = moveDir * maxSpeed;
         Vector3 velocityChange = desiredVelocity - horizontalVel;
+        Rig.linearVelocity = velocityChange;
 
-        Rig.AddForce(velocityChange * acceleration, ForceMode.Acceleration);
+        //Rig.AddForce(velocityChange * acceleration, ForceMode.Acceleration);
     }
     void OnJump()
     {
