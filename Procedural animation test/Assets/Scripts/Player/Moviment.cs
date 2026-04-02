@@ -252,10 +252,11 @@ public class Moviment : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
     }
 
-
+    float lastInput; 
     void BottleMoviment()
     {
-
+        Vector3 topPoint = Rig.worldCenterOfMass + Rig.transform.up * 0.5f; 
+        Vector3 bottomPoint = Rig.worldCenterOfMass - Rig.transform.up * 0.5f;
         bool IsSided = Physics.Raycast(Body.position, Vector3.down, RollCheck, Ground);
         Transform cam = Camera.main.transform;
         Vector3 forward = cam.forward;
@@ -269,30 +270,30 @@ public class Moviment : MonoBehaviour
         Vector3 rollDir = (right * currentInput.y) + (forward * -currentInput.x);// Eixo invertido para girar certo 
 
         Rig.AddForce(Vector3.down * 8, ForceMode.Acceleration);
-        Vector3 GoDown = (right * currentInput.x) + (forward * currentInput.y);
+        
 
 
-        if (GoDown.magnitude > 0.1f && IsSided)
+        if (currentInput.magnitude > 0.1f && IsSided)
+    {
+         lastInput = currentInput.x;
+        Rig.AddTorque(rollDir * RollForce, ForceMode.Acceleration);
+        Vector3 liftForce = Vector3.up * 100f; 
+
+        if (currentInput.x > 0.01f)
         {
-
-            Rig.AddTorque(rollDir * RollForce, ForceMode.Acceleration);
-
-            if (currentInput.x > 0.01f)
-            {
-                Rig.centerOfMass = BottleModeCOM;
-                Rig.AddForce(Vector3.up * 2, ForceMode.Force);
-            }
-            else if (currentInput.x < -0.01f)
-            {
-                Rig.centerOfMass = -BottleModeCOM;
-                Rig.AddForce(Vector3.up * 2, ForceMode.Force);
-            }
-            else
-            {
-                Rig.centerOfMass = Vector3.zero;
-            }
-
+            Rig.AddForceAtPosition( liftForce, topPoint, ForceMode.Force);
         }
+        else if (currentInput.x < -0.01f)
+        {
+            Rig.AddForceAtPosition( liftForce, bottomPoint, ForceMode.Force);
+        }
+        else
+        {
+            Vector3 stabilizePoint = (lastInput > 0) ? topPoint : bottomPoint;
+            Rig.AddForceAtPosition(Vector3.down * 15f, stabilizePoint, ForceMode.Force);
+        }
+    }
+    
 
     }
     private void MoveInput(Vector2 v2)
