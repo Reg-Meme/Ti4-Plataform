@@ -33,7 +33,7 @@ public class InputInfo : MonoBehaviour, Inputs.IPlayerActions, Inputs.IGlobalAct
         if (inputInfo == null) inputInfo = this;
         else Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
-
+        Initialize();
     }
 
     public void Initialize()

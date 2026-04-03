@@ -22,7 +22,6 @@ public class BatteryTimer : MonoBehaviour
         LowBatMat = LowBatteryEffect.passMaterial;
         LowBatteryEffect.SetActive(false);
     }
-    
      
     
     void Update()

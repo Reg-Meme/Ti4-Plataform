@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BatteryCharger : MonoBehaviour
 {
@@ -14,7 +14,7 @@ public class BatteryCharger : MonoBehaviour
 
     float idleTime;
 
-    PhysicsGrab playerGrab;
+    BatterySystem playerBattery;
     Rigidbody playerRb;
 
     void Start()
@@ -25,22 +25,22 @@ public class BatteryCharger : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        PhysicsGrab grab = other.GetComponentInParent<PhysicsGrab>();
+        BatterySystem bat = other.GetComponentInParent<BatterySystem>();
 
-        if (grab != null)
+        if (bat != null)
         {
-            playerGrab = grab;
-            playerRb = grab.GetComponent<Rigidbody>();
+            playerBattery = bat;
+            playerRb = bat.GetComponent<Rigidbody>();
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        PhysicsGrab grab = other.GetComponentInParent<PhysicsGrab>();
+        BatterySystem bat = other.GetComponentInParent<BatterySystem>();
 
-        if (grab == playerGrab)
+        if (bat == playerBattery)
         {
-            playerGrab = null;
+            playerBattery = null;
             playerRb = null;
             idleTime = 0;
 
@@ -51,7 +51,7 @@ public class BatteryCharger : MonoBehaviour
 
     void Update()
     {
-        if (playerGrab == null || playerRb == null)
+        if (playerBattery == null || playerRb == null)
         {
             SetPadColor(idleColor);
             return;
@@ -66,8 +66,7 @@ public class BatteryCharger : MonoBehaviour
             float t = Mathf.Clamp01(idleTime / accelerationTime);
             float chargeRate = Mathf.Lerp(baseChargeRate, maxChargeRate, t);
 
-            playerGrab.battery += chargeRate * Time.deltaTime;
-            playerGrab.battery = Mathf.Clamp(playerGrab.battery, 0, 100);
+            playerBattery.Recharge(chargeRate * Time.deltaTime);
 
             SetPadColor(Color.Lerp(idleColor, chargingColor, t));
 
@@ -78,8 +77,7 @@ public class BatteryCharger : MonoBehaviour
             idleTime = 0;
             SetPadColor(idleColor);
 
-            if (energyBeam != null)
-                energyBeam.enabled = false;
+            if (energyBeam != null)energyBeam.enabled = false;
         }
     }
 
@@ -98,6 +96,6 @@ public class BatteryCharger : MonoBehaviour
         energyBeam.enabled = true;
 
         energyBeam.SetPosition(0, transform.position + Vector3.up * 0.1f);
-        energyBeam.SetPosition(1, playerGrab.transform.position + Vector3.up * 1.5f);
+        energyBeam.SetPosition(1, playerBattery.transform.position + Vector3.up * 1.5f);
     }
 }

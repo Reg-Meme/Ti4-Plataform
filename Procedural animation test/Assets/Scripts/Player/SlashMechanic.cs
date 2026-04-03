@@ -32,6 +32,9 @@ public class SlashMechanic : Mechanics
 
     public override void AttackButton()
     {
+        if (!battery.Consume(batteryCost))
+            return;
+
         if (bladeMode)
         {
 
