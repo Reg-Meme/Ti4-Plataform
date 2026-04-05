@@ -26,7 +26,7 @@ public class UICubesMov : MonoBehaviour
         SubAngle += Spd2 * Time.deltaTime;
         Vector3 SubOffset = CalcularOffset(SubAngle, SubRay, SecSpin);
         transform.position = InitialPos+ offset + SubOffset;
-        transform.Rotate(new Vector3(0,1,0), RotSpd * -1 * Time.deltaTime);
+        transform.Rotate(new Vector3(1,0,1), RotSpd * -1 * Time.deltaTime);
     }
 
     Vector3 CalcularOffset(float Tim, float r, Eixo eixo)

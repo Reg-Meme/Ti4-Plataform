@@ -290,7 +290,7 @@ public class Moviment : MonoBehaviour
         else
         {
             Vector3 stabilizePoint = (lastInput > 0) ? topPoint : bottomPoint;
-            Rig.AddForceAtPosition(Vector3.down * 15f, stabilizePoint, ForceMode.Force);
+            Rig.AddForceAtPosition(Vector3.down * 100f, stabilizePoint, ForceMode.Force);
         }
     }
     
