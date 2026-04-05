@@ -251,11 +251,10 @@ public class Moviment : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
     }
-
-    float lastInput; 
+    bool Impulse;
     void BottleMoviment()
     {
-        Vector3 topPoint = Rig.worldCenterOfMass + Rig.transform.up * 0.5f; 
+        Vector3 topPoint = Rig.worldCenterOfMass + Rig.transform.up * 0.5f;
         Vector3 bottomPoint = Rig.worldCenterOfMass - Rig.transform.up * 0.5f;
         bool IsSided = Physics.Raycast(Body.position, Vector3.down, RollCheck, Ground);
         Transform cam = Camera.main.transform;
@@ -268,33 +267,40 @@ public class Moviment : MonoBehaviour
         right.Normalize();
 
         Vector3 rollDir = (right * currentInput.y) + (forward * -currentInput.x);// Eixo invertido para girar certo 
-
-        Rig.AddForce(Vector3.down * 8, ForceMode.Acceleration);
-        
-
+        Rig.AddForce(Vector3.down * 8, ForceMode.Force);
 
         if (currentInput.magnitude > 0.1f && IsSided)
-    {
-         lastInput = currentInput.x;
-        Rig.AddTorque(rollDir * RollForce, ForceMode.Acceleration);
-        Vector3 liftForce = Vector3.up * 100f; 
+        {
+            Rig.AddTorque(rollDir * RollForce, ForceMode.Acceleration);
+            Vector3 ImpForce = Vector3.up * 5;
+            if (currentInput.x > 0.1f)
+            {
 
-        if (currentInput.x > 0.01f)
-        {
-            Rig.AddForceAtPosition( liftForce, topPoint, ForceMode.Force);
+                if (!Impulse)
+                {
+                    Rig.AddForceAtPosition(ImpForce, bottomPoint, ForceMode.Impulse);
+                    Impulse = true;
+                }
+                Rig.centerOfMass = BottleModeCOM;
+            }
+            else if (currentInput.x < -0.1f)
+            {
+                if (!Impulse)
+                {
+                    Rig.AddForceAtPosition(ImpForce, topPoint, ForceMode.Impulse);
+                    Impulse = true;
+                }
+                Rig.centerOfMass = -BottleModeCOM;
+            }
+            else
+            {
+                Rig.centerOfMass = Vector3.zero;
+            }
+            if (Mathf.Abs(currentInput.x) < 0.1f)
+            {
+             Impulse = false;
+            }
         }
-        else if (currentInput.x < -0.01f)
-        {
-            Rig.AddForceAtPosition( liftForce, bottomPoint, ForceMode.Force);
-        }
-        else
-        {
-            Vector3 stabilizePoint = (lastInput > 0) ? topPoint : bottomPoint;
-            Rig.AddForceAtPosition(Vector3.down * 100f, stabilizePoint, ForceMode.Force);
-        }
-    }
-    
-
     }
     private void MoveInput(Vector2 v2)
     {
