@@ -251,11 +251,10 @@ public class Moviment : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
     }
-    bool Impulse;
+
     void BottleMoviment()
     {
-        Vector3 topPoint = Rig.worldCenterOfMass + Rig.transform.up * 0.5f;
-        Vector3 bottomPoint = Rig.worldCenterOfMass - Rig.transform.up * 0.5f;
+        
         bool IsSided = Physics.Raycast(Body.position, Vector3.down, RollCheck, Ground);
         Transform cam = Camera.main.transform;
         Vector3 forward = cam.forward;
@@ -267,40 +266,31 @@ public class Moviment : MonoBehaviour
         right.Normalize();
 
         Vector3 rollDir = (right * currentInput.y) + (forward * -currentInput.x);// Eixo invertido para girar certo 
-        Rig.AddForce(Vector3.down * 8, ForceMode.Force);
-
-        if (currentInput.magnitude > 0.1f && IsSided)
+        /*if (currentInput.y > 0.1f || currentInput.y <-0.1f)
         {
-            Rig.AddTorque(rollDir * RollForce, ForceMode.Acceleration);
-            Vector3 ImpForce = Vector3.up * 5;
-            if (currentInput.x > 0.1f)
-            {
+            Rig.AddForce(Vector3.down * 100, ForceMode.Force);
+        }*/
+        Rig.AddForce(Vector3.Cross(transform.up, Vector3.up)* currentInput.y * 100);
+        Rig.AddForceAtPosition(Vector3.Cross(transform.up, Vector3.up)* currentInput.x * 100, transform.position + transform.up);
+        
 
-                if (!Impulse)
-                {
-                    Rig.AddForceAtPosition(ImpForce, bottomPoint, ForceMode.Impulse);
-                    Impulse = true;
-                }
-                Rig.centerOfMass = BottleModeCOM;
-            }
-            else if (currentInput.x < -0.1f)
-            {
-                if (!Impulse)
-                {
-                    Rig.AddForceAtPosition(ImpForce, topPoint, ForceMode.Impulse);
-                    Impulse = true;
-                }
-                Rig.centerOfMass = -BottleModeCOM;
-            }
-            else
-            {
-                Rig.centerOfMass = Vector3.zero;
-            }
-            if (Mathf.Abs(currentInput.x) < 0.1f)
-            {
-             Impulse = false;
-            }
-        }
+        // if (currentInput.magnitude > 0.1f && IsSided)
+        // {
+        //     Rig.AddTorque(rollDir * RollForce, ForceMode.Acceleration);
+        //     if (currentInput.x > 0.1f)
+        //     {
+        //         Rig.centerOfMass = BottleModeCOM;
+        //     }
+        //     else if (currentInput.x < -0.1f)
+        //     {
+                
+        //         Rig.centerOfMass = -BottleModeCOM;
+        //     }
+        //     else
+        //     {
+        //         Rig.centerOfMass = Vector3.zero;
+        //     }
+        // }
     }
     private void MoveInput(Vector2 v2)
     {
@@ -323,11 +313,13 @@ public class Moviment : MonoBehaviour
 
         if (moveDir.magnitude > 1f) moveDir.Normalize();
 
-        Vector3 horizontalVel = new Vector3(Rig.linearVelocity.x, 0, Rig.linearVelocity.z);
+        Vector3 vel = Rig.linearVelocity;
         Vector3 desiredVelocity = moveDir * maxSpeed;
-        Vector3 velocityChange = desiredVelocity - horizontalVel;
-
-        Rig.AddForce(velocityChange * acceleration, ForceMode.Acceleration);
+        //Vector3 velocityChange = desiredVelocity - horizontalVel;
+        vel.x = desiredVelocity.x;
+        vel.z = desiredVelocity.z;
+        Rig.linearVelocity = vel;
+        //Rig.AddForce(velocityChange * acceleration, ForceMode.Acceleration);
     }
     void OnJump()
     {

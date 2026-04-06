@@ -50,7 +50,7 @@ public class UiAni : MonoBehaviour
     [SerializeField] CanvasGroup OptionsTxTCG;
     [SerializeField] RectTransform Optionsicon;
     [SerializeField] CanvasGroup OptionsiconCG;
-    public GameObject CubesDeco;
+    public Transform CubesDeco;
     public GameObject CabesDeco;
     public GameObject CamUi;
     public GameObject Settings;
@@ -223,6 +223,17 @@ public class UiAni : MonoBehaviour
     }
     public void OptionsAni()
     {
+        Sequence intro = DOTween.Sequence().SetUpdate(true);
+        Sequence outro = DOTween.Sequence().SetUpdate(true).OnComplete(() => Settings.SetActive(false));
+        if (!options)
+        {
+        intro.Kill();
+        }
+        else
+        {
+          outro.Kill(); 
+          CubesDeco.localScale = Vector3.zero;
+        }
         
         OptionsGroup.DOKill();
         OptionsBg.DOKill();
@@ -238,9 +249,8 @@ public class UiAni : MonoBehaviour
             // Options intro
             OptionsTxT.DOScaleX(1, 0.3f).SetUpdate(true);
             Settings.SetActive(true);
-
-            Sequence intro = DOTween.Sequence().SetUpdate(true);
-
+            
+            
             intro.Join(SchemesGroup.DOFade(0,0.5f));
             intro.Join(OptionsGroup.DOScaleY(OptionsGpSizeFinal, OptionsTweenDur));
             intro.Join(CabesDeco.transform.DOLocalMoveZ(-5.63f, TweenDur).SetEase(Ease.OutCubic));
@@ -251,7 +261,7 @@ public class UiAni : MonoBehaviour
             
             intro.Insert(fixedInsert, OptionsBg.DOAnchorPosX(OptionsBgFinalAnchor, OptionsTweenDur));
             intro.Insert(fixedInsert, OptionsBg.DOScaleX(OptionsBgSizeFinalAnchor, OptionsTweenDur));
-            intro.Insert(fixedInsertTwo,CubesDeco.transform.DOScale(1,OptionsTweenDur+1));
+            intro.Insert(fixedInsertTwo,CubesDeco.DOScale(1,OptionsTweenDur+1));
             intro.Insert(fixedInsertTwo, Optionsicon.DOAnchorPosY(OptionsIconFinalAnchor, OptionsTweenDur));
             intro.Insert(fixedInsertTwo, Optionsicon.DORotate(new Vector3(0, 0, 360), TweenDur, RotateMode.FastBeyond360).SetEase(Ease.OutCubic));
             intro.Insert(fixedInsert, OptionsiconCG.DOFade(1, OptionsTweenDur).SetEase(Ease.InFlash));
@@ -263,8 +273,8 @@ public class UiAni : MonoBehaviour
         {
             OptionsisAni = true;
             // Options Outro
-            Sequence outro = DOTween.Sequence().SetUpdate(true).OnComplete(() => Settings.SetActive(false));
-            outro.Join(CubesDeco.transform.DOScale(0,OptionsTweenDur).SetEase(Ease.OutFlash));
+            
+            outro.Join(CubesDeco.DOScale(0,OptionsTweenDur).SetEase(Ease.OutFlash));
             outro.Join(OptionsBg.DOAnchorPosX(OptionsBgStartAnchor, OptionsTweenDur));
             outro.Join(OptionsBg.DOScaleX(OptionsBgSizeStartAnchor, OptionsTweenDur));
             outro.Join(CabesDeco.transform.DOLocalMoveZ(-4.13f, OptionsTweenDur).SetEase(Ease.InFlash));
@@ -276,7 +286,7 @@ public class UiAni : MonoBehaviour
 
 
             float fixedInsertOut = OptionsTweenDur - OptionsOverlapTime;
-            outro.Insert(fixedInsertOut,CubesDeco.transform.DOScale(0,0.1f).SetEase(Ease.InCubic));
+            outro.Insert(fixedInsertOut,CubesDeco.DOScale(0,0.1f).SetEase(Ease.InCubic));
             outro.Insert(Mathf.Max(0, fixedInsertOut), OptionsGroup.DOScaleY(OptionsGpSizeStart, OptionsTweenDur));
             outro.Insert(fixedInsertOut,SchemesGroup.DOFade(1,BGFadeTime));
             outro.OnComplete(() => {OptionsisAni = false;});
