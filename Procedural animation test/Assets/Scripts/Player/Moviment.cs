@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using UnityEditor.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEditor;
+using NUnit.Framework;
 
 
 public class Moviment : MonoBehaviour
@@ -55,6 +56,7 @@ public class Moviment : MonoBehaviour
     float timer;
     public Vector3 BottleModeCOM;
     public float BMAngle;
+    public float MaxRotSpd;
     float CheckUpDis = 0.3f;
     public float RollCheck;
     public CinemachineCamera CinCam;
@@ -251,10 +253,9 @@ public class Moviment : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
     }
-
     void BottleMoviment()
     {
-        
+
         bool IsSided = Physics.Raycast(Body.position, Vector3.down, RollCheck, Ground);
         Transform cam = Camera.main.transform;
         Vector3 forward = cam.forward;
@@ -266,31 +267,18 @@ public class Moviment : MonoBehaviour
         right.Normalize();
 
         Vector3 rollDir = (right * currentInput.y) + (forward * -currentInput.x);// Eixo invertido para girar certo 
-        /*if (currentInput.y > 0.1f || currentInput.y <-0.1f)
+        if (IsSided)
         {
-            Rig.AddForce(Vector3.down * 100, ForceMode.Force);
-        }*/
-        Rig.AddForce(Vector3.Cross(transform.up, Vector3.up)* currentInput.y * 100);
-        Rig.AddForceAtPosition(Vector3.Cross(transform.up, Vector3.up)* currentInput.x * 100, transform.position + transform.up);
-        
+            Rig.AddForce(Vector3.down * 500, ForceMode.Force);
+            Rig.AddForce(Vector3.Cross(rollDir, Vector3.up) * 100);
 
-        // if (currentInput.magnitude > 0.1f && IsSided)
-        // {
-        //     Rig.AddTorque(rollDir * RollForce, ForceMode.Acceleration);
-        //     if (currentInput.x > 0.1f)
-        //     {
-        //         Rig.centerOfMass = BottleModeCOM;
-        //     }
-        //     else if (currentInput.x < -0.1f)
-        //     {
-                
-        //         Rig.centerOfMass = -BottleModeCOM;
-        //     }
-        //     else
-        //     {
-        //         Rig.centerOfMass = Vector3.zero;
-        //     }
-        // }
+            if (Rig.angularVelocity.magnitude < MaxRotSpd)
+            {
+                Vector3 rotationForce = Vector3.Cross(transform.up, Vector3.up) * currentInput.x * 100;
+                Rig.AddForceAtPosition(rotationForce, transform.position + transform.up);
+            }
+        }
+
     }
     private void MoveInput(Vector2 v2)
     {
