@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using UnityEditor.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEditor;
+using System.Collections.Generic;
 
 
 public class Moviment : MonoBehaviour
@@ -35,7 +36,7 @@ public class Moviment : MonoBehaviour
     public float maxSpeed = 15f;
     public float RollForce = 10f;
     public float movementSmoothTime = 0.01f;
-
+public float MaxRotSpd = 20;
     [Header("Jump")]
 
     public float jumpHeight = 8;
@@ -67,7 +68,6 @@ public class Moviment : MonoBehaviour
     public float CamShakeAmpASF;
     public float CamShakeFreqASF;
     public float Mass;
-
    
 
     [Header("Gravity")]
@@ -77,6 +77,8 @@ public class Moviment : MonoBehaviour
     public ConstantForce gravity;
     bool hitGround;
     public Transform groundCheck;
+   //public List<Move> move = new List<Move>();
+public Move[] move = new Move[2];
 
     bool NoBottleMode; //esse bool só serve pra não ficar tocando os 0 dos efeitos de rumble e Shake Toda hora
     void Awake()
@@ -102,20 +104,31 @@ public class Moviment : MonoBehaviour
         BodyCollider = Body.GetComponent<CapsuleCollider>();
         CamShake = CinCam.GetComponent<CinemachineBasicMultiChannelPerlin>();
         Control = Gamepad.current;
-        transform.position = CheckPointManager.haveCheckPoint ? CheckPointManager.checkPointPosition : transform.position;
-       
-        Debug.Log("checkpoint position: " + CheckPointManager.checkPointPosition);
-        Debug.Log(" position: " + transform.position);
+         move[0] = new Walk();
+         move[1] = new Roll(Body, Ground, transform);
+
 
     }
     public void Update()
     {
-        
+        // Vector2 targetInput = MoveAction.ReadValue<Vector2>();
+        //Vector2 targetInput = inputs.Player.Move.ReadValue<Vector2>();
+
         currentInput = Vector2.SmoothDamp(currentInput, inputValue, ref inputVelocity, movementSmoothTime);
         float BodyAngle = Vector3.Angle(Body.up, Vector3.up);
          FacingDown = BodyAngle > BMAngle;
 
-     
+        // if (!CellingChecker())
+        // {
+        //     if (FacingDown)
+        //     {
+        //         BottleMode = true;
+        //     }
+        //     else
+        //     {
+        //         BottleMode = Crouch.action.IsPressed();
+        //     }
+        // }
         //Camerashake
         if (BottleMode)
         {
@@ -155,7 +168,7 @@ public class Moviment : MonoBehaviour
 
     public void FixedUpdate()
     {
-       
+        Debug.Log("BottleMode: " + BottleMode);
         if (!hitGround)
         {
             //Debug.Log("to fazendo algo aqui ");
@@ -177,9 +190,9 @@ public class Moviment : MonoBehaviour
             if (timer <= 0)
             {
                 Hover();
-                jumpHeight = 8;
+                jumpHeight = 5;
             }
-            Movement();
+            move[0].Movimentation(currentInput,Rig,maxSpeed);
             Rotation();
             Friction();
 
@@ -194,7 +207,8 @@ public class Moviment : MonoBehaviour
             timer = HoverTim;
             gravity.enabled = false;
             Rig.useGravity = true;
-            BottleMoviment();
+           
+             move[1].Movimentation(currentInput,Rig,MaxRotSpd);
             BodyCollider.height = 2.4f;
 
             Rig.mass = Mass;
@@ -242,8 +256,7 @@ public class Moviment : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
     }
 
-
-    void BottleMoviment()
+   void BottleMoviment()
     {
 
         bool IsSided = Physics.Raycast(Body.position, Vector3.down, RollCheck, Ground);
@@ -257,31 +270,16 @@ public class Moviment : MonoBehaviour
         right.Normalize();
 
         Vector3 rollDir = (right * currentInput.y) + (forward * -currentInput.x);// Eixo invertido para girar certo 
-
-        Rig.AddForce(Vector3.down * 8, ForceMode.Acceleration);
-        Vector3 GoDown = (right * currentInput.x) + (forward * currentInput.y);
-
-
-        if (GoDown.magnitude > 0.1f && IsSided)
+        if (IsSided)
         {
+            Rig.AddForce(Vector3.down * 500, ForceMode.Force);
+            Rig.AddForce(Vector3.Cross(rollDir, Vector3.up) * 100);
 
-            Rig.AddTorque(rollDir * RollForce, ForceMode.Acceleration);
-
-            if (currentInput.x > 0.01f)
+            if (Rig.angularVelocity.magnitude < MaxRotSpd)
             {
-                Rig.centerOfMass = BottleModeCOM;
-                Rig.AddForce(Vector3.up * 2, ForceMode.Force);
+                Vector3 rotationForce = Vector3.Cross(transform.up, Vector3.up) * currentInput.x * 100;
+                Rig.AddForceAtPosition(rotationForce, transform.position + transform.up);
             }
-            else if (currentInput.x < -0.01f)
-            {
-                Rig.centerOfMass = -BottleModeCOM;
-                Rig.AddForce(Vector3.up * 2, ForceMode.Force);
-            }
-            else
-            {
-                Rig.centerOfMass = Vector3.zero;
-            }
-
         }
 
     }
@@ -306,12 +304,12 @@ public class Moviment : MonoBehaviour
 
         if (moveDir.magnitude > 1f) moveDir.Normalize();
 
-        Vector3 horizontalVel = new Vector3(Rig.linearVelocity.x, Rig.linearVelocity.y, Rig.linearVelocity.z);
-        Debug.Log("vel y " + Rig.linearVelocity.y);
+        Vector3 vel = Rig.linearVelocity;
         Vector3 desiredVelocity = moveDir * maxSpeed;
-        Vector3 velocityChange = desiredVelocity - horizontalVel;
-        Rig.linearVelocity = velocityChange;
-
+        //Vector3 velocityChange = desiredVelocity - horizontalVel;
+        vel.x = desiredVelocity.x;
+        vel.z = desiredVelocity.z;
+        Rig.linearVelocity = vel;
         //Rig.AddForce(velocityChange * acceleration, ForceMode.Acceleration);
     }
     void OnJump()
@@ -350,13 +348,13 @@ public class Moviment : MonoBehaviour
         if (cast)
         {
             Debug.DrawRay(groundCheck.position, Vector3.down, Color.purple);
-            
+            Debug.Log("chao");
             return true;
         }
         else
         {
             Debug.DrawRay(groundCheck.position, Vector3.down, Color.green);
-            
+            Debug.Log("nao estou no chao");
             return false;
         }
     }
