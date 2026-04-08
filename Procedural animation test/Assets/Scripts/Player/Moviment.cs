@@ -8,6 +8,9 @@ using UnityEditor.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 using System.Collections.Generic;
+using UnityEngine.Scripting;
+
+
 
 
 public class Moviment : MonoBehaviour
@@ -36,7 +39,7 @@ public class Moviment : MonoBehaviour
     public float maxSpeed = 15f;
     public float RollForce = 10f;
     public float movementSmoothTime = 0.01f;
-public float MaxRotSpd = 20;
+    public float MaxRotSpd = 20;
     [Header("Jump")]
 
     public float jumpHeight = 8;
@@ -51,7 +54,7 @@ public float MaxRotSpd = 20;
     Vector2 inputVelocity;
     public float rotationSpeed = 10f;
     public bool BottleMode;
-     bool FacingDown;
+    bool FacingDown;
     public float HoverTim = 0.5f;
     float timer;
     public Vector3 BottleModeCOM;
@@ -68,7 +71,7 @@ public float MaxRotSpd = 20;
     public float CamShakeAmpASF;
     public float CamShakeFreqASF;
     public float Mass;
-   
+
 
     [Header("Gravity")]
     public float gravityForce = -9.81f;
@@ -77,13 +80,19 @@ public float MaxRotSpd = 20;
     public ConstantForce gravity;
     bool hitGround;
     public Transform groundCheck;
-   //public List<Move> move = new List<Move>();
-public Move[] move = new Move[2];
+    [Header("WallWalk")]
+    public bool jumping;
+    public Vector3 myNormal;
+    public float distGround;
+    public Vector3 surfaceNormal;
+    public LayerMask wallLayer;
+
+    //public List<Move> move = new List<Move>();
+    public Move[] move = new Move[2];
 
     bool NoBottleMode; //esse bool só serve pra não ficar tocando os 0 dos efeitos de rumble e Shake Toda hora
     void Awake()
     {
-
         inputInfo.Initialize();
 
         //atribuicao de eventos
@@ -101,35 +110,26 @@ public Move[] move = new Move[2];
     {
         fixedJoint = GetComponent<FixedJoint>();
         Rig = Body.GetComponent<Rigidbody>();
+        //Rig.freezeRotation = true;
         BodyCollider = Body.GetComponent<CapsuleCollider>();
         CamShake = CinCam.GetComponent<CinemachineBasicMultiChannelPerlin>();
-        Control = Gamepad.current;
-         move[0] = new Walk();
-         move[1] = new Roll(Body, Ground, transform);
+        Control = Gamepad.current; 
+        move[0] = new Walk();
+        move[1] = new Roll(Body, Ground, transform);
+         distGround = BodyCollider.bounds.extents.y - BodyCollider.center.y; 
+         myNormal = transform.up; 
+       
 
 
     }
     public void Update()
     {
-        // Vector2 targetInput = MoveAction.ReadValue<Vector2>();
-        //Vector2 targetInput = inputs.Player.Move.ReadValue<Vector2>();
+
 
         currentInput = Vector2.SmoothDamp(currentInput, inputValue, ref inputVelocity, movementSmoothTime);
         float BodyAngle = Vector3.Angle(Body.up, Vector3.up);
-         FacingDown = BodyAngle > BMAngle;
+        FacingDown = BodyAngle > BMAngle;
 
-        // if (!CellingChecker())
-        // {
-        //     if (FacingDown)
-        //     {
-        //         BottleMode = true;
-        //     }
-        //     else
-        //     {
-        //         BottleMode = Crouch.action.IsPressed();
-        //     }
-        // }
-        //Camerashake
         if (BottleMode)
         {
             bool isMovingLil = Rig.linearVelocity.magnitude > DecMagLil;
@@ -192,7 +192,9 @@ public Move[] move = new Move[2];
                 Hover();
                 jumpHeight = 5;
             }
-            move[0].Movimentation(currentInput,Rig,maxSpeed);
+
+
+            move[0].Movimentation(currentInput, Rig, maxSpeed);
             Rotation();
             Friction();
 
@@ -207,26 +209,32 @@ public Move[] move = new Move[2];
             timer = HoverTim;
             gravity.enabled = false;
             Rig.useGravity = true;
-           
-             move[1].Movimentation(currentInput,Rig,MaxRotSpd);
+
+            move[1].Movimentation(currentInput, Rig, MaxRotSpd);
+            //BottleMoviment();
             BodyCollider.height = 2.4f;
 
             Rig.mass = Mass;
         }
-        if (isGrounded())
+        
+        if (!isGrounded())
         {
+            //Rig.AddForce(gravityForce* Rig.mass * myNormal);
             gravity.force = Physics.gravity;
 
-        }
+       }
     }
+    
+   
     void BottleModeEnter()
     {
-      
-          if(!CellingChecker())
+
+        if (!CellingChecker())
         {
-            if(!FacingDown)
-                BottleMode = true;          
-        }  
+            if (!FacingDown)
+                BottleMode = true;
+
+        }
     }
     void BottleModeExit()
     {
@@ -256,33 +264,7 @@ public Move[] move = new Move[2];
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
     }
 
-   void BottleMoviment()
-    {
 
-        bool IsSided = Physics.Raycast(Body.position, Vector3.down, RollCheck, Ground);
-        Transform cam = Camera.main.transform;
-        Vector3 forward = cam.forward;
-        Vector3 right = cam.right;
-
-        forward.y = 0;
-        right.y = 0;
-        forward.Normalize();
-        right.Normalize();
-
-        Vector3 rollDir = (right * currentInput.y) + (forward * -currentInput.x);// Eixo invertido para girar certo 
-        if (IsSided)
-        {
-            Rig.AddForce(Vector3.down * 500, ForceMode.Force);
-            Rig.AddForce(Vector3.Cross(rollDir, Vector3.up) * 100);
-
-            if (Rig.angularVelocity.magnitude < MaxRotSpd)
-            {
-                Vector3 rotationForce = Vector3.Cross(transform.up, Vector3.up) * currentInput.x * 100;
-                Rig.AddForceAtPosition(rotationForce, transform.position + transform.up);
-            }
-        }
-
-    }
     private void MoveInput(Vector2 v2)
     {
         inputValue = v2;
@@ -315,6 +297,15 @@ public Move[] move = new Move[2];
     void OnJump()
     {
         // Rig.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
+        
+        RaycastHit hit;
+      
+        if(Physics.Raycast(transform.position, transform.forward, out hit, 5,wallLayer))
+        {
+            Debug.Log("AAAAAAAAAAAAA");
+           JumpToWall(hit.point, hit.normal);
+        }
+
         if (isGrounded())
             Rig.linearVelocity = Vector3.up * jumpHeight;
 
@@ -328,6 +319,25 @@ public Move[] move = new Move[2];
 
         }
     }
+     void JumpToWall( Vector3 point, Vector3 normal ){
+    // jump to wall 
+    jumping = true; // signal it's jumping to wall
+    Rig.isKinematic = true; // disable physics while jumping
+    var orgPos = transform.position;
+    var orgRot = transform.rotation;
+    Vector3 dstPos = point + normal * (distGround + 0.5f); // will jump to 0.5 above wall
+    var myForward = Vector3.Cross(transform.right, normal);
+    var dstRot = Quaternion.LookRotation(myForward, normal);
+    for (float t = 0; t < 1.0; ){
+        t += Time.deltaTime;
+        transform.position = Vector3.Lerp(orgPos, dstPos, t);
+        transform.rotation = Quaternion.Slerp(orgRot, dstRot, t);
+        return; // return here next frame
+    }
+    myNormal = normal; // update myNormal
+    Rig.isKinematic = false; // enable physics
+    jumping = false; // jumping to wall finished
+}
     void JumpImprove()
     {
 
@@ -416,5 +426,7 @@ public Move[] move = new Move[2];
         Vector3 torque = new Vector3(stabilize.x, 0, stabilize.z) * stabilizer;
         Rig.AddTorque(torque - Rig.angularVelocity * Soften);
     }
+
+  
 
 }

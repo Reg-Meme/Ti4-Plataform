@@ -4,7 +4,7 @@ public class Walk : Move
 {
     public override void Movimentation(Vector2 input, Rigidbody rb, float maxSpeed)
     {
-
+ 
         Transform cam = Camera.main.transform;
 
         Vector3 forward = cam.forward;
@@ -27,6 +27,7 @@ public class Walk : Move
         vel.z = desiredVelocity.z;
         rb.linearVelocity = vel;
         //Rig.AddForce(velocityChange * acceleration, ForceMode.Acceleration);
+        
     }
 }
 

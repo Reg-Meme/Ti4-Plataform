@@ -14,8 +14,9 @@ public class Roll : Move
 
     public override void Movimentation(Vector2 input, Rigidbody rb, float maxSpeed)
     {
-        Debug.Log("to aqw");
-       bool IsSided = Physics.Raycast(body.position, Vector3.down, .05f, layerMask);
+      
+       bool IsSided = Physics.Raycast(body.position, Vector3.down, .5f, layerMask);
+      
         Transform cam = Camera.main.transform;
         Vector3 forward = cam.forward;
         Vector3 right = cam.right;
@@ -26,7 +27,7 @@ public class Roll : Move
         right.Normalize();
 
         Vector3 rollDir = (right * input.y) + (forward * -input.x);// Eixo invertido para girar certo 
-        if (IsSided)
+         if (IsSided)
         {
             rb.AddForce(Vector3.down * 500, ForceMode.Force);
             rb.AddForce(Vector3.Cross(rollDir, Vector3.up) * 100);
