@@ -77011,8 +77011,32 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 356874948406070635, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: Spd
+      value: 9.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 356874948406070635, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: DisStep
+      value: 0.045
+      objectReference: {fileID: 0}
+    - target: {fileID: 356874948406070635, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: StepHeight
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 356874948406070635, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: Ground.m_Bits
       value: 2056
+      objectReference: {fileID: 0}
+    - target: {fileID: 473302500232488865, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: Spd
+      value: 9.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 473302500232488865, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: DisStep
+      value: 0.045
+      objectReference: {fileID: 0}
+    - target: {fileID: 473302500232488865, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: StepHeight
+      value: 0.08
       objectReference: {fileID: 0}
     - target: {fileID: 473302500232488865, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: Ground.m_Bits
@@ -77034,6 +77058,26 @@ PrefabInstance:
       propertyPath: BatteryFade
       value: 
       objectReference: {fileID: 1225644947}
+    - target: {fileID: 1944538211628390412, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: Spd
+      value: 9.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1944538211628390412, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: DisStep
+      value: 0.045
+      objectReference: {fileID: 0}
+    - target: {fileID: 1944538211628390412, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: StepHeight
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 1944538211628390412, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: footOffset.x
+      value: -0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1944538211628390412, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: footOffset.z
+      value: -0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 1944538211628390412, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: Ground.m_Bits
       value: 2056
@@ -77063,6 +77107,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: Soften
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: BMAngle
       value: 100
       objectReference: {fileID: 0}
@@ -77076,7 +77124,7 @@ PrefabInstance:
       objectReference: {fileID: 1802616333}
     - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: maxSpeed
-      value: 1
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: DecMagASF
@@ -77085,6 +77133,10 @@ PrefabInstance:
     - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: DecMagLil
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: MaxRotSpd
+      value: 490
       objectReference: {fileID: 0}
     - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: RollCheck
@@ -77112,7 +77164,7 @@ PrefabInstance:
       objectReference: {fileID: 1802616329}
     - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: stabilizer
-      value: 10
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: HoverHeight
@@ -77124,7 +77176,7 @@ PrefabInstance:
       objectReference: {fileID: 699394479}
     - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: acceleration
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: gravityForce
@@ -77143,6 +77195,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 330585546}
     - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: maxRotationSpeed
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: LeftBottleModeCOM.y
       value: -0.3
       objectReference: {fileID: 0}
@@ -77157,6 +77213,26 @@ PrefabInstance:
     - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: BottleModeCOMWFaster.y
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3662907307577047529, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: Spd
+      value: 9.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3662907307577047529, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: DisStep
+      value: 0.045
+      objectReference: {fileID: 0}
+    - target: {fileID: 3662907307577047529, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: StepHeight
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 3662907307577047529, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: footOffset.x
+      value: -0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3662907307577047529, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: footOffset.z
+      value: -0.01
       objectReference: {fileID: 0}
     - target: {fileID: 3662907307577047529, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: Ground.m_Bits
