@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class SlashMechanic : Mechanics
 {
-   
+
     public GameObject cutPlane;
     public GameObject slashCam;
     public GameObject aimSlashCam;
@@ -15,23 +15,26 @@ public class SlashMechanic : Mechanics
     public bool bladeMode;
     public LayerMask layerMask;
     //camera shake
-    public float amp =1;
+    public float amp = 1;
     public float freq = 2;
     public float dur = 3;
-    
-    public SlashMechanic(GameObject cutPlane, GameObject slashCam, GameObject aimSlashCam, Material crossSectionMat, LayerMask layerMask )
+
+    public SlashMechanic(GameObject cutPlane, GameObject slashCam, GameObject aimSlashCam, Material crossSectionMat, LayerMask layerMask)
     {
         this.cutPlane = cutPlane;
         this.slashCam = slashCam;
         this.aimSlashCam = aimSlashCam;
         this.crossSectionMat = crossSectionMat;
         this.layerMask = layerMask;
-       
+
 
     }
 
     public override void AttackButton()
     {
+        if (!battery.Consume(batteryCost))
+            return;
+
         if (bladeMode)
         {
 
@@ -78,15 +81,15 @@ public class SlashMechanic : Mechanics
     }
     public override void AimButton()
     {
-        
+
         cutPlane.transform.localEulerAngles = Vector3.zero;
-       
+
 
         cutPlane.SetActive(true);
         slashCam.SetActive(false);
-        aimSlashCam.SetActive(true); 
-        
-        bladeMode = true; 
+        aimSlashCam.SetActive(true);
+
+        bladeMode = true;
         float timeScale = bladeMode ? 0.2f : 1;
         DOVirtual.Float(Time.timeScale, timeScale, .01f, SetTimeScale);
 
@@ -95,14 +98,14 @@ public class SlashMechanic : Mechanics
     {
         if (bladeMode)
         {
-           
+
             if (bladeMode)
             {
                 RotatePlan(v2);
             }
         }
     }
-     
+
 
     public override void ReleaseAim()
     {
