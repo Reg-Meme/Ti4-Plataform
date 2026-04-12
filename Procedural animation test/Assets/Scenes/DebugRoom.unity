@@ -2591,7 +2591,7 @@ GameObject:
   - component: {fileID: 223603078}
   - component: {fileID: 223603077}
   - component: {fileID: 223603076}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: grabable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22603,21 +22603,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c7c7e5c672d63845ae26b18cd18d9aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Use
-  inputInfo: {fileID: 290529911}
   grabConfig:
+    lowBatteryShake: 0.1
+    damping: 10
+    followSpeed: 20
     grabDistance: 3
     maxLiftMass: 10
     grabForce: 150
     throwForce: 8
   grabPoint: {fileID: 2097780353}
   overheadPoint: {fileID: 693048030}
+  highlightMaterial: {fileID: 2100000, guid: 46437f8588f35264bb2c18f9c5c973e8, type: 2}
   cutPlane: {fileID: 659972587}
-  slashCam: {fileID: 3875593475707899419}
+  slashCam: {fileID: 2683872286714833991}
   aimSlashCam: {fileID: 2683872286714833991}
   crossSectionMat: {fileID: 2100000, guid: e3ceb783c0dc64341865bb382f122409, type: 2}
   grabLayerMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 768
   slashLayerMask:
     serializedVersion: 2
     m_Bits: 128
@@ -26454,7 +26457,7 @@ GameObject:
   - component: {fileID: 1958925474}
   - component: {fileID: 1958925473}
   - component: {fileID: 1958925472}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: pushable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29682,6 +29685,10 @@ PrefabInstance:
       propertyPath: aimSlashCam
       value: 
       objectReference: {fileID: 2683872286714833991}
+    - target: {fileID: 5258286953335147198, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.552
+      objectReference: {fileID: 0}
     - target: {fileID: 7519275983750770318, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: Menu
       value: 

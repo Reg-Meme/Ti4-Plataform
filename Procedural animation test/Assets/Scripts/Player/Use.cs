@@ -6,10 +6,10 @@ public class Use : MonoBehaviour
     BatterySystem battery;
     Mechanics mechanics;
     bool trade = false;
-    [SerializeField] private InputInfo inputInfo;
     [SerializeField] PhysicsGrabConfig grabConfig;
     [SerializeField] Transform grabPoint;
     [SerializeField] Transform overheadPoint;
+    [SerializeField] Material highlightMaterial;
     public GameObject cutPlane;
     public GameObject slashCam;
     public GameObject aimSlashCam;
@@ -19,17 +19,14 @@ public class Use : MonoBehaviour
 
     Vector2 axisInput;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        //InputInfo.inputInfo.Initialize();
-
         battery = GetComponent<BatterySystem>();
 
         mechanics = new SlashMechanic(cutPlane, slashCam, aimSlashCam, crossSectionMat, slashLayerMask);
 
         mechanics.Initialize(battery);
-
+    
         InputInfo.OnLockEvent += LockEvent;
         InputInfo.OnTradeEvent += Trade;
 
@@ -41,12 +38,15 @@ public class Use : MonoBehaviour
     }
     void Trade()
     {
-        if (trade) mechanics = mechanics = new SlashMechanic(cutPlane, slashCam, aimSlashCam, crossSectionMat, slashLayerMask);
+        if (trade) mechanics = new SlashMechanic(cutPlane, slashCam, aimSlashCam, crossSectionMat, slashLayerMask);
 
-        else mechanics = new PhysicsGrab(Camera.main.transform, grabLayerMask, grabConfig, grabPoint, overheadPoint);
+        else mechanics = new PhysicsGrab(Camera.main.transform, grabLayerMask, grabConfig, grabPoint, overheadPoint, highlightMaterial);
 
-        inputInfo.ClearMechanicsEvent();
+        mechanics.Initialize(battery);
+
+        InputInfo.inputInfo.ClearMechanicsEvent();
         AssignInputs();
+
         trade = !trade;
         Debug.Log("trade:" + trade);
     }
