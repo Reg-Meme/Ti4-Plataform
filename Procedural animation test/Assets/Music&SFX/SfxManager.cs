@@ -11,6 +11,7 @@ namespace SfXManager
     {
 
         SecurityDoor,
+        Crane,
         
 
     }
