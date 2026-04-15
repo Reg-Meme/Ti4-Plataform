@@ -5,14 +5,13 @@ using UnityEngine;
 
 namespace SfXManager
 {
-
     public enum SoundType
 
     {
 
         SecurityDoor,
         Crane,
-        
+        ChargeStation,
 
     }
 
@@ -24,7 +23,7 @@ namespace SfXManager
         public static soundManager instance;
        
         public AudioSource musicSource;
-
+        private static bool isLooping = false;
       
 
         public void Start()
@@ -40,13 +39,13 @@ namespace SfXManager
         public static void PlaySound(SoundType sound, float volume = 1f)
         {
             AudioClip[] clips = instance.soundList[(int)sound].Sounds;
-            
+
             AudioClip randomClip = clips[UnityEngine.Random.Range(0, clips.Length)];
             instance.musicSource.PlayOneShot(randomClip, volume);
-          
-            
-           
-            
+
+
+
+
 
         }
         public static void StopSound(SoundType sound, float volume = 1f)
@@ -58,6 +57,27 @@ namespace SfXManager
             instance.musicSource.Stop();
 
         }
+        public static void PlayLoop(SoundType sound, float volume = 1f)
+        {
+            if (isLooping) return;
+
+            AudioClip[] clips = instance.soundList[(int)sound].Sounds;
+            AudioClip randomClip = clips[UnityEngine.Random.Range(0, clips.Length)];
+
+            instance.musicSource.clip = randomClip;
+            instance.musicSource.volume = volume;
+            instance.musicSource.loop = true;
+            instance.musicSource.Play();
+            isLooping = true;
+        }
+
+        public static void StopLoop()
+        {
+            instance.musicSource.loop = false;
+            instance.musicSource.Stop();
+            isLooping = false;
+        }
+
 #if UNITY_EDITOR
         private void OnEnable()
         {
@@ -71,6 +91,8 @@ namespace SfXManager
     #endif
     
     }
+
+    
     
     
     [Serializable]
