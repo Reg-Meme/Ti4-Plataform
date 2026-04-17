@@ -3,7 +3,8 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputInfo : MonoBehaviour, Inputs.IPlayerActions, Inputs.IGlobalActions
+[CreateAssetMenu(menuName = "ScriptableObject/inputReader")]
+public class InputInfo :  ScriptableObject, Inputs.IPlayerActions, Inputs.IGlobalActions
 {
     public static InputInfo inputInfo { get; set; }
 
@@ -28,13 +29,6 @@ public class InputInfo : MonoBehaviour, Inputs.IPlayerActions, Inputs.IGlobalAct
 
 
 
-    void Awake()
-    {
-        if (inputInfo == null) inputInfo = this;
-        else Destroy(gameObject);
-        DontDestroyOnLoad(gameObject);
-
-    }
 
     public void Initialize()
     {
@@ -116,7 +110,7 @@ public class InputInfo : MonoBehaviour, Inputs.IPlayerActions, Inputs.IGlobalAct
     }
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.performed)
             OnJumpEvent();
         else if (context.canceled)
             OnReleaseJumpEvent();

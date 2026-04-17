@@ -25,6 +25,7 @@ public class Walk : Move
         //Vector3 velocityChange = desiredVelocity - horizontalVel;
         vel.x = desiredVelocity.x;
         vel.z = desiredVelocity.z;
+        
         rb.linearVelocity = vel;
         //Rig.AddForce(velocityChange * acceleration, ForceMode.Acceleration);
         

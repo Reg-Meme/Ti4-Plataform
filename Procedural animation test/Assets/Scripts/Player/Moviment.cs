@@ -74,18 +74,12 @@ public class Moviment : MonoBehaviour
 
 
     [Header("Gravity")]
-    public float gravityForce = -9.81f;
 
-
-    public ConstantForce gravity;
     bool hitGround;
     public Transform groundCheck;
-    [Header("WallWalk")]
-    public bool jumping;
-    public Vector3 myNormal;
-    public float distGround;
-    public Vector3 surfaceNormal;
-    public LayerMask wallLayer;
+    public float radius;
+    [SerializeField] PhysicsMaterial physicsMaterial;
+
 
     //public List<Move> move = new List<Move>();
     public Move[] move = new Move[2];
@@ -110,15 +104,14 @@ public class Moviment : MonoBehaviour
     {
         fixedJoint = GetComponent<FixedJoint>();
         Rig = Body.GetComponent<Rigidbody>();
-        //Rig.freezeRotation = true;
+
         BodyCollider = Body.GetComponent<CapsuleCollider>();
         CamShake = CinCam.GetComponent<CinemachineBasicMultiChannelPerlin>();
-        Control = Gamepad.current; 
+        Control = Gamepad.current;
         move[0] = new Walk();
         move[1] = new Roll(Body, Ground, transform);
-         distGround = BodyCollider.bounds.extents.y - BodyCollider.center.y; 
-         myNormal = transform.up; 
-       
+
+
 
 
     }
@@ -185,8 +178,7 @@ public class Moviment : MonoBehaviour
             Rig.mass = 2;
             //fixedJoint.connectedMassScale =3;
             timer -= Time.fixedDeltaTime;
-            gravity.enabled = true;
-            Rig.useGravity = false;
+
             if (timer <= 0)
             {
                 Hover();
@@ -197,8 +189,8 @@ public class Moviment : MonoBehaviour
             move[0].Movimentation(currentInput, Rig, maxSpeed);
             Rotation();
             Friction();
-
-            JumpImprove();
+            Atrito();
+            //JumpImprove();
             Stabilization();
         }
         else
@@ -207,25 +199,17 @@ public class Moviment : MonoBehaviour
             Rig.linearDamping = 0.8f;
             Rig.angularDamping = 0;
             timer = HoverTim;
-            gravity.enabled = false;
-            Rig.useGravity = true;
-
             move[1].Movimentation(currentInput, Rig, MaxRotSpd);
             //BottleMoviment();
             BodyCollider.height = 2.4f;
 
             Rig.mass = Mass;
         }
-        
-        if (!isGrounded())
-        {
-            //Rig.AddForce(gravityForce* Rig.mass * myNormal);
-            gravity.force = Physics.gravity;
 
-       }
+
     }
-    
-   
+
+
     void BottleModeEnter()
     {
 
@@ -269,42 +253,11 @@ public class Moviment : MonoBehaviour
     {
         inputValue = v2;
     }
-    void Movement()
-    {
-        Transform cam = Camera.main.transform;
 
-        Vector3 forward = cam.forward;
-        Vector3 right = cam.right;
-
-        forward.y = 0;
-        right.y = 0;
-
-        forward.Normalize();
-        right.Normalize();
-
-        Vector3 moveDir = forward * currentInput.y + right * currentInput.x;
-
-        if (moveDir.magnitude > 1f) moveDir.Normalize();
-
-        Vector3 vel = Rig.linearVelocity;
-        Vector3 desiredVelocity = moveDir * maxSpeed;
-        //Vector3 velocityChange = desiredVelocity - horizontalVel;
-        vel.x = desiredVelocity.x;
-        vel.z = desiredVelocity.z;
-        Rig.linearVelocity = vel;
-        //Rig.AddForce(velocityChange * acceleration, ForceMode.Acceleration);
-    }
     void OnJump()
     {
         // Rig.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
-        
-        RaycastHit hit;
-      
-        if(Physics.Raycast(transform.position, transform.forward, out hit, 5,wallLayer))
-        {
-            Debug.Log("AAAAAAAAAAAAA");
-           JumpToWall(hit.point, hit.normal);
-        }
+
 
         if (isGrounded())
             Rig.linearVelocity = Vector3.up * jumpHeight;
@@ -319,46 +272,40 @@ public class Moviment : MonoBehaviour
 
         }
     }
-     void JumpToWall( Vector3 point, Vector3 normal ){
-    // jump to wall 
-    jumping = true; // signal it's jumping to wall
-    Rig.isKinematic = true; // disable physics while jumping
-    var orgPos = transform.position;
-    var orgRot = transform.rotation;
-    Vector3 dstPos = point + normal * (distGround + 0.5f); // will jump to 0.5 above wall
-    var myForward = Vector3.Cross(transform.right, normal);
-    var dstRot = Quaternion.LookRotation(myForward, normal);
-    for (float t = 0; t < 1.0; ){
-        t += Time.deltaTime;
-        transform.position = Vector3.Lerp(orgPos, dstPos, t);
-        transform.rotation = Quaternion.Slerp(orgRot, dstRot, t);
-        return; // return here next frame
-    }
-    myNormal = normal; // update myNormal
-    Rig.isKinematic = false; // enable physics
-    jumping = false; // jumping to wall finished
-}
-    void JumpImprove()
+    void Atrito()
     {
+        float atrito = isGrounded() ? 0.6f : 0;
 
-        //Chegar na altura maxima do pulo
-        if (Rig.linearVelocity.y < 0)
-            //aumentar a gravidade da queda 
-            SetGravityScale(1.5f, gravity);
+        Debug.Log("atrito" + atrito);
+        if (Rig.linearVelocity.magnitude > 0)
+        {
+          physicsMaterial.dynamicFriction = atrito;
+          physicsMaterial.staticFriction = atrito;
+        }
+
     }
-    void SetGravityScale(float gravityScale, ConstantForce gravity)
-    {
-        Vector3 gravityVec;
-        gravityVec = new Vector3(0, gravityForce * gravityScale, 0);
-        gravity.force = gravityVec;
-    }
+
+    // void JumpImprove()
+    // {
+
+    //     //Chegar na altura maxima do pulo
+    //     if (Rig.linearVelocity.y < 0)
+    //         //aumentar a gravidade da queda 
+    //         SetGravityScale(1.5f, gravity);
+    // }
+    // void SetGravityScale(float gravityScale, ConstantForce gravity)
+    // {
+    //     Vector3 gravityVec;
+    //     gravityVec = new Vector3(0, gravityForce * gravityScale, 0);
+    //     gravity.force = gravityVec;
+    // }
     public bool isGrounded()
     {
-        bool cast = Physics.CheckSphere(groundCheck.position, 0.1f);
+        bool cast = Physics.CheckSphere(groundCheck.position, radius,Ground);
         if (cast)
         {
             Debug.DrawRay(groundCheck.position, Vector3.down, Color.purple);
-            Debug.Log("chao");
+           
             return true;
         }
         else
@@ -368,6 +315,29 @@ public class Moviment : MonoBehaviour
             return false;
         }
     }
+    private void OnDrawGizmosSelected()
+    {
+        // 1. Proteção: Evita erros no console caso você esqueça de arrastar o Transform no Inspector
+        if (groundCheck == null) return;
+
+        // 2. Dica Pro: Mudar a cor do Gizmo dependendo se está tocando o chão ou não!
+        if (isGrounded())
+        {
+            Gizmos.color = Color.purple; // Tocando o chão = Verde
+        }
+        else
+        {
+            Gizmos.color = Color.red;   // No ar = Vermelho
+        }
+
+        // 3. Desenha uma esfera "aramada" exatamente na mesma posição e raio do CheckSphere
+        Gizmos.DrawWireSphere(groundCheck.position, radius);
+        
+        // Se preferir uma esfera sólida e semitransparente, use:
+        // Gizmos.DrawSphere(groundCheck.position, radius);
+    }
+
+    
 
     void Friction()
     {
@@ -427,6 +397,6 @@ public class Moviment : MonoBehaviour
         Rig.AddTorque(torque - Rig.angularVelocity * Soften);
     }
 
-  
+
 
 }
