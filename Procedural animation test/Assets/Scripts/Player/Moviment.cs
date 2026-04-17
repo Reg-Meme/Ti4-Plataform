@@ -56,7 +56,7 @@ public class Moviment : MonoBehaviour
     float timer;
     public Vector3 BottleModeCOM;
     public float BMAngle;
-    public float MaxRotSpd;
+    
     float CheckUpDis = 0.3f;
     public float RollCheck;
     public CinemachineCamera CinCam;

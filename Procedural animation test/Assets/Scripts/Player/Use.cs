@@ -32,7 +32,7 @@ public class Use : MonoBehaviour
         InputInfo.OnTradeEvent += Trade;
 
         AssignInputs();
-        Debug.Log("Passei o awake");
+        
     }
     void LockEvent(Vector2 v2)
     {
