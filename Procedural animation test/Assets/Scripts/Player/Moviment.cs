@@ -7,10 +7,7 @@ using UnityEngine.UI;
 using UnityEditor.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEditor;
-using System.Collections.Generic;
-using UnityEngine.Scripting;
-
-
+using NUnit.Framework;
 
 
 public class Moviment : MonoBehaviour
@@ -59,6 +56,7 @@ public class Moviment : MonoBehaviour
     float timer;
     public Vector3 BottleModeCOM;
     public float BMAngle;
+    public float MaxRotSpd;
     float CheckUpDis = 0.3f;
     public float RollCheck;
     public CinemachineCamera CinCam;
@@ -247,13 +245,39 @@ public class Moviment : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
     }
+    void BottleMoviment()
+    {
 
+        bool IsSided = Physics.Raycast(Body.position, Vector3.down, RollCheck, Ground);
+        Transform cam = Camera.main.transform;
+        Vector3 forward = cam.forward;
+        Vector3 right = cam.right;
 
+        forward.y = 0;
+        right.y = 0;
+        forward.Normalize();
+        right.Normalize();
+
+        Vector3 rollDir = (right * currentInput.y) + (forward * -currentInput.x);// Eixo invertido para girar certo 
+        if (IsSided)
+        {
+            Rig.AddForce(Vector3.down * 500, ForceMode.Force);
+            Rig.AddForce(Vector3.Cross(rollDir, Vector3.up) * 100);
+
+            if (Rig.angularVelocity.magnitude < MaxRotSpd)
+            {
+                Vector3 rotationForce = Vector3.Cross(transform.up, Vector3.up) * currentInput.x * 100;
+                Rig.AddForceAtPosition(rotationForce, transform.position + transform.up);
+            }
+        }
+
+    }
     private void MoveInput(Vector2 v2)
     {
         inputValue = v2;
     }
 
+       
     void OnJump()
     {
         // Rig.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
