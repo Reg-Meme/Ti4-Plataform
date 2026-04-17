@@ -6,6 +6,7 @@ public class Use : MonoBehaviour
     BatterySystem battery;
     Mechanics mechanics;
     bool trade = false;
+     [SerializeField] private InputInfo inputInfo;
     [SerializeField] PhysicsGrabConfig grabConfig;
     [SerializeField] Transform grabPoint;
     [SerializeField] Transform overheadPoint;
@@ -31,6 +32,7 @@ public class Use : MonoBehaviour
         InputInfo.OnTradeEvent += Trade;
 
         AssignInputs();
+        Debug.Log("Passei o awake");
     }
     void LockEvent(Vector2 v2)
     {
@@ -44,7 +46,7 @@ public class Use : MonoBehaviour
 
         mechanics.Initialize(battery);
 
-        InputInfo.inputInfo.ClearMechanicsEvent();
+        inputInfo.ClearMechanicsEvent();
         AssignInputs();
 
         trade = !trade;

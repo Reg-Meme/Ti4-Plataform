@@ -32,20 +32,21 @@ public class SlashMechanic : Mechanics
 
     public override void AttackButton()
     {
-        if (!battery.Consume(batteryCost))
-            return;
-
+        // if (!battery.Consume(batteryCost))
+        //     return;
         if (bladeMode)
         {
+          
 
             Collider[] hits = Physics.OverlapBox(cutPlane.transform.position, new Vector3(10, 0.1f, 10), cutPlane.transform.rotation, layerMask);
             if (hits.Length <= 0) return;
             for (int i = 0; i < hits.Length; i++)
             {
+             
                 SlicedHull hull = SliceObject(hits[i].gameObject, crossSectionMat);
                 if (hull != null)
                 {
-
+                    
                     GameObject bottom = hull.CreateLowerHull(hits[i].gameObject, crossSectionMat);
                     GameObject top = hull.CreateUpperHull(hits[i].gameObject, crossSectionMat);
                     AddHullComponents(top);
