@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Legs
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Body
+    m_Weight: 0
+  - m_Path: CentralJoint
+    m_Weight: 0
+  - m_Path: DownPart
+    m_Weight: 0
+  - m_Path: Hermit
+    m_Weight: 0
+  - m_Path: Hermit/MovTotal
+    m_Weight: 0
+  - m_Path: Hermit/MovTotal/Base
+    m_Weight: 0
+  - m_Path: Hermit/MovTotal/Base/UpperLegBackL
+    m_Weight: 1
+  - m_Path: Hermit/MovTotal/Base/UpperLegBackL/LowerLegBackL
+    m_Weight: 1
+  - m_Path: Hermit/MovTotal/Base/UpperLegBackL/LowerLegBackL/FootIKBackL
+    m_Weight: 1
+  - m_Path: Hermit/MovTotal/Base/UpperLegBackL/LowerLegBackL/FootIKBackL/FootIKBackL_end
+    m_Weight: 1
+  - m_Path: Hermit/MovTotal/Base/UpperLegBackR
+    m_Weight: 1
+  - m_Path: Hermit/MovTotal/Base/UpperLegBackR/LowerLegBackR
+    m_Weight: 1
+  - m_Path: Hermit/MovTotal/Base/UpperLegBackR/LowerLegBackR/FootIKBackR
+    m_Weight: 1
+  - m_Path: Hermit/MovTotal/Base/UpperLegBackR/LowerLegBackR/FootIKBackR/FootIKBackR_end
+    m_Weight: 1
+  - m_Path: Hermit/MovTotal/Base/UpperLegFrontL.Fr
+    m_Weight: 1
+  - m_Path: Hermit/MovTotal/Base/UpperLegFrontL.Fr/LowerLegFrontL.Fr
+    m_Weight: 1
+  - m_Path: Hermit/MovTotal/Base/UpperLegFrontL.Fr/LowerLegFrontL.Fr/FootIKFrontL.Fr
+    m_Weight: 1
+  - m_Path: Hermit/MovTotal/Base/UpperLegFrontL.Fr/LowerLegFrontL.Fr/FootIKFrontL.Fr/FootIKFrontL.Fr_end
+    m_Weight: 1
+  - m_Path: Hermit/MovTotal/Base/UpperLegFrontR.Fr
+    m_Weight: 1
+  - m_Path: Hermit/MovTotal/Base/UpperLegFrontR.Fr/LowerLegFrontR.Fr
+    m_Weight: 1
+  - m_Path: Hermit/MovTotal/Base/UpperLegFrontR.Fr/LowerLegFrontR.Fr/FootIKFrontR.Fr
+    m_Weight: 1
+  - m_Path: Hermit/MovTotal/Base/UpperLegFrontR.Fr/LowerLegFrontR.Fr/FootIKFrontR.Fr/FootIKFrontR.Fr_end
+    m_Weight: 1
+  - m_Path: Hermit/MovTotal/LowerPart
+    m_Weight: 0
+  - m_Path: Hermit/MovTotal/LowerPart/CentralJoint
+    m_Weight: 0
+  - m_Path: Hermit/MovTotal/LowerPart/CentralJoint/UpperPart
+    m_Weight: 0
+  - m_Path: Hermit/MovTotal/LowerPart/CentralJoint/UpperPart/Disc
+    m_Weight: 0
+  - m_Path: Hermit/MovTotal/LowerPart/CentralJoint/UpperPart/Disc/SmallDisc
+    m_Weight: 0
+  - m_Path: Hermit/MovTotal/LowerPart/CentralJoint/UpperPart/Disc/SmallDisc/MultiTool
+    m_Weight: 0
+  - m_Path: Hermit/MovTotal/LowerPart/CentralJoint/UpperPart/Disc/SmallDisc/MultiTool/Item
+    m_Weight: 0
+  - m_Path: Hermit/MovTotal/LowerPart/CentralJoint/UpperPart/Disc/SmallDisc/MultiTool/Item/Item_end
+    m_Weight: 0
+  - m_Path: Hermit/MovTotal/LowerPart/CentralJoint/UpperPart/Flaps.L
+    m_Weight: 0
+  - m_Path: Hermit/MovTotal/LowerPart/CentralJoint/UpperPart/Flaps.L/Flaps.L_end
+    m_Weight: 0
+  - m_Path: Hermit/MovTotal/LowerPart/CentralJoint/UpperPart/Flaps.R
+    m_Weight: 0
+  - m_Path: Hermit/MovTotal/LowerPart/CentralJoint/UpperPart/Flaps.R/Flaps.R_end
+    m_Weight: 0
+  - m_Path: Hermit/MovTotal/LowerPart/Eye.L
+    m_Weight: 0
+  - m_Path: Hermit/MovTotal/LowerPart/Eye.L/Eye.L_end
+    m_Weight: 0
+  - m_Path: Hermit/MovTotal/LowerPart/Eye.R
+    m_Weight: 0
+  - m_Path: Hermit/MovTotal/LowerPart/Eye.R/Eye.R_end
+    m_Weight: 0
+  - m_Path: Knife
+    m_Weight: 0
+  - m_Path: Legs
+    m_Weight: 0
+  - m_Path: Multi-tool
+    m_Weight: 0
+  - m_Path: UpPart
+    m_Weight: 0

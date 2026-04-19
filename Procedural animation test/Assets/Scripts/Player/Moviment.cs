@@ -421,6 +421,6 @@ public class Moviment : MonoBehaviour
         Rig.AddTorque(torque - Rig.angularVelocity * Soften);
     }
 
-
+    
 
 }
