@@ -32,7 +32,7 @@ public class Roll : Move
 
             if (rb.angularVelocity.magnitude < maxSpeed)
             {
-                Vector3 rotationForce = Vector3.Cross(transform.up, Vector3.up) * input.x * 100;
+                Vector3 rotationForce = Vector3.Cross(transform.up, Vector3.up) * -input.x * 100;
                 rb.AddForceAtPosition(rotationForce, transform.position + transform.up);
             }
         }

@@ -4,9 +4,11 @@ using System;
 using System.Threading.Tasks;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.Users;
 public class UiAni : MonoBehaviour
 {
     public PlayerInput Input;
+    [SerializeField] private InputInfo inputInfo;
     [SerializeField] CanvasGroup UiCG;
     public GameObject UI;
     [SerializeField] RectTransform RotatingCircle;
@@ -92,6 +94,7 @@ public class UiAni : MonoBehaviour
     {
         ControlSchemes(input.currentControlScheme);
     }
+ 
 
     void ControlSchemes(string Scheme)
     {
@@ -297,7 +300,7 @@ public class UiAni : MonoBehaviour
 
     public void Resume()
     {
-        Input.SwitchCurrentActionMap("Player");
+        inputInfo.SetGameplay();
         UIountro();
         Time.timeScale = 1;
         EventSystem.current.SetSelectedGameObject(null);

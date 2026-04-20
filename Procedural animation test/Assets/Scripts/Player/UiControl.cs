@@ -8,45 +8,37 @@ public class UiControl : MonoBehaviour
 {
     PlayerInput Input;
     Inputs inputs;
-    
+    [SerializeField] private InputInfo inputInfo;
+
     [SerializeField] InputActionReference Menu;
     public bool MenuUi;
     public GameObject MenuCanvas;
-    [SerializeField]  GameObject CurrentButton;
+    [SerializeField] GameObject CurrentButton;
     public UiAni MenuAni;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        inputs = new Inputs();
+        
     }
-   
+
     void Start()
     {
         MenuCanvas.SetActive(false);
-        Input = GetComponent<PlayerInput>();
-        Input.actions.FindActionMap("Global").Enable();
-    
-        
-    }
-    public void OnEnable()
-    {
-        // inputs.Global.Enable();
-         Menu.action.started += OpenMenu;
+        // Input = GetComponent<PlayerInput>();
+        // Input.actions.FindActionMap("Global").Enable();
+        InputInfo.OnMenuEvent += OpenMenu;
     }
 
-    public void OnDisable()
-    {
-        // inputs.Global.Disable();
-         Menu.action.started -= OpenMenu;
-    }
 
-    public void OpenMenu(InputAction.CallbackContext context)
+    public void OpenMenu()
     {
+        Debug.Log("pause");
         MenuUi = !MenuCanvas.activeSelf;
 
         if (MenuUi)
         {
-            Input.SwitchCurrentActionMap("UI");
+            
+            inputInfo.SetUi();
             MenuCanvas.SetActive(true);
             MenuAni.UIIntro();
             Time.timeScale = 0;
@@ -54,19 +46,19 @@ public class UiControl : MonoBehaviour
         }
         else
         {
-            Input.SwitchCurrentActionMap("Player");
+            inputInfo.SetGameplay();
             MenuAni.UIountro();
             Time.timeScale = 1;
             EventSystem.current.SetSelectedGameObject(null);
         }
     }
-    
-    
+
+
     void Update()
     {
         // if(inputs.Global.Menu.triggered)
         // {
-            
+
         //  OpenMenu();
         // }
         //Debug.Log(Input.currentActionMap);

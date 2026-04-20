@@ -2,6 +2,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 
 [CreateAssetMenu(menuName = "ScriptableObject/inputReader")]
 public class InputInfo :  ScriptableObject, Inputs.IPlayerActions, Inputs.IGlobalActions
@@ -25,6 +26,7 @@ public class InputInfo :  ScriptableObject, Inputs.IPlayerActions, Inputs.IGloba
     public static event Action OnMenuEvent;
     public static event Action OnReleaseAimEvent;
     public static event Action OnTradeEvent;
+    
 
 
 
@@ -32,7 +34,7 @@ public class InputInfo :  ScriptableObject, Inputs.IPlayerActions, Inputs.IGloba
 
     public void Initialize()
     {
-
+        
         ClearEvents();
         if (input == null)
         {
@@ -59,6 +61,7 @@ public class InputInfo :  ScriptableObject, Inputs.IPlayerActions, Inputs.IGloba
         OnReleaseJumpEvent = () => { };
         OnReleaseAimEvent = () => { };
         OnTradeEvent = () => { };
+       
     }
     public void ClearMechanicsEvent()
     {
@@ -79,6 +82,7 @@ public class InputInfo :  ScriptableObject, Inputs.IPlayerActions, Inputs.IGloba
         input.UI.Enable();
     }
 
+   
     #region PlayerAction
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -141,6 +145,7 @@ public class InputInfo :  ScriptableObject, Inputs.IPlayerActions, Inputs.IGloba
     #endregion
     public void OnMenu(InputAction.CallbackContext context)
     {
+        Debug.Log("apertei esc");
         if (context.started)
             OnMenuEvent();
     }
@@ -150,4 +155,6 @@ public class InputInfo :  ScriptableObject, Inputs.IPlayerActions, Inputs.IGloba
     {
         return inputInfo;
     }
+
+    
 }
