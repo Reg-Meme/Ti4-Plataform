@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Use : MonoBehaviour
 {
+    
     BatterySystem battery;
     Mechanics mechanics;
     bool trade = false;
@@ -17,7 +18,7 @@ public class Use : MonoBehaviour
     public Material crossSectionMat;
     [SerializeField] LayerMask grabLayerMask;
     [SerializeField] LayerMask slashLayerMask;
-
+    AniManager AniRef;
     Vector2 axisInput;
     public static SlashMechanic Slash;
     public static PhysicsGrab Grab;
@@ -28,7 +29,7 @@ public class Use : MonoBehaviour
         Slash = new SlashMechanic(cutPlane, slashCam, aimSlashCam, crossSectionMat, slashLayerMask);
         Grab = new PhysicsGrab(Camera.main.transform, grabLayerMask, grabConfig, grabPoint, overheadPoint, highlightMaterial);
         mechanics = Slash;
-
+        AniRef = GetComponent<AniManager>();
         mechanics.Initialize(battery);
     
         InputInfo.OnLockEvent += LockEvent;
@@ -57,7 +58,7 @@ public class Use : MonoBehaviour
     }
     void AssignInputs()
     {
-        InputInfo.OnAttackEvent += () => { Debug.Log("ATAQUE CHEGOU NO USE"); mechanics.AttackButton(); };
+        InputInfo.OnAttackEvent += () => { Debug.Log("ATAQUE CHEGOU NO USE"); mechanics.AttackButton();AniRef.FlipRef();};
         InputInfo.OnAimEvent += mechanics.AimButton;
         InputInfo.OnReleaseAimEvent += mechanics.ReleaseAim;
     }
