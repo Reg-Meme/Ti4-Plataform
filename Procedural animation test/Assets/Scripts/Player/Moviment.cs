@@ -1,13 +1,10 @@
 using UnityEngine;
-using UnityEngine.Animations.Rigging;
+
 using UnityEngine.InputSystem;
-using DG.Tweening;
+
 using Unity.Cinemachine;
-using UnityEngine.UI;
-using UnityEditor.Rendering;
+
 using UnityEngine.SceneManagement;
-using UnityEditor;
-using NUnit.Framework;
 
 
 public class Moviment : MonoBehaviour
