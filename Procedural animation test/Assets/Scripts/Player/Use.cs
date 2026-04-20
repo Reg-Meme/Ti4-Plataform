@@ -19,12 +19,15 @@ public class Use : MonoBehaviour
     [SerializeField] LayerMask slashLayerMask;
 
     Vector2 axisInput;
+    public static SlashMechanic Slash;
+    public static PhysicsGrab Grab;
 
     void Awake()
     {
         battery = GetComponent<BatterySystem>();
-
-        mechanics = new SlashMechanic(cutPlane, slashCam, aimSlashCam, crossSectionMat, slashLayerMask);
+        Slash = new SlashMechanic(cutPlane, slashCam, aimSlashCam, crossSectionMat, slashLayerMask);
+        Grab = new PhysicsGrab(Camera.main.transform, grabLayerMask, grabConfig, grabPoint, overheadPoint, highlightMaterial);
+        mechanics = Slash;
 
         mechanics.Initialize(battery);
     
@@ -40,9 +43,9 @@ public class Use : MonoBehaviour
     }
     void Trade()
     {
-        if (trade) mechanics = new SlashMechanic(cutPlane, slashCam, aimSlashCam, crossSectionMat, slashLayerMask);
+        if (trade) mechanics = Slash;
 
-        else mechanics = new PhysicsGrab(Camera.main.transform, grabLayerMask, grabConfig, grabPoint, overheadPoint, highlightMaterial);
+        else mechanics = Grab;
 
         mechanics.Initialize(battery);
 

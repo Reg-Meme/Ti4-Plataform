@@ -20510,6 +20510,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1751237793523935535, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 31.429844
+      objectReference: {fileID: 0}
+    - target: {fileID: 1751237793523935535, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -0.0000031695122
+      objectReference: {fileID: 0}
+    - target: {fileID: 1751237793523935535, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -0.000007716931
+      objectReference: {fileID: 0}
     - target: {fileID: 1878075045832670711, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: Battery
       value: 
@@ -20526,6 +20538,22 @@ PrefabInstance:
       propertyPath: CinCam
       value: 
       objectReference: {fileID: 4409216309396238338}
+    - target: {fileID: 3302113386977892407, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -55.288303
+      objectReference: {fileID: 0}
+    - target: {fileID: 3302113386977892407, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3302113386977892407, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7364786731706937745, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 3fb2996b59f127440882342257b92d67, type: 2}
     - target: {fileID: 7519275983750770318, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: MenuAni
       value: 
@@ -20554,6 +20582,14 @@ PrefabInstance:
       propertyPath: aimSlashCam
       value: 
       objectReference: {fileID: 1693271809}
+    - target: {fileID: 8369780673219183313, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -55.288307
+      objectReference: {fileID: 0}
+    - target: {fileID: 8369780673219183313, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0.000023988838
+      objectReference: {fileID: 0}
     - target: {fileID: 8583857167334722344, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.1950049
