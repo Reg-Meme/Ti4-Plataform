@@ -4,16 +4,44 @@ using System.Collections;
 public class CameraShakeManager : MonoBehaviour
 {
     public static CameraShakeManager Shaker;
-    public CinemachineBasicMultiChannelPerlin CamShake;
     
+    public CinemachineCamera Cam1;
+    public CinemachineCamera Cam2;
+    CinemachineBasicMultiChannelPerlin CamShake;
+    CinemachineBasicMultiChannelPerlin Cam1Shake;
+    CinemachineBasicMultiChannelPerlin Cam2Shake;
     private Coroutine shakeCoroutine;
-
+    public Use CamSwitch;
+    SlashMechanic slash;
     void Awake()
     {
+        Cam1Shake = Cam1.GetComponent<CinemachineBasicMultiChannelPerlin>();
+        Cam2Shake = Cam2.GetComponent<CinemachineBasicMultiChannelPerlin>();
         if (Shaker == null) Shaker = this;
         else Destroy(gameObject);
+        slash = Use.Slash;
     }
-
+    void Update()
+    {
+        if (slash.bladeMode)
+        {
+            CamShake = Cam2Shake;
+        }
+        else
+        {
+            CamShake = Cam1Shake;
+        }
+    }
+    public void ForceStop()
+    {
+        if (OnOffOptions.Instance.CameraShake)
+        {
+            if (CamShake != null)
+            {
+                StartCoroutine(ShakeNature(0,0,0.5f));
+            }
+        }
+   }
     public void ShakePulse(float CamShakeAmp, float CamShakeFreq, float Dur)
     {
         if (OnOffOptions.Instance.CameraShake)

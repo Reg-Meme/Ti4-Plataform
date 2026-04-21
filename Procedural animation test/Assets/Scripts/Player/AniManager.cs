@@ -1,19 +1,28 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
-
+using UnityEngine.VFX;
+using Unity.Cinemachine;
+using JetBrains.Annotations;
 public class AniManager : MonoBehaviour
 {
     public Animator Ani;
     Moviment mov;
     public Rig Damp;
+    [Header("BladeModeVFX")]
     public Transform BladeRef;
-    Use Use;
-    
+    public Transform VFXRef;
+    public CameraShakeManager Camshake;
+    public VisualEffect CutVFX;
+    public float Freq;
+    public float Amp;
+    public float Dur;
     SlashMechanic slash;
+    Use Use;
     Vector3 DefaultRefPos;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        
         Ani = Ani.GetComponent<Animator>();
         mov = GetComponent<Moviment>();
         Use = GetComponent<Use>();
@@ -22,7 +31,7 @@ public class AniManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    public void FlipRef()
+    public void BladeAni()
     {
         if (slash.bladeMode)
         {
@@ -31,7 +40,12 @@ public class AniManager : MonoBehaviour
         else
         {
             BladeRef.position = DefaultRefPos;
+            CutVFX.SendEvent("OnExit");
         }
+        CutVFX.SendEvent("OnPlay");
+        CutVFX.transform.rotation = VFXRef.transform.rotation;
+        CutVFX.SetVector3("Direction",new Vector3(VFXRef.position.x,VFXRef.position.y,0));
+        Camshake.ShakePulse(Freq,Amp,Dur);
         
     }
     void Update()
@@ -57,7 +71,8 @@ public class AniManager : MonoBehaviour
         }
         else
         {
-           Ani.SetBool("Blade", false); 
+           Ani.SetBool("Blade", false);
+           CutVFX.SendEvent("OnExit");
         }
 
     }
