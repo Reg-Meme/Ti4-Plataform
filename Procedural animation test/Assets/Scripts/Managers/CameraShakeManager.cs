@@ -13,13 +13,18 @@ public class CameraShakeManager : MonoBehaviour
     private Coroutine shakeCoroutine;
     public Use CamSwitch;
     SlashMechanic slash;
-    void Awake()
+    public void Start()
     {
         Cam1Shake = Cam1.GetComponent<CinemachineBasicMultiChannelPerlin>();
         Cam2Shake = Cam2.GetComponent<CinemachineBasicMultiChannelPerlin>();
+        slash = Use.Slash;
+    }
+    void Awake()
+    {
+        
         if (Shaker == null) Shaker = this;
         else Destroy(gameObject);
-        slash = Use.Slash;
+        
     }
     void Update()
     {
@@ -32,16 +37,6 @@ public class CameraShakeManager : MonoBehaviour
             CamShake = Cam1Shake;
         }
     }
-    public void ForceStop()
-    {
-        if (OnOffOptions.Instance.CameraShake)
-        {
-            if (CamShake != null)
-            {
-                StartCoroutine(ShakeNature(0,0,0.5f));
-            }
-        }
-   }
     public void ShakePulse(float CamShakeAmp, float CamShakeFreq, float Dur)
     {
         if (OnOffOptions.Instance.CameraShake)

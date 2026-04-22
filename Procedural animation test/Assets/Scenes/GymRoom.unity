@@ -20554,6 +20554,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 282021797648294120, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: Legs
+      value: 
+      objectReference: {fileID: 1789872046}
+    - target: {fileID: 282021797648294120, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: CutVFX
       value: 
       objectReference: {fileID: 570449547}
@@ -64618,6 +64622,17 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!114 &1789872046 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5771901109743789637, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+  m_PrefabInstance: {fileID: 308672567}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70b342d8ce5c2fd48b8fa3147d48d1d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Animation.Rigging::UnityEngine.Animations.Rigging.Rig
 --- !u!1 &1805866298
 GameObject:
   m_ObjectHideFlags: 0

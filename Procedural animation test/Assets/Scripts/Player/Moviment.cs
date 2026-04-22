@@ -273,7 +273,7 @@ public class Moviment : MonoBehaviour
     {
         inputValue = v2;
     }
-
+    public bool isjumping;
        
     void OnJump()
     {
@@ -282,6 +282,8 @@ public class Moviment : MonoBehaviour
 
         if (isGrounded())
             Rig.linearVelocity = Vector3.up * jumpHeight;
+
+             
 
     }
     void OnJumpRelease()

@@ -3,11 +3,13 @@ using UnityEngine.Animations.Rigging;
 using UnityEngine.VFX;
 using Unity.Cinemachine;
 using JetBrains.Annotations;
+using Unity.Mathematics;
 public class AniManager : MonoBehaviour
 {
     public Animator Ani;
     Moviment mov;
     public Rig Damp;
+    public Rig Legs;
     [Header("BladeModeVFX")]
     public Transform BladeRef;
     public Transform VFXRef;
@@ -48,7 +50,7 @@ public class AniManager : MonoBehaviour
         Camshake.ShakePulse(Freq,Amp,Dur);
         
     }
-    void Update()
+    public void Update()
     {
         Ani.SetFloat("x",BladeRef.position.x);
         Ani.SetFloat("y",BladeRef.position.y);
@@ -75,6 +77,15 @@ public class AniManager : MonoBehaviour
            CutVFX.SendEvent("OnExit");
         }
 
+        float legsTarget = mov.isGrounded() ? 1f : 0f;
+float jumpLayerTarget = mov.isGrounded() ? 0f : 1f;
+Legs.weight = Mathf.Lerp(Legs.weight, legsTarget, Time.deltaTime * 16);
+float currentLayerWeight = Ani.GetLayerWeight(1);
+float nextLayerWeight = Mathf.Lerp(currentLayerWeight, jumpLayerTarget, Time.deltaTime * 6);
+Ani.SetLayerWeight(1, nextLayerWeight);
+
+// 4. O booleano do Animator pode continuar direto, sem Lerp
+Ani.SetBool("Jump", !mov.isGrounded());
     }
     public void NoDamp()
     {
