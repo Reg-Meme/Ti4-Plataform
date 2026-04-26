@@ -11,6 +11,7 @@ public class Moviment : MonoBehaviour
 {
     public Transform Body;
     Rigidbody Rig;
+    public static Moviment moviment;
 
     FixedJoint fixedJoint;
     CapsuleCollider BodyCollider;
@@ -28,6 +29,13 @@ public class Moviment : MonoBehaviour
     public float hoverDamp = 15f;
     public float coyoteDuration = 0.2f;
     float coyoteTimer;
+
+    public float jumpCoyoteDuration = 0.2f;
+    public float jumpTimer;
+
+
+    public float inputBuffer = 0.2f;
+    float inputTimer;
     [Header("Speed")]
     public float acceleration = 50f;
     public float maxSpeed = 15f;
@@ -37,6 +45,7 @@ public class Moviment : MonoBehaviour
     [Header("Jump")]
 
     public float jumpHeight = 8;
+    public float inicialJumpHeight;
     public float lateralFriction = 5f;
     public float brakingDrag = 2f;
     public float stabilizer = 20f;
@@ -53,7 +62,7 @@ public class Moviment : MonoBehaviour
     float timer;
     public Vector3 BottleModeCOM;
     public float BMAngle;
-    
+
     float CheckUpDis = 0.3f;
     public float RollCheck;
     public CinemachineCamera CinCam;
@@ -91,7 +100,7 @@ public class Moviment : MonoBehaviour
         InputInfo.OnResetEvent += ResetLevel;
         InputInfo.OnCrouchEvent += BottleModeEnter;
         InputInfo.OnCrouchReleaseEvent += BottleModeExit;
-
+        if (moviment == null) moviment = this;
     }
 
 
@@ -105,7 +114,7 @@ public class Moviment : MonoBehaviour
         Control = Gamepad.current;
         move[0] = new Walk();
         move[1] = new Roll(Body, Ground, transform);
-
+        inicialJumpHeight = jumpHeight;
 
 
 
@@ -177,20 +186,21 @@ public class Moviment : MonoBehaviour
             if (timer <= 0)
             {
                 Hover();
-                jumpHeight = 5;
+                //jumpHeight = 5;
             }
 
 
             move[0].Movimentation(currentInput, Rig, maxSpeed);
             Rotation();
             Friction();
-            Atrito();
+            Coyote();
+            //Atrito();
             //JumpImprove();
             Stabilization();
         }
         else
         {
-            jumpHeight = 1.6f;
+            //jumpHeight = 1.6f;
             Rig.linearDamping = 0.8f;
             Rig.angularDamping = 0;
             timer = HoverTim;
@@ -242,48 +252,22 @@ public class Moviment : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
     }
-    void BottleMoviment()
-    {
 
-        bool IsSided = Physics.Raycast(Body.position, Vector3.down, RollCheck, Ground);
-        Transform cam = Camera.main.transform;
-        Vector3 forward = cam.forward;
-        Vector3 right = cam.right;
-
-        forward.y = 0;
-        right.y = 0;
-        forward.Normalize();
-        right.Normalize();
-
-        Vector3 rollDir = (right * currentInput.y) + (forward * -currentInput.x);// Eixo invertido para girar certo 
-        if (IsSided)
-        {
-            Rig.AddForce(Vector3.down * 500, ForceMode.Force);
-            Rig.AddForce(Vector3.Cross(rollDir, Vector3.up) * 100);
-
-            if (Rig.angularVelocity.magnitude < MaxRotSpd)
-            {
-                Vector3 rotationForce = Vector3.Cross(transform.up, Vector3.up) * currentInput.x * 100;
-                Rig.AddForceAtPosition(rotationForce, transform.position + transform.up);
-            }
-        }
-
-    }
     private void MoveInput(Vector2 v2)
     {
         inputValue = v2;
     }
     public bool isjumping;
-       
+
     void OnJump()
     {
+        if (BottleMode) return;
+        
         // Rig.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
-
-
-        if (isGrounded())
-            Rig.linearVelocity = Vector3.up * jumpHeight;
-
-             
+        if (jumpTimer > 0){
+            jumpTimer = 0;
+        Rig.linearVelocity = Vector3.up * jumpHeight;
+        }
 
     }
     void OnJumpRelease()
@@ -291,6 +275,7 @@ public class Moviment : MonoBehaviour
         //Aumentar a gravidade caso o botão de pular seja solto
         if (Rig.linearVelocity.y > 0 && !isGrounded())
         {
+
             Rig.AddForce(Vector3.down * Rig.linearVelocity.y * 0.3f, ForceMode.VelocityChange);
 
         }
@@ -302,11 +287,19 @@ public class Moviment : MonoBehaviour
         Debug.Log("atrito" + atrito);
         if (Rig.linearVelocity.magnitude > 0)
         {
-          physicsMaterial.dynamicFriction = atrito;
-          physicsMaterial.staticFriction = atrito;
+            physicsMaterial.dynamicFriction = atrito;
+            physicsMaterial.staticFriction = atrito;
         }
 
     }
+    void Coyote()
+    {
+        if (isGrounded()) jumpTimer = jumpCoyoteDuration;
+        else jumpTimer -= Time.deltaTime;
+
+
+    }
+    
 
     // void JumpImprove()
     // {
@@ -324,17 +317,18 @@ public class Moviment : MonoBehaviour
     // }
     public bool isGrounded()
     {
-        bool cast = Physics.CheckSphere(groundCheck.position, radius,Ground);
+        bool cast = Physics.CheckSphere(groundCheck.position, radius, Ground);
         if (cast)
         {
             Debug.DrawRay(groundCheck.position, Vector3.down, Color.purple);
-           
+
             return true;
         }
         else
         {
             Debug.DrawRay(groundCheck.position, Vector3.down, Color.green);
             Debug.Log("nao estou no chao");
+
             return false;
         }
     }
@@ -355,12 +349,13 @@ public class Moviment : MonoBehaviour
 
         // 3. Desenha uma esfera "aramada" exatamente na mesma posição e raio do CheckSphere
         Gizmos.DrawWireSphere(groundCheck.position, radius);
-        
+
         // Se preferir uma esfera sólida e semitransparente, use:
         // Gizmos.DrawSphere(groundCheck.position, radius);
     }
 
-    
+
+
 
     void Friction()
     {
@@ -381,7 +376,6 @@ public class Moviment : MonoBehaviour
 
         if (hitGround)
         {
-
             coyoteTimer = coyoteDuration;
         }
         else
@@ -420,6 +414,6 @@ public class Moviment : MonoBehaviour
         Rig.AddTorque(torque - Rig.angularVelocity * Soften);
     }
 
-    
+
 
 }

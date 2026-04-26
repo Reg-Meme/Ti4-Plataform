@@ -18,6 +18,7 @@ public class SlashMechanic : Mechanics
     public float amp = 1;
     public float freq = 2;
     public float dur = 3;
+    
 
     public SlashMechanic(GameObject cutPlane, GameObject slashCam, GameObject aimSlashCam, Material crossSectionMat, LayerMask layerMask)
     {
@@ -32,10 +33,10 @@ public class SlashMechanic : Mechanics
 
     public override void AttackButton()
     {
-        // if (!battery.Consume(batteryCost))
-        //     return;
+       
         if (bladeMode)
         {
+        if (!battery.Consume(batteryCost))return;
           
 
             Collider[] hits = Physics.OverlapBox(cutPlane.transform.position, new Vector3(10, 0.1f, 10), cutPlane.transform.rotation, layerMask);
@@ -82,7 +83,7 @@ public class SlashMechanic : Mechanics
     }
     public override void AimButton()
     {
-
+ if (Moviment.moviment.BottleMode) return;
         cutPlane.transform.localEulerAngles = Vector3.zero;
 
 
