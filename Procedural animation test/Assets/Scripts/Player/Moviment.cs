@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using Unity.Cinemachine;
 
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 
 public class Moviment : MonoBehaviour
@@ -35,7 +36,7 @@ public class Moviment : MonoBehaviour
 
 
     public float inputBuffer = 0.2f;
-    float inputTimer;
+    public float inputTimer;
     [Header("Speed")]
     public float acceleration = 50f;
     public float maxSpeed = 15f;
@@ -53,7 +54,8 @@ public class Moviment : MonoBehaviour
 
     public Vector2 currentInput;
     public Vector2 inputValue;
-
+    public bool canJump = true;
+    public bool pressJump = false;
     Vector2 inputVelocity;
     public float rotationSpeed = 10f;
     public bool BottleMode;
@@ -194,6 +196,7 @@ public class Moviment : MonoBehaviour
             Rotation();
             Friction();
             Coyote();
+            JumpBuffer();
             //Atrito();
             //JumpImprove();
             Stabilization();
@@ -262,10 +265,11 @@ public class Moviment : MonoBehaviour
     void OnJump()
     {
         if (BottleMode) return;
-        
+        inputTimer = inputBuffer;  
         // Rig.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
-        if (jumpTimer > 0){
-            jumpTimer = 0;
+        if (canJump){
+            
+        
         Rig.linearVelocity = Vector3.up * jumpHeight;
         }
 
@@ -275,7 +279,7 @@ public class Moviment : MonoBehaviour
         //Aumentar a gravidade caso o botão de pular seja solto
         if (Rig.linearVelocity.y > 0 && !isGrounded())
         {
-
+            canJump = false;
             Rig.AddForce(Vector3.down * Rig.linearVelocity.y * 0.3f, ForceMode.VelocityChange);
 
         }
@@ -293,13 +297,26 @@ public class Moviment : MonoBehaviour
 
     }
     void Coyote()
-    {
-        if (isGrounded()) jumpTimer = jumpCoyoteDuration;
-        else jumpTimer -= Time.deltaTime;
-
+    { 
+        
+        if (isGrounded()) canJump = true;
+        else StartCoroutine(CanJump());
 
     }
-    
+    IEnumerator CanJump()
+    {
+        yield return new WaitForSeconds(jumpTimer);
+        canJump = false;
+    }
+    void JumpBuffer()
+    {
+        inputTimer -= Time.deltaTime;
+        if(inputTimer > 0 && isGrounded())
+        {
+            OnJump();
+            inputTimer = 0;
+        }
+    }
 
     // void JumpImprove()
     // {
@@ -318,6 +335,7 @@ public class Moviment : MonoBehaviour
     public bool isGrounded()
     {
         bool cast = Physics.CheckSphere(groundCheck.position, radius, Ground);
+        
         if (cast)
         {
             Debug.DrawRay(groundCheck.position, Vector3.down, Color.purple);

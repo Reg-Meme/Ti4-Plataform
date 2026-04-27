@@ -20605,6 +20605,10 @@ PrefabInstance:
       propertyPath: CinCam
       value: 
       objectReference: {fileID: 4409216309396238338}
+    - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: jumpTimer
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 3302113386977892407, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -55.288303
@@ -20616,6 +20620,10 @@ PrefabInstance:
     - target: {fileID: 3302113386977892407, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5654548086625706075, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.199
       objectReference: {fileID: 0}
     - target: {fileID: 7364786731706937745, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -69862,7 +69870,7 @@ GameObject:
   - component: {fileID: 1950480322}
   - component: {fileID: 1950480321}
   - component: {fileID: 1950480320}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
