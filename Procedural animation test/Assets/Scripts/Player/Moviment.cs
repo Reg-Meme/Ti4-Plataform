@@ -369,6 +369,19 @@ public class Moviment : MonoBehaviour
             return false;
         }
     }
+    public bool isAssGrounded()
+    {
+       bool cast = Physics.Raycast(groundCheck.transform.position, Vector3.down, radius, Ground);
+       if (cast)
+        {
+        return true;
+        }
+        else
+        {
+           return false;
+        }
+        
+    }
     private void OnDrawGizmosSelected()
     {
         // 1. Proteção: Evita erros no console caso você esqueça de arrastar o Transform no Inspector

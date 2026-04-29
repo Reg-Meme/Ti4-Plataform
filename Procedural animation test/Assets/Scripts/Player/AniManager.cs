@@ -67,8 +67,8 @@ public class AniManager : MonoBehaviour
             isSided =r.IsSided;
             Damp.weight = 1;
             Ani.SetBool("Bottle", false);
-            float legsTarget =mov.isGrounded()? 1f : 0f;
-            float jumpLayerTarget = mov.isGrounded() ? 0f : 1f;
+            float legsTarget =mov.isAssGrounded()? 1f : 0f;
+            float jumpLayerTarget = mov.isAssGrounded() ? 0f : 1f;
             Legs.weight = Mathf.Lerp(Legs.weight, legsTarget, Time.deltaTime * 16);
             float currentLayerWeight = Ani.GetLayerWeight(1);
             float nextLayerWeight = Mathf.Lerp(currentLayerWeight, jumpLayerTarget, Time.deltaTime * 6);
