@@ -6,6 +6,7 @@ using Unity.Cinemachine;
 
 using UnityEngine.SceneManagement;
 using System.Collections;
+using NUnit.Framework;
 
 
 public class Moviment : MonoBehaviour
@@ -85,6 +86,9 @@ public class Moviment : MonoBehaviour
     public Transform groundCheck;
     public float radius;
     [SerializeField] PhysicsMaterial physicsMaterial;
+    public bool[] casts = new bool[4];
+    public Transform[] legsPosition = new Transform[4];
+   public int count = 0;
 
 
     //public List<Move> move = new List<Move>();
@@ -104,7 +108,8 @@ public class Moviment : MonoBehaviour
         InputInfo.OnCrouchReleaseEvent += BottleModeExit;
         if (moviment == null) moviment = this;
     }
-
+    
+    public Roll roll;
 
     void Start()
     {
@@ -117,8 +122,7 @@ public class Moviment : MonoBehaviour
         move[0] = new Walk();
         move[1] = new Roll(Body, Ground, transform);
         inicialJumpHeight = jumpHeight;
-
-
+        
 
     }
     public void Update()
@@ -167,7 +171,11 @@ public class Moviment : MonoBehaviour
 
     public void FixedUpdate()
     {
-        Debug.Log("BottleMode: " + BottleMode);
+        if (isGrounded())
+            Debug.Log("Estouj no chao");
+        else Debug.Log("nao estou no chao");
+
+
         if (!hitGround)
         {
             //Debug.Log("to fazendo algo aqui ");
@@ -193,11 +201,12 @@ public class Moviment : MonoBehaviour
 
 
             move[0].Movimentation(currentInput, Rig, maxSpeed);
+            //radius = 0.2f;
             Rotation();
             Friction();
             Coyote();
             JumpBuffer();
-            //Atrito();
+            Atrito();
             //JumpImprove();
             Stabilization();
         }
@@ -210,7 +219,7 @@ public class Moviment : MonoBehaviour
             move[1].Movimentation(currentInput, Rig, MaxRotSpd);
             //BottleMoviment();
             BodyCollider.height = 2.4f;
-
+            radius = 0.6f;
             Rig.mass = Mass;
         }
 
@@ -231,6 +240,7 @@ public class Moviment : MonoBehaviour
     void BottleModeExit()
     {
         BottleMode = false;
+        
     }
     void ResetLevel()
     {
@@ -260,17 +270,17 @@ public class Moviment : MonoBehaviour
     {
         inputValue = v2;
     }
-    public bool isjumping;
 
     void OnJump()
     {
         if (BottleMode) return;
-        inputTimer = inputBuffer;  
+        inputTimer = inputBuffer;
         // Rig.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
-        if (canJump){
-            
-        
-        Rig.linearVelocity = Vector3.up * jumpHeight;
+        if (canJump)
+        {
+
+
+            Rig.linearVelocity = Vector3.up * jumpHeight;
         }
 
     }
@@ -297,8 +307,8 @@ public class Moviment : MonoBehaviour
 
     }
     void Coyote()
-    { 
-        
+    {
+
         if (isGrounded()) canJump = true;
         else StartCoroutine(CanJump());
 
@@ -311,7 +321,7 @@ public class Moviment : MonoBehaviour
     void JumpBuffer()
     {
         inputTimer -= Time.deltaTime;
-        if(inputTimer > 0 && isGrounded())
+        if (inputTimer > 0 && isGrounded())
         {
             OnJump();
             inputTimer = 0;
@@ -334,19 +344,28 @@ public class Moviment : MonoBehaviour
     // }
     public bool isGrounded()
     {
-        bool cast = Physics.CheckSphere(groundCheck.position, radius, Ground);
         
-        if (cast)
+        
+        // bool cast1 = Physics.CheckSphere(Legs[0].transform.position, radius, Ground);
+        // bool cast2 = Physics.CheckSphere(groundCheck.position, radius, Ground);l
+        // bool cast3 = Physics.CheckSphere(groundCheck.position, radius, Ground);
+        // bool cast4 = Physics.CheckSphere(groundCheck.position, radius, Ground);
+        // casts[0] = cast1;
+        // casts[1] = cast2;
+        // casts[2] = cast3;
+        // casts[3] = cast4;
+        for (int i = 0; i < casts.Length; i++)
         {
-            Debug.DrawRay(groundCheck.position, Vector3.down, Color.purple);
+            casts[i] = Physics.Raycast(legsPosition[i].transform.position, Vector3.down, radius, Ground);
+        }
+       
 
+        if (casts[2] && casts[3] || casts[0] && casts[1] && casts[2] && casts[3])
+        {
             return true;
         }
         else
         {
-            Debug.DrawRay(groundCheck.position, Vector3.down, Color.green);
-            Debug.Log("nao estou no chao");
-
             return false;
         }
     }
@@ -366,8 +385,11 @@ public class Moviment : MonoBehaviour
         }
 
         // 3. Desenha uma esfera "aramada" exatamente na mesma posição e raio do CheckSphere
-        Gizmos.DrawWireSphere(groundCheck.position, radius);
+        for (int i = 0; i < casts.Length; i++)
+        {
 
+            Gizmos.DrawRay(legsPosition[i].transform.position, Vector3.down * radius);
+        }
         // Se preferir uma esfera sólida e semitransparente, use:
         // Gizmos.DrawSphere(groundCheck.position, radius);
     }

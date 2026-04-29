@@ -21,6 +21,7 @@ public class AniManager : MonoBehaviour
     SlashMechanic slash;
     Use Use;
     Vector3 DefaultRefPos;
+    bool isSided;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -58,12 +59,21 @@ public class AniManager : MonoBehaviour
         if(mov.BottleMode == true)
         {
             Damp.weight = 0;
-           Ani.SetBool("Bottle", true);
+            Ani.SetBool("Bottle", true);
         }
         else
         {
-           Damp.weight = 1;
-           Ani.SetBool("Bottle", false); 
+            if(Moviment.moviment.move[1] is Roll r)
+            isSided =r.IsSided;
+            Damp.weight = 1;
+            Ani.SetBool("Bottle", false);
+            float legsTarget =mov.isGrounded()? 1f : 0f;
+            float jumpLayerTarget = mov.isGrounded() ? 0f : 1f;
+            Legs.weight = Mathf.Lerp(Legs.weight, legsTarget, Time.deltaTime * 16);
+            float currentLayerWeight = Ani.GetLayerWeight(1);
+            float nextLayerWeight = Mathf.Lerp(currentLayerWeight, jumpLayerTarget, Time.deltaTime * 6);
+            Ani.SetLayerWeight(1, nextLayerWeight);
+            Ani.SetBool("Jump", !mov.isGrounded());
         }
 
         if(slash.bladeMode == true)
@@ -77,15 +87,7 @@ public class AniManager : MonoBehaviour
            CutVFX.SendEvent("OnExit");
         }
 
-        float legsTarget = mov.isGrounded() ? 1f : 0f;
-float jumpLayerTarget = mov.isGrounded() ? 0f : 1f;
-Legs.weight = Mathf.Lerp(Legs.weight, legsTarget, Time.deltaTime * 16);
-float currentLayerWeight = Ani.GetLayerWeight(1);
-float nextLayerWeight = Mathf.Lerp(currentLayerWeight, jumpLayerTarget, Time.deltaTime * 6);
-Ani.SetLayerWeight(1, nextLayerWeight);
-
-// 4. O booleano do Animator pode continuar direto, sem Lerp
-Ani.SetBool("Jump", !mov.isGrounded());
+        
     }
     public void NoDamp()
     {
