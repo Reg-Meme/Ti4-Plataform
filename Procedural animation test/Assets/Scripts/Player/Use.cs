@@ -58,7 +58,7 @@ public class Use : MonoBehaviour
     }
     void AssignInputs()
     {
-        InputInfo.OnAttackEvent += () => { Debug.Log("ATAQUE CHEGOU NO USE"); mechanics.AttackButton();AniRef.BladeAni();};
+        InputInfo.OnAttackEvent += () => { Debug.Log("ATAQUE CHEGOU NO USE"); if(Slash.bladeMode) {mechanics.AttackButton();AniRef.BladeAni();}};
         InputInfo.OnAimEvent += mechanics.AimButton;
         InputInfo.OnReleaseAimEvent += mechanics.ReleaseAim;
     }

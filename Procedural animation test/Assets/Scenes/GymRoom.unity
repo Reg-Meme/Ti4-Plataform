@@ -21013,6 +21013,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90.00001
       objectReference: {fileID: 0}
+    - target: {fileID: 3304990210149653145, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: m_Weight
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 3304990210149653145, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: m_Data.m_DampPosition
+      value: 0.305
+      objectReference: {fileID: 0}
     - target: {fileID: 5654548086625706075, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.199
