@@ -69,11 +69,11 @@ public class AniManager : MonoBehaviour
             Ani.SetBool("Bottle", false);
             float legsTarget =mov.isAssGrounded()? 1f : 0f;
             float jumpLayerTarget = mov.isAssGrounded() ? 0f : 1f;
-            Legs.weight = Mathf.Lerp(Legs.weight, legsTarget, Time.deltaTime * 16);
+            Legs.weight = Mathf.Lerp(Legs.weight, legsTarget, Time.deltaTime * 8);
             float currentLayerWeight = Ani.GetLayerWeight(1);
             float nextLayerWeight = Mathf.Lerp(currentLayerWeight, jumpLayerTarget, Time.deltaTime * 6);
             Ani.SetLayerWeight(1, nextLayerWeight);
-            Ani.SetBool("Jump", !mov.isGrounded());
+            Ani.SetBool("Jump", !mov.isAssGrounded());
         }
 
         if(slash.bladeMode == true)

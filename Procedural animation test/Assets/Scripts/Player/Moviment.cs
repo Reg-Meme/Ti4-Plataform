@@ -85,6 +85,7 @@ public class Moviment : MonoBehaviour
     bool hitGround;
     public Transform groundCheck;
     public float radius;
+    public float assradius;
     [SerializeField] PhysicsMaterial physicsMaterial;
     public bool[] casts = new bool[4];
     public Transform[] legsPosition = new Transform[4];
@@ -201,7 +202,7 @@ public class Moviment : MonoBehaviour
 
 
             move[0].Movimentation(currentInput, Rig, maxSpeed);
-            //radius = 0.2f;
+            radius = 0.2f;
             Rotation();
             Friction();
             Coyote();
@@ -371,7 +372,7 @@ public class Moviment : MonoBehaviour
     }
     public bool isAssGrounded()
     {
-       bool cast = Physics.Raycast(groundCheck.transform.position, Vector3.down, radius, Ground);
+       bool cast = Physics.Raycast(groundCheck.transform.position, Vector3.down, assradius, Ground);
        if (cast)
         {
         return true;
