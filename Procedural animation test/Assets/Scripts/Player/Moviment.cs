@@ -82,18 +82,20 @@ public class Moviment : MonoBehaviour
 
     [Header("Gravity")]
 
-    bool hitGround;
+    public bool hitGround;
     public Transform groundCheck;
     public float radius;
     public float assradius;
     [SerializeField] PhysicsMaterial physicsMaterial;
     public bool[] casts = new bool[4];
     public Transform[] legsPosition = new Transform[4];
-   public int count = 0;
+    public int count = 0;
 
 
     //public List<Move> move = new List<Move>();
     public Move[] move = new Move[2];
+    [Header("Down Shadow")]
+    public GameObject DownShadowObj;
 
     bool NoBottleMode; //esse bool só serve pra não ficar tocando os 0 dos efeitos de rumble e Shake Toda hora
     void Awake()
@@ -168,7 +170,7 @@ public class Moviment : MonoBehaviour
         }
         NoBottleMode = BottleMode;
     }
-
+    
 
     public void FixedUpdate()
     {
@@ -210,6 +212,8 @@ public class Moviment : MonoBehaviour
             Atrito();
             //JumpImprove();
             Stabilization();
+            DownShadow();
+            DownShadowObj.SetActive(true);
         }
         else
         {
@@ -222,6 +226,7 @@ public class Moviment : MonoBehaviour
             BodyCollider.height = 2.4f;
             radius = 0.6f;
             Rig.mass = Mass;
+            DownShadowObj.SetActive(false);
         }
 
 
@@ -271,7 +276,7 @@ public class Moviment : MonoBehaviour
     {
         inputValue = v2;
     }
-
+    
     void OnJump()
     {
         if (BottleMode) return;
@@ -467,7 +472,20 @@ public class Moviment : MonoBehaviour
         Vector3 torque = new Vector3(stabilize.x, 0, stabilize.z) * stabilizer;
         Rig.AddTorque(torque - Rig.angularVelocity * Soften);
     }
-
+    public void DownShadow()
+    {
+    RaycastHit hit;
+    if (Physics.Raycast(groundCheck.transform.position, Vector3.down, out hit, Ground))
+    {
+ 
+        DownShadowObj.SetActive(true);
+        DownShadowObj.transform.position = hit.point + Vector3.up * 0.01f;
+    }
+    else
+    {
+        DownShadowObj.SetActive(false);
+    }
+    }
 
 
 }

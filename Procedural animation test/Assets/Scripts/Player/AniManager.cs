@@ -65,15 +65,15 @@ public class AniManager : MonoBehaviour
         {
             if(Moviment.moviment.move[1] is Roll r)
             isSided =r.IsSided;
-            Damp.weight = 1;
+
             Ani.SetBool("Bottle", false);
-            float legsTarget =mov.isAssGrounded()? 1f : 0f;
-            float jumpLayerTarget = mov.isAssGrounded() ? 0f : 1f;
+            float legsTarget =mov.hitGround? 1f : 0f;
+            float jumpLayerTarget = mov.hitGround ? 0f : 1f;
             Legs.weight = Mathf.Lerp(Legs.weight, legsTarget, Time.deltaTime * 8);
             float currentLayerWeight = Ani.GetLayerWeight(1);
             float nextLayerWeight = Mathf.Lerp(currentLayerWeight, jumpLayerTarget, Time.deltaTime * 6);
             Ani.SetLayerWeight(1, nextLayerWeight);
-            Ani.SetBool("Jump", !mov.isAssGrounded());
+            Ani.SetBool("Jump", !mov.hitGround);
         }
 
         if(slash.bladeMode == true)
@@ -86,7 +86,8 @@ public class AniManager : MonoBehaviour
            Ani.SetBool("Blade", false);
            CutVFX.SendEvent("OnExit");
         }
-
+        float DumpGround = mov.isAssGrounded()?1f:0f;
+        Legs.weight = Mathf.Lerp(Legs.weight, DumpGround, Time.deltaTime * 30);
         
     }
     public void NoDamp()
