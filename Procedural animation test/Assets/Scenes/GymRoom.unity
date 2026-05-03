@@ -21576,8 +21576,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.14867246, y: -3.8770002e-15, z: 5.828809e-16, w: 0.98888654}
-  m_LocalPosition: {x: 1.1920049, y: 0.73212755, z: 0.2686212}
+  m_LocalRotation: {x: 0.14867248, y: -0.0000000296104, z: 0.000000004451725, w: 0.98888654}
+  m_LocalPosition: {x: 1.1920049, y: 1.1731881, z: -1.1650683}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -80070,6 +80070,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3566109620169857873, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
+      propertyPath: CollideAgainst.m_Bits
+      value: 72
+      objectReference: {fileID: 0}
+    - target: {fileID: 3566109620169857873, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
+      propertyPath: AvoidObstacles.Damping
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4795765800887848964, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -80079,8 +80087,44 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2125989603}
     - target: {fileID: 5880517655376504305, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
+      propertyPath: Radius
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880517655376504305, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880517655376504305, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
+      propertyPath: OrbitStyle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880517655376504305, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
+      propertyPath: Orbits.Top.Height
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880517655376504305, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
+      propertyPath: Orbits.Top.Radius
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880517655376504305, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
+      propertyPath: HorizontalAxis.Value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880517655376504305, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
+      propertyPath: Orbits.Bottom.Height
+      value: 1.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880517655376504305, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
+      propertyPath: Orbits.Bottom.Radius
+      value: 0.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880517655376504305, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
+      propertyPath: Orbits.SplineCurvature
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880517655376504305, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
+      propertyPath: VerticalAxis.Recentering.Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6284796186858773671, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_Enabled
@@ -80092,11 +80136,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6469108829441528758, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.73212755
+      value: 1.1731881
       objectReference: {fileID: 0}
     - target: {fileID: 6469108829441528758, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.2686212
+      value: -1.1650683
       objectReference: {fileID: 0}
     - target: {fileID: 6469108829441528758, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -80104,15 +80148,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6469108829441528758, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.14867243
+      value: 0.14867245
       objectReference: {fileID: 0}
     - target: {fileID: 6469108829441528758, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -3.8979956e-15
+      value: -0.000000029610396
       objectReference: {fileID: 0}
     - target: {fileID: 6469108829441528758, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 7.225349e-16
+      value: 0.000000004451724
       objectReference: {fileID: 0}
     - target: {fileID: 6469108829441528758, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -80140,6 +80184,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1188503977809714022, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5286305016222460161}
+    - targetCorrespondingSourceObject: {fileID: 1188503977809714022, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5286305016222460168}
   m_SourcePrefab: {fileID: 100100000, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
 --- !u!1001 &3051108442771730815
 PrefabInstance:
@@ -80288,6 +80335,36 @@ MonoBehaviour:
   AmplitudeGain: 0
   FrequencyGain: 0
   m_NoiseOffsets: {x: 0, y: 0, z: 0}
+--- !u!114 &5286305016222460168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3875593475707899419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca7de3aefa901374ba29464584a3109a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineDecollider
+  CameraRadius: 0.4
+  Decollision:
+    Enabled: 0
+    ObstacleLayers:
+      serializedVersion: 2
+      m_Bits: 1
+    UseFollowTarget:
+      Enabled: 0
+      YOffset: 0
+    Damping: 0.5
+    SmoothingTime: 0
+  TerrainResolution:
+    Enabled: 1
+    TerrainLayers:
+      serializedVersion: 2
+      m_Bits: 72
+    MaximumRaycast: 10
+    Damping: 0.5
 --- !u!1001 &5557505378606808150
 PrefabInstance:
   m_ObjectHideFlags: 0
