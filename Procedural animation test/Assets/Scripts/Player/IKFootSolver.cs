@@ -37,6 +37,10 @@ public class IKFootSolverDaveJones : MonoBehaviour
         LocalPos = transform.localPosition;
         CurrentPos = OldPos = NewPos = transform.position;
         
+        GameObject groundDetector = new GameObject();
+        groundDetector.AddComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+        groundDetector.AddComponent<BoxCollider>().size = Vector3.one * 0.1f;
+        groundDetector.AddComponent<SimpleFollow>().SetFollow(transform);
     }
 
     public void Update()
