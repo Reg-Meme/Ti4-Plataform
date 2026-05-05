@@ -26,6 +26,7 @@ public class Use : MonoBehaviour
     void Awake()
     {
         battery = GetComponent<BatterySystem>();
+        
         Slash = new SlashMechanic(cutPlane, slashCam, aimSlashCam, crossSectionMat, slashLayerMask);
         Grab = new PhysicsGrab(Camera.main.transform, grabLayerMask, grabConfig, grabPoint, overheadPoint, highlightMaterial);
         mechanics = Slash;
@@ -43,9 +44,9 @@ public class Use : MonoBehaviour
         axisInput = v2;
     }
     void Trade()
-    {
+    {   
+        if (Grab == null) return;
         if (trade) mechanics = Slash;
-
         else mechanics = Grab;
 
         mechanics.Initialize(battery);
@@ -58,7 +59,7 @@ public class Use : MonoBehaviour
     }
     void AssignInputs()
     {
-        InputInfo.OnAttackEvent += () => { Debug.Log("ATAQUE CHEGOU NO USE"); if(Slash.bladeMode) {mechanics.AttackButton();AniRef.BladeAni();}};
+        InputInfo.OnAttackEvent += () => { Debug.Log("ATAQUE CHEGOU NO USE"); if(PlayerStats.bladeMode) {mechanics.AttackButton();AniRef.BladeAni();}};
         InputInfo.OnAimEvent += mechanics.AimButton;
         InputInfo.OnReleaseAimEvent += mechanics.ReleaseAim;
     }
