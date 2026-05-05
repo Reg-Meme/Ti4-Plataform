@@ -479,7 +479,7 @@ public class Moviment : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(groundCheck.transform.position, Vector3.down, out hit, 20f))
+        if (Physics.Raycast(groundCheck.transform.position, Vector3.down, out hit, 50f))
         {
             DownShadowObj.SetActive(true);
             DownShadowObj.transform.position = hit.point + hit.normal * ShadowOffset;
