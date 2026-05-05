@@ -94,8 +94,9 @@ public class Moviment : MonoBehaviour
 
     //public List<Move> move = new List<Move>();
     public Move[] move = new Move[2];
-    [Header("Down Shadow")]
+    [Header("Blob Shadow")]
     public GameObject DownShadowObj;
+    public float ShadowOffset;
 
     bool NoBottleMode; //esse bool só serve pra não ficar tocando os 0 dos efeitos de rumble e Shake Toda hora
     void Awake()
@@ -472,19 +473,22 @@ public class Moviment : MonoBehaviour
         Vector3 torque = new Vector3(stabilize.x, 0, stabilize.z) * stabilizer;
         Rig.AddTorque(torque - Rig.angularVelocity * Soften);
     }
+
+
     public void DownShadow()
     {
-    RaycastHit hit;
-    if (Physics.Raycast(groundCheck.transform.position, Vector3.down, out hit, Ground))
-    {
- 
-        DownShadowObj.SetActive(true);
-        DownShadowObj.transform.position = hit.point + Vector3.up * 0.01f;
-    }
-    else
-    {
-        DownShadowObj.SetActive(false);
-    }
+        RaycastHit hit;
+
+        if (Physics.Raycast(groundCheck.transform.position, Vector3.down, out hit, 20f))
+        {
+            DownShadowObj.SetActive(true);
+            DownShadowObj.transform.position = hit.point + hit.normal * ShadowOffset;
+            DownShadowObj.transform.rotation = Quaternion.FromToRotation(Vector3.up, hit.normal) * Quaternion.Euler(90, 0, 0);
+        }
+        else
+        {
+            DownShadowObj.SetActive(false);
+        }
     }
 
 

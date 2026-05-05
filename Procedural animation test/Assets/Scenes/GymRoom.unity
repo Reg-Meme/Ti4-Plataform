@@ -20535,6 +20535,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4409216309396238338}
     - target: {fileID: 7519275983750770318, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: Menu
+      value: 
+      objectReference: {fileID: 2439579189108209938, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    - target: {fileID: 7519275983750770318, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: MenuAni
       value: 
       objectReference: {fileID: 1072977550}

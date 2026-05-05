@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEngine.Assertions.Must;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 public class UiControl : MonoBehaviour
 {
     PlayerInput Input;
@@ -41,14 +42,15 @@ public class UiControl : MonoBehaviour
             inputInfo.SetUi();
             MenuCanvas.SetActive(true);
             MenuAni.UIIntro();
-            Time.timeScale = 0;
+          //  Time.timeScale = 0;
+        
             EventSystem.current.SetSelectedGameObject(CurrentButton);
         }
         else
         {
             inputInfo.SetGameplay();
             MenuAni.UIountro();
-            Time.timeScale = 1;
+          //  Time.timeScale = 1;
             EventSystem.current.SetSelectedGameObject(null);
         }
     }
