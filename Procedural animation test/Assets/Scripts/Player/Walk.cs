@@ -1,8 +1,9 @@
+using System;
 using UnityEngine;
 
 public class Walk : Move
 {
-    public override void Movimentation(Vector2 input, Rigidbody rb, float maxSpeed)
+    public override void Movimentation(Vector2 input, Rigidbody rb, float maxSpeed, Transform transform)
     {
  
         Transform cam = Camera.main.transform;
@@ -22,12 +23,17 @@ public class Walk : Move
 
         Vector3 vel = rb.linearVelocity;
         Vector3 desiredVelocity = moveDir * maxSpeed;
-        //Vector3 velocityChange = desiredVelocity - horizontalVel;
         vel.x = desiredVelocity.x;
         vel.z = desiredVelocity.z;
         
         rb.linearVelocity = vel;
-        //Rig.AddForce(velocityChange * acceleration, ForceMode.Acceleration);
+        //Debug.Log($"vel {vel.magnitude}");
+        //Debug.Log($"inputMag {input.magnitude}");
+        if(!PlayerStats.iddle){
+        Vector3 rot = cam.transform.forward;
+        rot.y = 0;
+        transform.rotation = Quaternion.LookRotation(rot);
+        }
         
     }
 }

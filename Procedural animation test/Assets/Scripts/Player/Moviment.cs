@@ -7,13 +7,15 @@ using Unity.Cinemachine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using NUnit.Framework;
+using UnityEngine.Animations.Rigging;
 
 
 public class Moviment : MonoBehaviour
 {
     public Transform Body;
-    Rigidbody Rig;
+    Rigidbody rb;
     public static Moviment moviment;
+    
 
     FixedJoint fixedJoint;
     CapsuleCollider BodyCollider;
@@ -87,10 +89,7 @@ public class Moviment : MonoBehaviour
     public float radius;
     public float assradius;
     [SerializeField] PhysicsMaterial physicsMaterial;
-    public bool[] casts = new bool[4];
-    public Transform[] legsPosition = new Transform[4];
-   public int count = 0;
-
+   
 
     //public List<Move> move = new List<Move>();
     public Move[] move = new Move[2];
@@ -109,21 +108,21 @@ public class Moviment : MonoBehaviour
         InputInfo.OnCrouchReleaseEvent += BottleModeExit;
         if (moviment == null) moviment = this;
     }
-    
+
     public Roll roll;
 
     void Start()
     {
         fixedJoint = GetComponent<FixedJoint>();
-        Rig = Body.GetComponent<Rigidbody>();
-
+        rb = Body.GetComponent<Rigidbody>();
+      
         BodyCollider = Body.GetComponent<CapsuleCollider>();
         CamShake = CinCam.GetComponent<CinemachineBasicMultiChannelPerlin>();
         Control = Gamepad.current;
         move[0] = new Walk();
-        move[1] = new Roll(Body, Ground, transform);
+        move[1] = new Roll(Body, Ground);
         inicialJumpHeight = jumpHeight;
-        
+
 
     }
     public void Update()
@@ -136,9 +135,9 @@ public class Moviment : MonoBehaviour
 
         if (BottleMode)
         {
-            bool isMovingLil = Rig.linearVelocity.magnitude > DecMagLil;
-            bool isMoving = Rig.linearVelocity.magnitude > DecMag;
-            bool isMovingASF = Rig.linearVelocity.magnitude > DecMagASF;
+            bool isMovingLil = rb.linearVelocity.magnitude > DecMagLil;
+            bool isMoving = rb.linearVelocity.magnitude > DecMag;
+            bool isMovingASF = rb.linearVelocity.magnitude > DecMagASF;
             if (OnOffOptions.Instance.CameraShake)
             {
                 CamShake.AmplitudeGain = isMovingASF ? CamShakeAmpASF : (isMoving ? CamShakeAmp : 0f);
@@ -172,11 +171,7 @@ public class Moviment : MonoBehaviour
 
     public void FixedUpdate()
     {
-        if (isGrounded())
-            Debug.Log("Estouj no chao");
-        else Debug.Log("nao estou no chao");
-
-
+       //Atrito();
         if (!hitGround)
         {
             //Debug.Log("to fazendo algo aqui ");
@@ -184,13 +179,13 @@ public class Moviment : MonoBehaviour
         CellingChecker();
         if (!BottleMode)
         {
-            Rig.centerOfMass = Vector3.zero;
-            Rig.linearDamping = 0.5f;
-            Rig.angularDamping = 2;
+            rb.centerOfMass = Vector3.zero;
+            rb.linearDamping = 0.5f;
+            rb.angularDamping = 2;
             BodyCollider.height = 2f;
             BodyCollider.center = Vector3.zero;
             //Rig.centerOfMass = new Vector3(0,-1,0);
-            Rig.mass = 2;
+            rb.mass = 2;
             //fixedJoint.connectedMassScale =3;
             timer -= Time.fixedDeltaTime;
 
@@ -200,28 +195,28 @@ public class Moviment : MonoBehaviour
                 //jumpHeight = 5;
             }
 
-
-            move[0].Movimentation(currentInput, Rig, maxSpeed);
-            radius = 0.2f;
+            if(!PlayerStats.bladeMode)
+            move[0].Movimentation(currentInput, rb, maxSpeed,transform);
+            
             Rotation();
             Friction();
             Coyote();
             JumpBuffer();
-            Atrito();
+            
             //JumpImprove();
             Stabilization();
         }
         else
         {
             //jumpHeight = 1.6f;
-            Rig.linearDamping = 0.8f;
-            Rig.angularDamping = 0;
+            rb.linearDamping = 0.8f;
+            rb.angularDamping = 0;
             timer = HoverTim;
-            move[1].Movimentation(currentInput, Rig, MaxRotSpd);
+            move[1].Movimentation(currentInput, rb, MaxRotSpd,transform);
             //BottleMoviment();
             BodyCollider.height = 2.4f;
-            radius = 0.6f;
-            Rig.mass = Mass;
+           
+            rb.mass = Mass;
         }
 
 
@@ -241,7 +236,7 @@ public class Moviment : MonoBehaviour
     void BottleModeExit()
     {
         BottleMode = false;
-        
+
     }
     void ResetLevel()
     {
@@ -279,19 +274,20 @@ public class Moviment : MonoBehaviour
         // Rig.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
         if (canJump)
         {
-
-
-            Rig.linearVelocity = Vector3.up * jumpHeight;
+            PlayerStats.isJumpig=true;
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+            rb.linearVelocity = Vector3.up * jumpHeight;
         }
+    
 
     }
     void OnJumpRelease()
     {
         //Aumentar a gravidade caso o botão de pular seja solto
-        if (Rig.linearVelocity.y > 0 && !isGrounded())
+        if (rb.linearVelocity.y > 0 && !isGrounded())
         {
             canJump = false;
-            Rig.AddForce(Vector3.down * Rig.linearVelocity.y * 0.3f, ForceMode.VelocityChange);
+            rb.AddForce(Vector3.down * rb.linearVelocity.y * 0.3f, ForceMode.VelocityChange);
 
         }
     }
@@ -300,7 +296,7 @@ public class Moviment : MonoBehaviour
         float atrito = isGrounded() ? 0.6f : 0;
 
         Debug.Log("atrito" + atrito);
-        if (Rig.linearVelocity.magnitude > 0)
+        if (rb.linearVelocity.magnitude > 0)
         {
             physicsMaterial.dynamicFriction = atrito;
             physicsMaterial.staticFriction = atrito;
@@ -345,25 +341,13 @@ public class Moviment : MonoBehaviour
     // }
     public bool isGrounded()
     {
-        
-        
-        // bool cast1 = Physics.CheckSphere(Legs[0].transform.position, radius, Ground);
-        // bool cast2 = Physics.CheckSphere(groundCheck.position, radius, Ground);l
-        // bool cast3 = Physics.CheckSphere(groundCheck.position, radius, Ground);
-        // bool cast4 = Physics.CheckSphere(groundCheck.position, radius, Ground);
-        // casts[0] = cast1;
-        // casts[1] = cast2;
-        // casts[2] = cast3;
-        // casts[3] = cast4;
-        for (int i = 0; i < casts.Length; i++)
+    
+           bool cast = Physics.CheckSphere(groundCheck.position, radius, Ground);
+        if (cast)
         {
-            casts[i] = Physics.Raycast(legsPosition[i].transform.position, Vector3.down, radius, Ground);
-        }
-       
-
-        if (casts[2] && casts[3] || casts[0] && casts[1] && casts[2] && casts[3])
-        {
+            PlayerStats.isJumpig = false;
             return true;
+            
         }
         else
         {
@@ -372,16 +356,16 @@ public class Moviment : MonoBehaviour
     }
     public bool isAssGrounded()
     {
-       bool cast = Physics.Raycast(groundCheck.transform.position, Vector3.down, assradius, Ground);
-       if (cast)
+        bool cast = Physics.Raycast(groundCheck.transform.position, Vector3.down, assradius, Ground);
+        if (cast)
         {
-        return true;
+            return true;
         }
         else
         {
-           return false;
+            return false;
         }
-        
+
     }
     private void OnDrawGizmosSelected()
     {
@@ -399,11 +383,9 @@ public class Moviment : MonoBehaviour
         }
 
         // 3. Desenha uma esfera "aramada" exatamente na mesma posição e raio do CheckSphere
-        for (int i = 0; i < casts.Length; i++)
-        {
 
-            Gizmos.DrawRay(legsPosition[i].transform.position, Vector3.down * radius);
-        }
+            Gizmos.DrawWireSphere(groundCheck.position, radius);
+        
         // Se preferir uma esfera sólida e semitransparente, use:
         // Gizmos.DrawSphere(groundCheck.position, radius);
     }
@@ -415,11 +397,11 @@ public class Moviment : MonoBehaviour
     {
         Vector3 rightDir = Body.right;
 
-        float sidewaysVel = Vector3.Dot(Rig.linearVelocity, rightDir);
+        float sidewaysVel = Vector3.Dot(rb.linearVelocity, rightDir);
 
         Vector3 frictionForce = -rightDir * sidewaysVel * lateralFriction;
 
-        Rig.AddForce(frictionForce, ForceMode.Acceleration);
+        rb.AddForce(frictionForce, ForceMode.Acceleration);
     }
 
     void Hover()
@@ -441,7 +423,7 @@ public class Moviment : MonoBehaviour
         {
             float currentDistance = hitGround ? hit.distance : HoverHeight;
             float heightOff = HoverHeight - currentDistance;
-            float upwardVel = Vector3.Dot(Rig.linearVelocity, Vector3.up);
+            float upwardVel = Vector3.Dot(rb.linearVelocity, Vector3.up);
             float dampingForce = upwardVel * hoverDamp;
 
             if (upwardVel < 0 && heightOff < (HoverHeight * 0.5f))
@@ -455,8 +437,8 @@ public class Moviment : MonoBehaviour
             if (heightOff > 0 || !hitGround)
             {
                 float springForce = heightOff * hoverForce;
-                Vector3 totalForce = Vector3.up * (springForce - dampingForce + (antiGravity.y * Rig.mass));
-                Rig.AddForce(totalForce * coyoteFade, ForceMode.Acceleration);
+                Vector3 totalForce = Vector3.up * (springForce - dampingForce + (antiGravity.y * rb.mass));
+                rb.AddForce(totalForce * coyoteFade, ForceMode.Acceleration);
             }
         }
     }
@@ -465,7 +447,7 @@ public class Moviment : MonoBehaviour
     {
         Quaternion stabilize = Quaternion.FromToRotation(Body.up, Vector3.up);
         Vector3 torque = new Vector3(stabilize.x, 0, stabilize.z) * stabilizer;
-        Rig.AddTorque(torque - Rig.angularVelocity * Soften);
+        rb.AddTorque(torque - rb.angularVelocity * Soften);
     }
 
 

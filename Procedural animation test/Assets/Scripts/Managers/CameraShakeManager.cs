@@ -28,7 +28,7 @@ public class CameraShakeManager : MonoBehaviour
     }
     void Update()
     {
-        if (slash.bladeMode)
+        if (PlayerStats.bladeMode)
         {
             CamShake = Cam2Shake;
         }

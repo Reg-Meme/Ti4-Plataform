@@ -9,14 +9,14 @@ public class Roll : Move
     Transform transform;
     public bool IsSided {get; set;}
 
-    public Roll (Transform body, LayerMask layerMask, Transform transform)
+    public Roll (Transform body, LayerMask layerMask)
     {
         this.body = body;
         this.layerMask = layerMask;
-        this.transform = transform;
+       
     }
 
-    public override void Movimentation(Vector2 input, Rigidbody rb, float maxSpeed)
+    public override void Movimentation(Vector2 input, Rigidbody rb, float maxSpeed,Transform transform)
     {
         IsSided = Physics.Raycast(rb.position, Vector3.down, .5f, layerMask);
         Transform cam = Camera.main.transform;
@@ -34,11 +34,12 @@ public class Roll : Move
             rb.AddForce(Vector3.down * 500, ForceMode.Force);
             rb.AddForce(Vector3.Cross(rollDir, Vector3.up) * 100);
 
-            if (rb.angularVelocity.magnitude < maxSpeed)
+            if (rb.linearVelocity.magnitude < maxSpeed)
             {
                 Vector3 rotationForce = Vector3.Cross(transform.up, Vector3.up) * -input.x * 100;
                 rb.AddForceAtPosition(rotationForce, transform.position + transform.up);
             }
+            if (rb.linearVelocity.magnitude > maxSpeed) rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
         }
         
       

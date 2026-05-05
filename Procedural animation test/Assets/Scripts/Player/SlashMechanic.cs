@@ -12,12 +12,13 @@ public class SlashMechanic : Mechanics
     public GameObject aimSlashCam;
     public Material crossSectionMat;
     public float cutPlanSpeed = 5;
-    public bool bladeMode;
+    public bool PlayerStatsbladeMode;
     public LayerMask layerMask;
     //camera shake
     public float amp = 1;
     public float freq = 2;
     public float dur = 3;
+    
     
 
     public SlashMechanic(GameObject cutPlane, GameObject slashCam, GameObject aimSlashCam, Material crossSectionMat, LayerMask layerMask)
@@ -34,12 +35,12 @@ public class SlashMechanic : Mechanics
     public override void AttackButton()
     {
        
-        if (bladeMode)
+        if (PlayerStats.bladeMode)
         {
         if (!battery.Consume(batteryCost))return;
           
 
-            Collider[] hits = Physics.OverlapBox(cutPlane.transform.position, new Vector3(10, 0.1f, 10), cutPlane.transform.rotation, layerMask);
+            Collider[] hits = Physics.OverlapBox(cutPlane.transform.position, new Vector3(1, 0.1f, 1), cutPlane.transform.rotation, layerMask);
             if (hits.Length <= 0) return;
             for (int i = 0; i < hits.Length; i++)
             {
@@ -83,25 +84,25 @@ public class SlashMechanic : Mechanics
     }
     public override void AimButton()
     {
- if (Moviment.moviment.BottleMode) return;
+ 
         cutPlane.transform.localEulerAngles = Vector3.zero;
-
 
         cutPlane.SetActive(true);
         slashCam.SetActive(false);
+        
         aimSlashCam.SetActive(true);
 
-        bladeMode = true;
-        float timeScale = bladeMode ? 0.2f : 1;
+        PlayerStats.bladeMode = true;
+        float timeScale = PlayerStats.bladeMode ? 0.2f : 1;
         DOVirtual.Float(Time.timeScale, timeScale, .01f, SetTimeScale);
 
     }
     public override void UpdateState(Vector2 v2)
     {
-        if (bladeMode)
+        if (PlayerStats.bladeMode)
         {
 
-            if (bladeMode)
+            if (PlayerStats.bladeMode)
             {
                 RotatePlan(v2);
             }
@@ -114,8 +115,8 @@ public class SlashMechanic : Mechanics
         cutPlane.SetActive(false);
         slashCam.SetActive(true);
         aimSlashCam.SetActive(false);
-        bladeMode = false;
-        float timeScale = bladeMode ? 0.2f : 1;
+        PlayerStats.bladeMode = false;
+        float timeScale = PlayerStats.bladeMode ? 0.2f : 1;
         DOVirtual.Float(Time.timeScale, timeScale, .01f, SetTimeScale);
     }
 

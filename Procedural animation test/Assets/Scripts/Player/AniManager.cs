@@ -36,7 +36,7 @@ public class AniManager : MonoBehaviour
     // Update is called once per frame
     public void BladeAni()
     {
-        if (slash.bladeMode)
+        if (PlayerStats.bladeMode)
         {
             BladeRef.position = -BladeRef.position;
         }
@@ -76,7 +76,7 @@ public class AniManager : MonoBehaviour
             Ani.SetBool("Jump", !mov.isAssGrounded());
         }
 
-        if(slash.bladeMode == true)
+        if(PlayerStats.bladeMode == true)
         {
             Ani.SetBool("Blade", true);
             Damp.weight = 0;
