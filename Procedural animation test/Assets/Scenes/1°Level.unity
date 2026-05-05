@@ -31857,6 +31857,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3360067692895194378, guid: 57406c7ba31ec204cac2263ba1ef8bbe, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4500962941884318717, guid: 57406c7ba31ec204cac2263ba1ef8bbe, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4710062342038388748, guid: 57406c7ba31ec204cac2263ba1ef8bbe, type: 3}
       propertyPath: m_Name
       value: Ui
@@ -31864,6 +31872,10 @@ PrefabInstance:
     - target: {fileID: 4710062342038388748, guid: 57406c7ba31ec204cac2263ba1ef8bbe, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5380176562521012839, guid: 57406c7ba31ec204cac2263ba1ef8bbe, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7334727091661277998, guid: 57406c7ba31ec204cac2263ba1ef8bbe, type: 3}
       propertyPath: Input
@@ -31873,6 +31885,14 @@ PrefabInstance:
       propertyPath: CubesDeco
       value: 
       objectReference: {fileID: 952703480}
+    - target: {fileID: 8202464693740082182, guid: 57406c7ba31ec204cac2263ba1ef8bbe, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8331669604453818427, guid: 57406c7ba31ec204cac2263ba1ef8bbe, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
