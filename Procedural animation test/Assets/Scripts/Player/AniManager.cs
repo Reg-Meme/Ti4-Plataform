@@ -67,13 +67,13 @@ public class AniManager : MonoBehaviour
             isSided =r.IsSided;
             Damp.weight = 1;
             Ani.SetBool("Bottle", false);
-            float legsTarget =mov.hitGround? 1f : 0f;
-            float jumpLayerTarget = mov.hitGround ? 0f : 1f;
+            float legsTarget = PlayerStats.hitGround? 1f : 0f;
+            float jumpLayerTarget = PlayerStats.hitGround ? 0f : 1f;
             Legs.weight = Mathf.Lerp(Legs.weight, legsTarget, Time.deltaTime * 8);
             float currentLayerWeight = Ani.GetLayerWeight(1);
             float nextLayerWeight = Mathf.Lerp(currentLayerWeight, jumpLayerTarget, Time.deltaTime * 6);
             Ani.SetLayerWeight(1, nextLayerWeight);
-            Ani.SetBool("Jump", !mov.hitGround);
+            Ani.SetBool("Jump", !PlayerStats.hitGround);
         }
 
         if(PlayerStats.bladeMode == true)

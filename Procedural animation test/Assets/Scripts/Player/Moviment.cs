@@ -1,9 +1,6 @@
 using UnityEngine;
-
 using UnityEngine.InputSystem;
-
 using Unity.Cinemachine;
-
 using UnityEngine.SceneManagement;
 using System.Collections;
 using NUnit.Framework;
@@ -62,6 +59,7 @@ public class Moviment : MonoBehaviour
     Vector2 inputVelocity;
     public float rotationSpeed = 10f;
     public bool BottleMode;
+
     bool FacingDown;
     public float HoverTim = 0.5f;
     float timer;
@@ -84,7 +82,6 @@ public class Moviment : MonoBehaviour
 
     [Header("Gravity")]
 
-    bool hitGround;
     public Transform groundCheck;
     public float radius;
     public float assradius;
@@ -93,6 +90,10 @@ public class Moviment : MonoBehaviour
 
     //public List<Move> move = new List<Move>();
     public Move[] move = new Move[2];
+
+    public GameObject DownShadowObj;
+   public float ShadowOffset;
+
 
     bool NoBottleMode; //esse bool só serve pra não ficar tocando os 0 dos efeitos de rumble e Shake Toda hora
     void Awake()
@@ -172,7 +173,7 @@ public class Moviment : MonoBehaviour
     public void FixedUpdate()
     {
        //Atrito();
-        if (!hitGround)
+        if (!PlayerStats.hitGround)
         {
             //Debug.Log("to fazendo algo aqui ");
         }
@@ -205,6 +206,8 @@ public class Moviment : MonoBehaviour
             
             //JumpImprove();
             Stabilization();
+            DownShadow();
+            DownShadowObj.SetActive(true);
         }
         else
         {
@@ -215,8 +218,9 @@ public class Moviment : MonoBehaviour
             move[1].Movimentation(currentInput, rb, MaxRotSpd,transform);
             //BottleMoviment();
             BodyCollider.height = 2.4f;
-           
+
             rb.mass = Mass;
+            DownShadowObj.SetActive(false);
         }
 
 
@@ -407,10 +411,10 @@ public class Moviment : MonoBehaviour
     void Hover()
     {
         RaycastHit hit;
-        hitGround = Physics.SphereCast(Body.position, hoverRadius, Vector3.down, out hit, HoverHeight, Ground);
+        PlayerStats.hitGround = Physics.SphereCast(Body.position, hoverRadius, Vector3.down, out hit, HoverHeight, Ground);
 
 
-        if (hitGround)
+        if (PlayerStats.hitGround)
         {
             coyoteTimer = coyoteDuration;
         }
@@ -421,7 +425,7 @@ public class Moviment : MonoBehaviour
 
         if (coyoteTimer > 0)
         {
-            float currentDistance = hitGround ? hit.distance : HoverHeight;
+            float currentDistance = PlayerStats.hitGround ? hit.distance : HoverHeight;
             float heightOff = HoverHeight - currentDistance;
             float upwardVel = Vector3.Dot(rb.linearVelocity, Vector3.up);
             float dampingForce = upwardVel * hoverDamp;
@@ -431,10 +435,10 @@ public class Moviment : MonoBehaviour
                 dampingForce = 0;
             }
 
-            float coyoteFade = hitGround ? 1.0f : (coyoteTimer / coyoteDuration);
-            Vector3 antiGravity = hitGround ? Vector3.zero : -Physics.gravity;
+            float coyoteFade = PlayerStats.hitGround ? 1.0f : (coyoteTimer / coyoteDuration);
+            Vector3 antiGravity = PlayerStats.hitGround ? Vector3.zero : -Physics.gravity;
 
-            if (heightOff > 0 || !hitGround)
+            if (heightOff > 0 || !PlayerStats.hitGround)
             {
                 float springForce = heightOff * hoverForce;
                 Vector3 totalForce = Vector3.up * (springForce - dampingForce + (antiGravity.y * rb.mass));
@@ -450,6 +454,21 @@ public class Moviment : MonoBehaviour
         rb.AddTorque(torque - rb.angularVelocity * Soften);
     }
 
+    public void DownShadow()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(groundCheck.transform.position, Vector3.down, out hit, 50f))
+        {
+            DownShadowObj.SetActive(true);
+            DownShadowObj.transform.position = hit.point + hit.normal * ShadowOffset;
+            DownShadowObj.transform.rotation = Quaternion.FromToRotation(Vector3.up, hit.normal) * Quaternion.Euler(90, 0, 0);
+        }
+        else
+        {
+            DownShadowObj.SetActive(false);
+        }
+    }
 
 
 }
