@@ -58,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: cdc53d5c72811b24f963fe0c86f6524a, type: 2}
     - target: {fileID: 919132149155446097, guid: 9a03fe5b4acde0e40ac2db0e678b444c, type: 3}
       propertyPath: m_Name
-      value: BoxDesafio
+      value: BoxTech
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
