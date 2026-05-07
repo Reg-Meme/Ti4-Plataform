@@ -29,11 +29,11 @@ public class Walk : Move
         rb.linearVelocity = vel;
         //Debug.Log($"vel {vel.magnitude}");
         //Debug.Log($"inputMag {input.magnitude}");
-        if(!PlayerStats.iddle){
+       
         Vector3 rot = cam.transform.forward;
         rot.y = 0;
         transform.rotation = Quaternion.LookRotation(rot);
-        }
+        
         
     }
 }
