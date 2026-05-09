@@ -48,13 +48,14 @@ public class PhysicsGrab : Mechanics
 
     public override void AttackButton()
     {
+        if(Moviment.moviment.BottleMode) return;
         if (grabbedObject != null)
         {
             ThrowObject();
             return;
         }
-        if (!battery.Consume(batteryCost))
-            return;
+        // if (!battery.Consume(batteryCost))
+        //     return;
 
         RaycastHit hit;
 
@@ -73,7 +74,7 @@ public class PhysicsGrab : Mechanics
                 }
             }
         }
-        Debug.Log("ATAQUE FOI CHAMADO");
+   
     }
 
     public override void AimButton()
@@ -91,7 +92,7 @@ public class PhysicsGrab : Mechanics
         float weightFactor = 1f / grabbedObject.mass;
         Vector3 dir = targetPoint.position - grabbedObject.position;
 
-        // força principal
+        // forï¿½a principal
         Vector3 force = dir * config.grabForce;
 
         // damping (anti-tremor)

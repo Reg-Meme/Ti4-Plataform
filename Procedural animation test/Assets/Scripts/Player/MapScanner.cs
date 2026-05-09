@@ -8,6 +8,8 @@ public class MapScanner : MonoBehaviour
     public GameObject ScannerObj;
     PlayerInput Input;
     [SerializeField] InputActionReference Map;
+    [SerializeField] InputInfo inputInfo;
+    
     [SerializeField] CanvasGroup BatteryFade;
     [SerializeField] RectTransform Battery;
     public float BatteryStartAnchor;
@@ -27,15 +29,20 @@ public class MapScanner : MonoBehaviour
         Input = GetComponent<PlayerInput>();
         ScannerObj.SetActive(false);
         Shader.SetGlobalFloat("_MapBGClipping", 3f);
+        InputInfo.OnMapEvent += MapActive;
+    }
+    public void MapActive()
+    {
+         Scanner = true;
     }
 
     void Update()
     {
-        Scanner = Map.action.inProgress;
         float targetValue;
 
         if (Scanner)
         {
+
             if (!NoloopVFX)
             {
                 VFX.SendEvent("OnPlay");
@@ -48,6 +55,7 @@ public class MapScanner : MonoBehaviour
             
             
             BatteryFade.DOFade(1, FadeTime);
+            Scanner = false;
         }
         else
         {

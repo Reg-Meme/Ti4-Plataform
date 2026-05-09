@@ -9,4 +9,5 @@
   <Project Path="Unity.RenderPipelines.Core.Samples.Editor.csproj" />
   <Project Path="Unity.UI.Shaders.Sample.csproj" />
   <Project Path="Unity.UI.Shaders.Sample.Editor.csproj" />
+  <Project Path="../../../AED projects/Rasterização/Rasterização.csproj" />
 </Solution>

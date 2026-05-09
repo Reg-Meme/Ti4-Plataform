@@ -1,12 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Collections;
-using UnityEditor;
-using UnityEditor.Animations.Rigging;
+
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
-using UnityEngine.InputSystem;
+
 public class IKFootSolverDaveJones : MonoBehaviour
 {
     public Rigidbody BodyRig;

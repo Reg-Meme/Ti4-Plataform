@@ -1,3 +1,5 @@
+using JetBrains.Annotations;
+using NUnit.Framework;
 using UnityEngine;
 
 public class Roll : Move
@@ -5,18 +7,18 @@ public class Roll : Move
     Transform body;
     LayerMask layerMask;
     Transform transform;
-    public Roll (Transform body, LayerMask layerMask, Transform transform)
+    public bool IsSided {get; set;}
+
+    public Roll (Transform body, LayerMask layerMask)
     {
         this.body = body;
         this.layerMask = layerMask;
-        this.transform = transform;
+       
     }
 
-    public override void Movimentation(Vector2 input, Rigidbody rb, float maxSpeed)
+    public override void Movimentation(Vector2 input, Rigidbody rb, float maxSpeed,Transform transform)
     {
-      
-       bool IsSided = Physics.Raycast(body.position, Vector3.down, .5f, layerMask);
-      
+        IsSided = Physics.Raycast(rb.position, Vector3.down, .5f, layerMask);
         Transform cam = Camera.main.transform;
         Vector3 forward = cam.forward;
         Vector3 right = cam.right;
@@ -27,17 +29,21 @@ public class Roll : Move
         right.Normalize();
 
         Vector3 rollDir = (right * input.y) + (forward * -input.x);// Eixo invertido para girar certo 
-         if (IsSided)
+        if (IsSided)
         {
             rb.AddForce(Vector3.down * 500, ForceMode.Force);
             rb.AddForce(Vector3.Cross(rollDir, Vector3.up) * 100);
 
-            if (rb.angularVelocity.magnitude < maxSpeed)
+            if (rb.linearVelocity.magnitude < maxSpeed)
             {
-                Vector3 rotationForce = Vector3.Cross(transform.up, Vector3.up) * input.x * 100;
+                Vector3 rotationForce = Vector3.Cross(transform.up, Vector3.up) * -input.x * 100;
                 rb.AddForceAtPosition(rotationForce, transform.position + transform.up);
             }
+            if (rb.linearVelocity.magnitude > maxSpeed) rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
         }
+        
+      
+  
     }
 
     

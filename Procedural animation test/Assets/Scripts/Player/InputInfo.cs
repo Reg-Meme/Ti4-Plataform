@@ -2,8 +2,10 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 
-public class InputInfo : MonoBehaviour, Inputs.IPlayerActions, Inputs.IGlobalActions
+[CreateAssetMenu(menuName = "ScriptableObject/inputReader")]
+public class InputInfo :  ScriptableObject, Inputs.IPlayerActions, Inputs.IGlobalActions
 {
     public static InputInfo inputInfo { get; set; }
 
@@ -24,21 +26,15 @@ public class InputInfo : MonoBehaviour, Inputs.IPlayerActions, Inputs.IGlobalAct
     public static event Action OnMenuEvent;
     public static event Action OnReleaseAimEvent;
     public static event Action OnTradeEvent;
+    
 
 
 
 
-    void Awake()
-    {
-        if (inputInfo == null) inputInfo = this;
-        else Destroy(gameObject);
-        DontDestroyOnLoad(gameObject);
-
-    }
 
     public void Initialize()
     {
-
+        
         ClearEvents();
         if (input == null)
         {
@@ -65,6 +61,7 @@ public class InputInfo : MonoBehaviour, Inputs.IPlayerActions, Inputs.IGlobalAct
         OnReleaseJumpEvent = () => { };
         OnReleaseAimEvent = () => { };
         OnTradeEvent = () => { };
+       
     }
     public void ClearMechanicsEvent()
     {
@@ -85,6 +82,7 @@ public class InputInfo : MonoBehaviour, Inputs.IPlayerActions, Inputs.IGlobalAct
         input.UI.Enable();
     }
 
+   
     #region PlayerAction
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -116,7 +114,7 @@ public class InputInfo : MonoBehaviour, Inputs.IPlayerActions, Inputs.IGlobalAct
     }
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.performed)
             OnJumpEvent();
         else if (context.canceled)
             OnReleaseJumpEvent();
@@ -147,6 +145,7 @@ public class InputInfo : MonoBehaviour, Inputs.IPlayerActions, Inputs.IGlobalAct
     #endregion
     public void OnMenu(InputAction.CallbackContext context)
     {
+        Debug.Log("apertei esc");
         if (context.started)
             OnMenuEvent();
     }
@@ -156,4 +155,6 @@ public class InputInfo : MonoBehaviour, Inputs.IPlayerActions, Inputs.IGlobalAct
     {
         return inputInfo;
     }
+
+    
 }
