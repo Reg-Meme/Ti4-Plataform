@@ -171,7 +171,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3973233484268243801
 RectTransform:
   m_ObjectHideFlags: 0
@@ -272,7 +272,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 940d18847711901429be676450f01bd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UiAni
+  Input: {fileID: 0}
+  inputInfo: {fileID: 0}
   UiCG: {fileID: 1552687023517439877}
+  UI: {fileID: 0}
   RotatingCircle: {fileID: 7191487596125088003}
   RotatingCircleCG: {fileID: 967924459309179683}
   RotationTime: 100
@@ -295,6 +298,40 @@ MonoBehaviour:
   BRotationime: 1.2
   BFadeTime: 1.5
   TweenDur: 2
+  MenuActive: 0
+  IntroOverlapTime: 0
+  ButtonsGroup: {fileID: 0}
+  ButtonsGroupCG: {fileID: 0}
+  ButtonsGroupStartAnchor: 0
+  ButtonsGroupFinalAnchor: 0
+  BGFadeTime: 0
+  options: 0
+  OptionsGroup: {fileID: 0}
+  OptionsBg: {fileID: 0}
+  OptionsTxT: {fileID: 0}
+  OptionsTxTCG: {fileID: 0}
+  Optionsicon: {fileID: 0}
+  OptionsiconCG: {fileID: 0}
+  CubesDeco: {fileID: 0}
+  CabesDeco: {fileID: 0}
+  CamUi: {fileID: 0}
+  Settings: {fileID: 0}
+  OptionsGpSizeStart: 0
+  OptionsGpSizeFinal: 0
+  OptionsBgStartAnchor: 0
+  OptionsBgFinalAnchor: 0
+  OptionsBgSizeStartAnchor: 0
+  OptionsBgSizeFinalAnchor: 0
+  OptionsTxTStartAnchor: 0
+  OptionsTxTFinalAnchor: 0
+  OptionsIconStartAnchor: 0
+  OptionsIconFinalAnchor: 0
+  OptionsTweenDur: 0
+  OptionsOverlapTime: 0
+  OptionsOverlapTimeTwo: 0
+  SchemesGroup: {fileID: 0}
+  KBCtrlscheme: {fileID: 0}
+  GPCtrlscheme: {fileID: 0}
 --- !u!114 &2220224599212476550
 MonoBehaviour:
   m_ObjectHideFlags: 0

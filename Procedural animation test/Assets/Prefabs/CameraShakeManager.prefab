@@ -44,4 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e81e908f405cda49b4767d0ea5c52ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraShakeManager
-  CamShake: {fileID: 0}
+  Cam1: {fileID: 4862008910214154234, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
+  Cam2: {fileID: 5609471684629009639, guid: 367d1673c124222408aae63c419ef6f9, type: 3}
+  CamSwitch: {fileID: 7623194022855273557, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
