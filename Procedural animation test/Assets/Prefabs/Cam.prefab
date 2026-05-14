@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbd0181a4f5eab84db1ef061c054dcfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObservingEye
-  anchorPoint: {fileID: 1262210781219404338}
+  anchorPoint: {fileID: 0}
   chainLength: 0.71
   patrolSpeed: 1.5
   returnSpeed: 2
@@ -435,8 +435,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Animation.Rigging::UnityEngine.Animations.Rigging.ChainIKConstraint
   m_Weight: 1
   m_Data:
-    m_Root: {fileID: 1262210781219404338}
-    m_Tip: {fileID: 968416414683529173}
+    m_Root: {fileID: 0}
+    m_Tip: {fileID: 0}
     m_Target: {fileID: 3589181488830674471}
     m_ChainRotationWeight: 1
     m_TipRotationWeight: 1
@@ -827,16 +827,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 4613297075872269855}
   m_SourcePrefab: {fileID: 100100000, guid: 0ebcd7d63a5f05c46a12b453d0c05e65, type: 3}
---- !u!4 &968416414683529173 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7488309082317512222, guid: 0ebcd7d63a5f05c46a12b453d0c05e65, type: 3}
-  m_PrefabInstance: {fileID: 7681822609654391243}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1262210781219404338 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -351537016296203271, guid: 0ebcd7d63a5f05c46a12b453d0c05e65, type: 3}
-  m_PrefabInstance: {fileID: 7681822609654391243}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7375270180513815706 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0ebcd7d63a5f05c46a12b453d0c05e65, type: 3}

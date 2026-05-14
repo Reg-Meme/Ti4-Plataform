@@ -39,7 +39,7 @@ public class Walk : Move
         rot.y = 0;
         Quaternion quat = Quaternion.LookRotation(rot);
 
-        if(moveDir.magnitude > 0.1f){
+        if(moveDir.magnitude > 0.1f && PlayerStats.iddle){
         transform.rotation = quat;
         }
         

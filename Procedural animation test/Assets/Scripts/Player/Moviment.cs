@@ -175,7 +175,7 @@ public class Moviment : MonoBehaviour
 
     public void FixedUpdate()
     {
-       //Atrito();
+       Atrito();
         if (!PlayerStats.hitGround)
         {
             //Debug.Log("to fazendo algo aqui ");
@@ -192,13 +192,14 @@ public class Moviment : MonoBehaviour
             rb.mass = 2;
             //fixedJoint.connectedMassScale =3;
             timer -= Time.fixedDeltaTime;
+            rotateTime -= Time.fixedDeltaTime;
 
             if (timer <= 0)
             {
                 Hover();
                 //jumpHeight = 5;
             }
-            if(PlayerStats.Timer(2)< 0) PlayerStats.iddle = true;
+            if(rotateTime<0) PlayerStats.iddle = true;
             if(!PlayerStats.bladeMode)
             move[0].Movimentation(currentInput, rb, maxSpeed,transform);
             

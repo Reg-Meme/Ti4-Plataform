@@ -7,10 +7,5 @@ public class PlayerStats
     public static bool bladeMode;
     public static bool isJumpig;
 
-    public static float Timer(float t)
-    {
-        Debug.Log("timer: " + t);
-        t -= Time.deltaTime;
-        return t;
-    }
+   
 }
