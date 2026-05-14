@@ -7,7 +7,7 @@ public class Use : MonoBehaviour
     BatterySystem battery;
     Mechanics mechanics;
     bool trade = false;
-     [SerializeField] private InputInfo inputInfo;
+    [SerializeField] private InputInfo inputInfo;
     [SerializeField] PhysicsGrabConfig grabConfig;
     [SerializeField] Transform grabPoint;
     [SerializeField] Transform overheadPoint;

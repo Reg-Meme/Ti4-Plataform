@@ -21021,6 +21021,10 @@ PrefabInstance:
       propertyPath: m_Data.m_DampPosition
       value: 0.305
       objectReference: {fileID: 0}
+    - target: {fileID: 5258286953335147198, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.724
+      objectReference: {fileID: 0}
     - target: {fileID: 5654548086625706075, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.199
@@ -21057,6 +21061,10 @@ PrefabInstance:
       propertyPath: aimSlashCam
       value: 
       objectReference: {fileID: 1693271809}
+    - target: {fileID: 7623194022855273557, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: highlightMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 8f95417c1a6842341a1339e359c6a701, type: 2}
     - target: {fileID: 8369780673219183313, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -55.288307
