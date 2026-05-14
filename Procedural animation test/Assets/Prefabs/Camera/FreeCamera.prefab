@@ -15,8 +15,9 @@ GameObject:
   - component: {fileID: 7258514610922505055}
   - component: {fileID: 4795765800887848964}
   - component: {fileID: 3566109620169857873}
-  - component: {fileID: 4882514238990398832}
-  - component: {fileID: 4032952338117546427}
+  - component: {fileID: 4813552744214627654}
+  - component: {fileID: 6019147699384424603}
+  - component: {fileID: 3740283151723641787}
   m_Layer: 0
   m_Name: FreeCamera
   m_TagString: Untagged
@@ -102,18 +103,18 @@ MonoBehaviour:
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
   OrbitStyle: 0
-  Radius: 1.5
+  Radius: 3
   Orbits:
     Top:
-      Radius: 2
-      Height: 3.86
+      Radius: 0.3
+      Height: 2.5
     Center:
       Radius: 1.5
       Height: 0.12
     Bottom:
-      Radius: 2.5
-      Height: 0.1
-    SplineCurvature: 0.5
+      Radius: 0.46
+      Height: 1.04
+    SplineCurvature: 1
   RecenteringTarget: 2
   HorizontalAxis:
     Value: 0
@@ -274,7 +275,7 @@ MonoBehaviour:
     Strategy: 0
     MaximumEffort: 6
     SmoothingTime: 0
-    Damping: 6.9
+    Damping: 7
     DampingWhenOccluded: 0.2
   ShotQualityEvaluation:
     Enabled: 0
@@ -282,7 +283,7 @@ MonoBehaviour:
     NearLimit: 5
     FarLimit: 30
     MaxQualityBoost: 0.2
---- !u!114 &4882514238990398832
+--- !u!114 &4813552744214627654
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -299,7 +300,7 @@ MonoBehaviour:
   AmplitudeGain: 0
   FrequencyGain: 0
   m_NoiseOffsets: {x: 0, y: 0, z: 0}
---- !u!114 &4032952338117546427
+--- !u!114 &6019147699384424603
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -323,3 +324,33 @@ MonoBehaviour:
     FrequencyGain: 1
     Duration: 1
     m_NoiseOffsets: {x: 0, y: 0, z: 0}
+--- !u!114 &3740283151723641787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188503977809714022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca7de3aefa901374ba29464584a3109a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineDecollider
+  CameraRadius: 0.4
+  Decollision:
+    Enabled: 0
+    ObstacleLayers:
+      serializedVersion: 2
+      m_Bits: 1
+    UseFollowTarget:
+      Enabled: 0
+      YOffset: 0
+    Damping: 0.5
+    SmoothingTime: 0
+  TerrainResolution:
+    Enabled: 1
+    TerrainLayers:
+      serializedVersion: 2
+      m_Bits: 72
+    MaximumRaycast: 10
+    Damping: 0.5
