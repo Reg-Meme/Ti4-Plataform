@@ -3894,14 +3894,14 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: OnExit
+    functionName: PlaySfx
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0
-    functionName: PlaySfx
+    functionName: OnExit
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -3909,6 +3909,13 @@ AnimationClip:
     messageOptions: 0
   - time: 1.9166666
     functionName: OnPlay3
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 5.8333335
+    functionName: Off
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
