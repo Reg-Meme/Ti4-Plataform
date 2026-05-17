@@ -119,11 +119,11 @@ public class Moviment : MonoBehaviour
 
     void Start()
     {
-        if(PlayerStats.haveCheckPoint)
-        {
-        transform.position = PlayerStats.checkPointPosition;
+        // if(PlayerStats.haveCheckPoint)
+        // {
+        // transform.position = PlayerStats.checkPointPosition;
     
-        } 
+        // } 
         fixedJoint = GetComponent<FixedJoint>();
         rb = Body.GetComponent<Rigidbody>();
       
