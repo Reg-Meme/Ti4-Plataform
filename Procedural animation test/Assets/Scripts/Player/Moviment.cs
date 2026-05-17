@@ -111,6 +111,14 @@ public class Moviment : MonoBehaviour
         InputInfo.OnCrouchEvent += BottleModeEnter;
         InputInfo.OnCrouchReleaseEvent += BottleModeExit;
         if (moviment == null) moviment = this;
+        if(PlayerStats.haveCheckPoint)
+        {
+        Debug.Log($"Tranform do player: {transform.position}, CheckPoint: {PlayerStats.checkPointPosition}");
+        transform.position = PlayerStats.checkPointPosition;
+        Debug.Log($"Tranform do player dps: {transform.position}, CheckPoint dps: {PlayerStats.checkPointPosition}");
+    
+        } 
+            
     }
 
     public Roll roll;

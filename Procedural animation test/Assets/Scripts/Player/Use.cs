@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Use : MonoBehaviour
 {
-    
+
     BatterySystem battery;
     Mechanics mechanics;
     bool trade = false;
@@ -23,43 +23,42 @@ public class Use : MonoBehaviour
     public static SlashMechanic Slash;
     public static PhysicsGrab Grab;
 
+
     void Awake()
     {
-        battery = GetComponent<BatterySystem>();
-        
-        Slash = new SlashMechanic(cutPlane, slashCam, aimSlashCam, crossSectionMat, slashLayerMask);
-        Grab = new PhysicsGrab(Camera.main.transform, grabLayerMask, grabConfig, grabPoint, overheadPoint, highlightMaterial);
-        mechanics = Slash;
-        AniRef = GetComponent<AniManager>();
-        mechanics.Initialize(battery);
-    
-        InputInfo.OnLockEvent += LockEvent;
-        InputInfo.OnTradeEvent += Trade;
+        if (PlayerStats.LoadStats() != null)
+            PlayerStats.Init(PlayerStats.LoadStats());
 
-        AssignInputs();
-        
     }
+    void Start()
+    {
+        if (!PlayerStats.cutUnlock) return;
+
+        UnlockCut();
+
+        if (PlayerStats.grabUnlock) UnlockGrab();
+
+    }
+
     void LockEvent(Vector2 v2)
     {
         axisInput = v2;
     }
     void Trade()
-    {   
+    {
         if (Grab == null) return;
         if (trade) mechanics = Slash;
         else mechanics = Grab;
-
         mechanics.Initialize(battery);
 
         inputInfo.ClearMechanicsEvent();
         AssignInputs();
-
         trade = !trade;
         Debug.Log("trade:" + trade);
     }
     void AssignInputs()
     {
-        InputInfo.OnAttackEvent += () => { Debug.Log("ATAQUE CHEGOU NO USE");mechanics.AttackButton(); if(PlayerStats.bladeMode) {;AniRef.BladeAni();}};
+        InputInfo.OnAttackEvent += () => { Debug.Log("ATAQUE CHEGOU NO USE"); mechanics.AttackButton(); if (PlayerStats.bladeMode) {; AniRef.BladeAni(); } };
         InputInfo.OnAimEvent += mechanics.AimButton;
         InputInfo.OnReleaseAimEvent += mechanics.ReleaseAim;
     }
@@ -80,5 +79,47 @@ public class Use : MonoBehaviour
         {
             mechanics.FixedTick();
         }
+    }
+    public void UnlockCut()
+    {
+
+        PlayerStats.cutUnlock = true;
+        Slash = new SlashMechanic(cutPlane, slashCam, aimSlashCam, crossSectionMat, slashLayerMask);
+        battery = GetComponent<BatterySystem>();
+        mechanics = Slash;
+        AniRef = GetComponent<AniManager>();
+        mechanics.Initialize(battery);
+
+        InputInfo.OnTradeEvent += Trade;
+        InputInfo.OnLockEvent += LockEvent;
+
+        AssignInputs();
+        Debug.Log("resolveu n");
+    }
+    public void UnlockGrab()
+    {
+        PlayerStats.grabUnlock = true;
+        Grab = new PhysicsGrab(Camera.main.transform, grabLayerMask, grabConfig, grabPoint, overheadPoint, highlightMaterial);
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("UnlockCut"))
+        {
+            if (!PlayerStats.cutUnlock)
+                UnlockCut();
+            Destroy(other.gameObject);
+        }
+        if (other.CompareTag("UnlockGrab"))
+        {
+            if (!PlayerStats.grabUnlock)
+                UnlockGrab();
+            Destroy(other.gameObject);
+        }
+    }
+    [ContextMenu("Salvarr")]
+    public void Test()
+    {
+        PlayerStats.SaveStats();
+
     }
 }
