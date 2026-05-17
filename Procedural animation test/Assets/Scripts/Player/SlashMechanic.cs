@@ -40,7 +40,7 @@ public class SlashMechanic : Mechanics
         if (!battery.Consume(batteryCost))return;
           
 
-            Collider[] hits = Physics.OverlapBox(cutPlane.transform.position, new Vector3(1, 0.1f, 1), cutPlane.transform.rotation, layerMask);
+            Collider[] hits = Physics.OverlapBox(cutPlane.transform.position, new Vector3(2, 0.1f, 2), cutPlane.transform.rotation, layerMask);
             if (hits.Length <= 0) return;
             for (int i = 0; i < hits.Length; i++)
             {
@@ -94,7 +94,7 @@ public class SlashMechanic : Mechanics
 
         PlayerStats.bladeMode = true;
         float timeScale = PlayerStats.bladeMode ? 0.2f : 1;
-        DOVirtual.Float(Time.timeScale, timeScale, .01f, SetTimeScale);
+       // DOVirtual.Float(Time.timeScale, timeScale, .01f, SetTimeScale);
 
     }
     public override void UpdateState(Vector2 v2)
@@ -117,7 +117,7 @@ public class SlashMechanic : Mechanics
         aimSlashCam.SetActive(false);
         PlayerStats.bladeMode = false;
         float timeScale = PlayerStats.bladeMode ? 0.2f : 1;
-        DOVirtual.Float(Time.timeScale, timeScale, .01f, SetTimeScale);
+       // DOVirtual.Float(Time.timeScale, timeScale, .01f, SetTimeScale);
     }
 
 

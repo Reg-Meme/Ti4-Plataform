@@ -6,6 +6,8 @@ TagManager:
   tags:
   - RainZone
   - WallWalk
+  - UnlockGrab
+  - UnlockCut
   layers:
   - Default
   - TransparentFX

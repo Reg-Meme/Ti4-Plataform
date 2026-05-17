@@ -1,4 +1,6 @@
+using System.IO;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 public class PlayerStats
 {
     public static bool iddle = true;
@@ -6,6 +8,36 @@ public class PlayerStats
     public static bool hitGround;
     public static bool bladeMode;
     public static bool isJumpig;
-
+    public static bool cutUnlock = false;
+    public static bool grabUnlock = false;
+    public static Vector3 checkPointPosition;
+    public static bool haveCheckPoint = false;
    
+   public static void Init(PlayerData data)
+    {
+        cutUnlock = data.cutUnlock;
+        grabUnlock = data.grabUnlock;
+        checkPointPosition = data.checkPointPosition;
+        haveCheckPoint = data.haveCheckPoint;
+    }
+   
+   
+    public static void SaveStats ()
+    {
+        PlayerData data = new PlayerData(cutUnlock, grabUnlock,checkPointPosition,haveCheckPoint);
+        string json = JsonUtility.ToJson(data);      
+        File.WriteAllText(Application.persistentDataPath + "/PlayerStats.json", json);
+        Debug.Log(Application.persistentDataPath);
+    }
+    public static PlayerData LoadStats()
+    {
+        string path = Application.persistentDataPath + "/PlayerStats.json";
+        if(File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            PlayerData data = JsonUtility.FromJson<PlayerData>(json);
+            return data;
+        }
+        else return null;
+    }
 }
