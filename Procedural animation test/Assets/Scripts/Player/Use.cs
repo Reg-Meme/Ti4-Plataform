@@ -28,16 +28,21 @@ public class Use : MonoBehaviour
     {
         if (PlayerStats.LoadStats() != null)
             PlayerStats.Init(PlayerStats.LoadStats());
-
+        InputInfo.OnTradeEvent += Trade;
+        InputInfo.OnLockEvent += LockEvent;
+ battery = GetComponent<BatterySystem>();
+        
     }
     void Start()
     {
-        if (!PlayerStats.cutUnlock) return;
 
+       
+        if (PlayerStats.cutUnlock) 
         UnlockCut();
-
-        if (PlayerStats.grabUnlock) UnlockGrab();
-
+        
+        if (PlayerStats.grabUnlock)
+        UnlockGrab();
+      
     }
 
     void LockEvent(Vector2 v2)
@@ -46,7 +51,7 @@ public class Use : MonoBehaviour
     }
     void Trade()
     {
-        if (Grab == null) return;
+        if (Grab == null || Slash == null) return;
         if (trade) mechanics = Slash;
         else mechanics = Grab;
         mechanics.Initialize(battery);
@@ -85,21 +90,20 @@ public class Use : MonoBehaviour
 
         PlayerStats.cutUnlock = true;
         Slash = new SlashMechanic(cutPlane, slashCam, aimSlashCam, crossSectionMat, slashLayerMask);
-        battery = GetComponent<BatterySystem>();
         mechanics = Slash;
         AniRef = GetComponent<AniManager>();
         mechanics.Initialize(battery);
 
-        InputInfo.OnTradeEvent += Trade;
-        InputInfo.OnLockEvent += LockEvent;
-
         AssignInputs();
-        Debug.Log("resolveu n");
+
     }
     public void UnlockGrab()
     {
         PlayerStats.grabUnlock = true;
         Grab = new PhysicsGrab(Camera.main.transform, grabLayerMask, grabConfig, grabPoint, overheadPoint, highlightMaterial);
+        mechanics = Grab;
+        mechanics.Initialize(battery);
+        AssignInputs();
     }
     void OnTriggerEnter(Collider other)
     {
@@ -121,5 +125,9 @@ public class Use : MonoBehaviour
     {
         PlayerStats.SaveStats();
 
+    }
+    public void OnApplicationQuit()
+    {
+        PlayerStats.SaveStats();
     }
 }

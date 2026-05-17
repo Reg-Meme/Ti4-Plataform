@@ -111,13 +111,7 @@ public class Moviment : MonoBehaviour
         InputInfo.OnCrouchEvent += BottleModeEnter;
         InputInfo.OnCrouchReleaseEvent += BottleModeExit;
         if (moviment == null) moviment = this;
-        if(PlayerStats.haveCheckPoint)
-        {
-        Debug.Log($"Tranform do player: {transform.position}, CheckPoint: {PlayerStats.checkPointPosition}");
-        transform.position = PlayerStats.checkPointPosition;
-        Debug.Log($"Tranform do player dps: {transform.position}, CheckPoint dps: {PlayerStats.checkPointPosition}");
-    
-        } 
+
             
     }
 
@@ -125,6 +119,11 @@ public class Moviment : MonoBehaviour
 
     void Start()
     {
+        if(PlayerStats.haveCheckPoint)
+        {
+        transform.position = PlayerStats.checkPointPosition;
+    
+        } 
         fixedJoint = GetComponent<FixedJoint>();
         rb = Body.GetComponent<Rigidbody>();
       
@@ -320,7 +319,6 @@ public class Moviment : MonoBehaviour
     {
         float atrito = isGrounded() ? 0.6f : 0;
 
-        Debug.Log("atrito" + atrito);
         if (rb.linearVelocity.magnitude > 0)
         {
             physicsMaterial.dynamicFriction = atrito;
