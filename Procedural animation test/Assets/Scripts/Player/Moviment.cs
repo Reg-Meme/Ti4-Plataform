@@ -203,6 +203,7 @@ public class Moviment : MonoBehaviour
 
             if (timer <= 0)
             {
+                if(!PlayerStats.isJumpig)
                 Hover();
                 //jumpHeight = 5;
             }
@@ -299,7 +300,7 @@ public class Moviment : MonoBehaviour
             PlayerStats.isJumpig=true;
 
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
-            rb.angularVelocity = new Vector3(rb.angularVelocity.x, 0, rb.angularVelocity.z);
+            //rb.angularVelocity = new Vector3(rb.angularVelocity.x, 0, rb.angularVelocity.z);
             rb.linearVelocity = Vector3.up * jumpHeight;
         }
     
