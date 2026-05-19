@@ -41,11 +41,16 @@ Material:
     - _SrcBlend: 1
     - _Surface: 0
     - _ZWrite: 1
+    - _foamcutoff: 0.7
+    - _foamspdx: 0.1
+    - _foamspdy: 0.2
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _FoamColor: {r: 0.5345768, g: 0.5698112, b: 0.45907432, a: 1}
+    - _Foamscale: {r: 1000, g: 1000, b: 0, a: 0}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
