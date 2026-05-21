@@ -84,7 +84,7 @@ public class SlashMechanic : Mechanics
     }
     public override void AimButton()
     {
- 
+        if(PlayerStats.bottleMode) return;
         cutPlane.transform.localEulerAngles = Vector3.zero;
 
         cutPlane.SetActive(true);
