@@ -49,7 +49,8 @@ Material:
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _FoamColor: {r: 0.5345768, g: 0.5698112, b: 0.45907432, a: 1}
+    - _ColorSub: {r: 0.3426628, g: 0.5622641, b: 0.40201452, a: 0.65882355}
+    - _FoamColor: {r: 0.5165406, g: 0.554717, b: 0.5138982, a: 1}
     - _Foamscale: {r: 1000, g: 1000, b: 0, a: 0}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

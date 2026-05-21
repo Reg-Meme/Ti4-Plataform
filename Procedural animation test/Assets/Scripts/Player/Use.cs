@@ -36,12 +36,13 @@ public class Use : MonoBehaviour
     void Start()
     {
 
-       
-        if (PlayerStats.cutUnlock) 
-        UnlockCut();
+        
         
         if (PlayerStats.grabUnlock)
         UnlockGrab();
+        
+        if (PlayerStats.cutUnlock) 
+        UnlockCut();
       
     }
 
@@ -93,7 +94,7 @@ public class Use : MonoBehaviour
         mechanics = Slash;
         AniRef = GetComponent<AniManager>();
         mechanics.Initialize(battery);
-
+        inputInfo.ClearMechanicsEvent();
         AssignInputs();
 
     }
@@ -101,8 +102,10 @@ public class Use : MonoBehaviour
     {
         PlayerStats.grabUnlock = true;
         Grab = new PhysicsGrab(Camera.main.transform, grabLayerMask, grabConfig, grabPoint, overheadPoint, highlightMaterial);
+        //if(PlayerStats.cutUnlock) return;
         mechanics = Grab;
         mechanics.Initialize(battery);
+        inputInfo.ClearMechanicsEvent();
         AssignInputs();
     }
     void OnTriggerEnter(Collider other)
