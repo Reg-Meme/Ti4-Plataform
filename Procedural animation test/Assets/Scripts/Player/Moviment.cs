@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using NUnit.Framework;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.UIElements;
 
 
 public class Moviment : MonoBehaviour
@@ -62,6 +63,8 @@ public class Moviment : MonoBehaviour
 
     bool FacingDown;
     public float HoverTim = 0.5f;
+    public float rotateTimer = 1f;
+    float rotateTime;
     float timer;
     public Vector3 BottleModeCOM;
     public float BMAngle;
@@ -108,12 +111,19 @@ public class Moviment : MonoBehaviour
         InputInfo.OnCrouchEvent += BottleModeEnter;
         InputInfo.OnCrouchReleaseEvent += BottleModeExit;
         if (moviment == null) moviment = this;
+
+            
     }
 
     public Roll roll;
 
     void Start()
     {
+        // if(PlayerStats.haveCheckPoint)
+        // {
+        // transform.position = PlayerStats.checkPointPosition;
+    
+        // } 
         fixedJoint = GetComponent<FixedJoint>();
         rb = Body.GetComponent<Rigidbody>();
       
@@ -172,7 +182,7 @@ public class Moviment : MonoBehaviour
 
     public void FixedUpdate()
     {
-       //Atrito();
+       Atrito();
         if (!PlayerStats.hitGround)
         {
             //Debug.Log("to fazendo algo aqui ");
@@ -189,13 +199,15 @@ public class Moviment : MonoBehaviour
             rb.mass = 2;
             //fixedJoint.connectedMassScale =3;
             timer -= Time.fixedDeltaTime;
+            rotateTime -= Time.fixedDeltaTime;
 
             if (timer <= 0)
             {
+                if(!PlayerStats.isJumpig)
                 Hover();
                 //jumpHeight = 5;
             }
-
+            if(rotateTime<0) PlayerStats.iddle = true;
             if(!PlayerStats.bladeMode)
             move[0].Movimentation(currentInput, rb, maxSpeed,transform);
             
@@ -215,6 +227,8 @@ public class Moviment : MonoBehaviour
             rb.linearDamping = 0.8f;
             rb.angularDamping = 0;
             timer = HoverTim;
+            rotateTime = rotateTimer;
+
             move[1].Movimentation(currentInput, rb, MaxRotSpd,transform);
             //BottleMoviment();
             BodyCollider.height = 2.4f;
@@ -229,7 +243,9 @@ public class Moviment : MonoBehaviour
 
     void BottleModeEnter()
     {
-
+        radius = 0.6f;
+        PlayerStats.iddle = false;
+        
         if (!CellingChecker())
         {
             if (!FacingDown)
@@ -239,7 +255,10 @@ public class Moviment : MonoBehaviour
     }
     void BottleModeExit()
     {
+        radius = 0.12f;
         BottleMode = false;
+
+
 
     }
     void ResetLevel()
@@ -262,8 +281,8 @@ public class Moviment : MonoBehaviour
     }
     void Rotation()
     {
-        Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+        //Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
     }
 
     private void MoveInput(Vector2 v2)
@@ -279,7 +298,9 @@ public class Moviment : MonoBehaviour
         if (canJump)
         {
             PlayerStats.isJumpig=true;
+
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+            //rb.angularVelocity = new Vector3(rb.angularVelocity.x, 0, rb.angularVelocity.z);
             rb.linearVelocity = Vector3.up * jumpHeight;
         }
     
@@ -299,7 +320,6 @@ public class Moviment : MonoBehaviour
     {
         float atrito = isGrounded() ? 0.6f : 0;
 
-        Debug.Log("atrito" + atrito);
         if (rb.linearVelocity.magnitude > 0)
         {
             physicsMaterial.dynamicFriction = atrito;
@@ -329,20 +349,7 @@ public class Moviment : MonoBehaviour
         }
     }
 
-    // void JumpImprove()
-    // {
-
-    //     //Chegar na altura maxima do pulo
-    //     if (Rig.linearVelocity.y < 0)
-    //         //aumentar a gravidade da queda 
-    //         SetGravityScale(1.5f, gravity);
-    // }
-    // void SetGravityScale(float gravityScale, ConstantForce gravity)
-    // {
-    //     Vector3 gravityVec;
-    //     gravityVec = new Vector3(0, gravityForce * gravityScale, 0);
-    //     gravity.force = gravityVec;
-    // }
+ 
     public bool isGrounded()
     {
     

@@ -14,8 +14,18 @@ public class PhysicsGrab : Mechanics
     float maxLiftMass;
     float rotationInput;
 
+    Renderer lastRenderer;
+    Material[] originalMaterials;
+    Rigidbody grabbedObject;
+    bool holdingOverhead;
 
-    public PhysicsGrab(Transform camera, LayerMask layer, PhysicsGrabConfig config, Transform grabPoint, Transform overheadPoint, Material highlightMaterial)
+    public PhysicsGrab(
+        Transform camera,
+        LayerMask layer,
+        PhysicsGrabConfig config,
+        Transform grabPoint,
+        Transform overheadPoint,
+        Material highlightMaterial)
     {
         this.cameraTransform = camera;
         this.interactionLayer = layer;
@@ -26,18 +36,15 @@ public class PhysicsGrab : Mechanics
         this.highlightMaterial = highlightMaterial;
     }
 
-
-    Renderer lastRenderer;
-    Material[] originalMaterials;
-    Rigidbody grabbedObject;
-    bool holdingOverhead;
-
     public override void Tick()
     {
         CheckHighlight();
+
         rotationInput = Mouse.current.scroll.ReadValue().y;
-        Debug.DrawRay(cameraTransform.position, cameraTransform.forward * config.grabDistance, Color.red);
+
+        Debug.DrawRay(grabPoint.position, grabPoint.forward * config.grabDistance, Color.red );
     }
+
     public override void FixedTick()
     {
         if (grabbedObject != null)
@@ -48,18 +55,18 @@ public class PhysicsGrab : Mechanics
 
     public override void AttackButton()
     {
-        if(Moviment.moviment.BottleMode) return;
+        if (Moviment.moviment.BottleMode)
+            return;
+
         if (grabbedObject != null)
         {
             ThrowObject();
             return;
         }
-        // if (!battery.Consume(batteryCost))
-        //     return;
 
         RaycastHit hit;
 
-        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, config.grabDistance, interactionLayer))
+        if (Physics.Raycast(grabPoint.position,grabPoint.forward,out hit, config.grabDistance,interactionLayer))
         {
             Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
 
@@ -71,74 +78,111 @@ public class PhysicsGrab : Mechanics
                 if (rb.mass <= allowedMass)
                 {
                     grabbedObject = rb;
+
+                    grabbedObject.useGravity = false;
+
+                    grabbedObject.linearDamping = 5f;
+
+                    grabbedObject.interpolation = RigidbodyInterpolation.Interpolate;
+
+                    grabbedObject.collisionDetectionMode =CollisionDetectionMode.Continuous;
+
+                   // Debug.Log("PEGOU: " + grabbedObject.name);
                 }
             }
         }
-   
     }
 
     public override void AimButton()
     {
         holdingOverhead = true;
     }
+
     public override void ReleaseAim()
     {
         holdingOverhead = false;
     }
+
     void MoveObject()
     {
+        if (grabbedObject == null)
+            return;
+
         Transform targetPoint = holdingOverhead ? overheadPoint : grabPoint;
 
         float weightFactor = 1f / grabbedObject.mass;
+
         Vector3 dir = targetPoint.position - grabbedObject.position;
 
-        // for�a principal
+        // força principal
         Vector3 force = dir * config.grabForce;
 
-        // damping (anti-tremor)
+        // damping anti tremor
         Vector3 dampingForce = -grabbedObject.linearVelocity * config.damping;
 
         grabbedObject.AddForce((force + dampingForce) * weightFactor, ForceMode.Acceleration);
 
-        if (Vector3.Distance(targetPoint.position, grabbedObject.position) > 5f) Release();
+        if (Vector3.Distance(targetPoint.position, grabbedObject.position) > 5f)
+        {
+            Release();
+        }
+
         if (battery.currentBattery < 20f)
         {
             Vector3 shake = Random.insideUnitSphere * config.lowBatteryShake;
-            grabbedObject.AddForce(shake, ForceMode.Acceleration);
+
+            grabbedObject.AddForce( shake, ForceMode.Acceleration);
         }
+
         if (Mathf.Abs(rotationInput) > 0.01f)
         {
-            grabbedObject.AddTorque(cameraTransform.up * rotationInput * 5f, ForceMode.Acceleration);
+            grabbedObject.AddTorque(grabPoint.up * rotationInput * 5f,ForceMode.Acceleration );
         }
     }
 
     void ThrowObject()
     {
-        Vector3 throwDir = cameraTransform.forward;
-        grabbedObject.AddForce(throwDir * config.throwForce * grabbedObject.mass, ForceMode.Impulse);
+        if (grabbedObject == null)
+            return;
+
+        Vector3 throwDir = grabPoint.forward;
+
+        grabbedObject.useGravity = true;
+        grabbedObject.linearDamping = 0f;
+
+        grabbedObject.AddForce(throwDir * config.throwForce * grabbedObject.mass, ForceMode.Impulse );
 
         Release();
     }
 
     void Release()
     {
+        if (grabbedObject != null)
+        {
+            grabbedObject.useGravity = true;
+            grabbedObject.linearDamping = 0f;
+        }
+
         grabbedObject = null;
         holdingOverhead = false;
+
+        Debug.Log("SOLTOU");
     }
 
     void CheckHighlight()
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, config.grabDistance, interactionLayer))
+        if (Physics.Raycast( grabPoint.position,grabPoint.forward, out hit,config.grabDistance,interactionLayer))
         {
-            Renderer r = hit.collider.GetComponent<Renderer>();
+            Renderer r = hit.collider.GetComponentInParent<Renderer>();
 
             if (r != null && r != lastRenderer)
             {
                 ClearHighlight();
 
                 originalMaterials = r.sharedMaterials;
+
                 r.sharedMaterial = highlightMaterial;
 
                 lastRenderer = r;
@@ -155,6 +199,7 @@ public class PhysicsGrab : Mechanics
         if (lastRenderer != null)
         {
             lastRenderer.sharedMaterials = originalMaterials;
+
             lastRenderer = null;
         }
     }

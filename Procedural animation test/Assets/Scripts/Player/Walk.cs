@@ -5,7 +5,13 @@ public class Walk : Move
 {
     public override void Movimentation(Vector2 input, Rigidbody rb, float maxSpeed, Transform transform)
     {
- 
+        float dotProduct = Vector3.Dot(transform.up, Vector3.up); 
+        if (dotProduct < 0)
+        {
+          return;  
+        } 
+            
+            
         Transform cam = Camera.main.transform;
 
         Vector3 forward = cam.forward;
@@ -29,11 +35,13 @@ public class Walk : Move
         rb.linearVelocity = vel;
         //Debug.Log($"vel {vel.magnitude}");
         //Debug.Log($"inputMag {input.magnitude}");
-       
         Vector3 rot = cam.transform.forward;
         rot.y = 0;
-        transform.rotation = Quaternion.LookRotation(rot);
-        
+        Quaternion quat = Quaternion.LookRotation(rot);
+
+        if(moveDir.magnitude > 0.1f && PlayerStats.iddle){
+        transform.rotation = quat;
+        }
         
     }
 }

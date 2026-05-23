@@ -46,7 +46,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -924366423322594210, guid: d54be901d359f10468f6daba12b7dd17, type: 3}
+  m_Motion: {fileID: 7369129851810571328, guid: d54be901d359f10468f6daba12b7dd17, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -487,7 +487,7 @@ AnimatorController:
   - serializedVersion: 5
     m_Name: Legs
     m_StateMachine: {fileID: -4772753491870140052}
-    m_Mask: {fileID: 0}
+    m_Mask: {fileID: 31900000, guid: 48bb635657d6fb64f84386f32bf486fd, type: 2}
     m_Motions: []
     m_Behaviours: []
     m_BlendingMode: 0

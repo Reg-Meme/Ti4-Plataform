@@ -26,6 +26,9 @@ public class InputInfo :  ScriptableObject, Inputs.IPlayerActions, Inputs.IGloba
     public static event Action OnMenuEvent;
     public static event Action OnReleaseAimEvent;
     public static event Action OnTradeEvent;
+    public static event Action LevelChange;
+    public static event Action LevelChange1;
+    public static event Action LevelChange2;
     
 
 
@@ -61,6 +64,7 @@ public class InputInfo :  ScriptableObject, Inputs.IPlayerActions, Inputs.IGloba
         OnReleaseJumpEvent = () => { };
         OnReleaseAimEvent = () => { };
         OnTradeEvent = () => { };
+       
        
     }
     public void ClearMechanicsEvent()
@@ -156,5 +160,22 @@ public class InputInfo :  ScriptableObject, Inputs.IPlayerActions, Inputs.IGloba
         return inputInfo;
     }
 
+    public void OnF1(InputAction.CallbackContext context)
+    {
+        if(context.started)
+        LevelChange();
+    }
+
+    public void OnF2(InputAction.CallbackContext context)
+    {
+          if(context.started)
+        LevelChange1();
+    }
+
+    public void OnF3(InputAction.CallbackContext context)
+    {
+         if(context.started)
+        LevelChange2();
+    }
     
 }

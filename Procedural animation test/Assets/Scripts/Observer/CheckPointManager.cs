@@ -2,9 +2,7 @@ using UnityEngine;
 
 public class CheckPointManager : MonoBehaviour
 {
-    public static Vector3 checkPointPosition;
-   
-    public static bool haveCheckPoint = false;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void OnEnable()
     {
@@ -14,10 +12,14 @@ public class CheckPointManager : MonoBehaviour
     {
         GameBroadcast.OnCheckPointSave -= SavePosition;
     }
+    void Start()
+    {
+        GameBroadcast.OnCheckPointSave += SavePosition;
+    } 
     public static void SavePosition(Vector3 newPosition)
     {
-        checkPointPosition = newPosition;
-        haveCheckPoint = true;
+        PlayerStats.checkPointPosition = newPosition;
+        PlayerStats.haveCheckPoint = true;
         Debug.Log("Checkpoint Salvo em: " + newPosition);
     }
     

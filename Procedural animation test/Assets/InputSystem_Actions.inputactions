@@ -95,6 +95,33 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "F1",
+                    "type": "Button",
+                    "id": "59b4f806-c6b5-4d82-a943-66d7524c6380",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "F2",
+                    "type": "Button",
+                    "id": "6c225f80-a16b-4191-816c-6d1d49d5caa9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "F3",
+                    "type": "Button",
+                    "id": "23e91e73-c1d4-4577-91bd-165243ebd247",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -331,17 +358,6 @@
                 },
                 {
                     "name": "",
-                    "id": "45f73b60-cd2f-42c4-b121-d917a2359245",
-                    "path": "<Keyboard>/k",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "eb40bb66-4559-4dfa-9a2f-820438abb426",
                     "path": "<Keyboard>/space",
                     "interactions": "",
@@ -502,6 +518,39 @@
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "Trade",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d574df24-3088-42b3-8fd8-a60535c94e16",
+                    "path": "<Keyboard>/f1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "F1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "67717aeb-27cd-4c48-8d2f-2253c7068421",
+                    "path": "<Keyboard>/f2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "F2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5c31cbef-63ef-4f50-80d8-114451c7bf19",
+                    "path": "<Keyboard>/f3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "F3",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
