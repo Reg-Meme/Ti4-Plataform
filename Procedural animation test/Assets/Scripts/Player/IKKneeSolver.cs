@@ -17,7 +17,7 @@ public class IKKneeSolver : MonoBehaviour
     }
     void Update()
     {
-    float ModeBlend = BodyMov.BottleMode ? 1f : 0f;
+    float ModeBlend = BodyMov.PlayerStatsbottleMode ? 1f : 0f;
     Weight = Mathf.MoveTowards(Weight, ModeBlend, ModeSwitchSpd * Time.deltaTime);
     var modes = MoveModes.data.sourceObjects;
     modes.SetWeight(0, 1f - Weight); 
@@ -26,7 +26,7 @@ public class IKKneeSolver : MonoBehaviour
     }
     public void FixedUpdate()
     {
-        if (!BodyMov.BottleMode)
+        if (!BodyMov.PlayerStatsbottleMode)
     {
         if(ikTarget.position.y < HintPos.y)
             {
@@ -37,7 +37,7 @@ public class IKKneeSolver : MonoBehaviour
     }
     void LateUpdate()
     { 
-        if (!BodyMov.BottleMode)
+        if (!BodyMov.PlayerStatsbottleMode)
     {
             HintPos.y = Mathf.Max(HintPos.y, ikTarget.position.y + MinHeightOffset);
             transform.position = HintPos;

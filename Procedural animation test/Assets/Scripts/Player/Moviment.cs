@@ -59,7 +59,7 @@ public class Moviment : MonoBehaviour
     public bool pressJump = false;
     Vector2 inputVelocity;
     public float rotationSpeed = 10f;
-    public bool BottleMode;
+    public bool PlayerStatsbottleMode;
 
     bool FacingDown;
     public float HoverTim = 0.5f;
@@ -143,7 +143,7 @@ public class Moviment : MonoBehaviour
         float BodyAngle = Vector3.Angle(Body.up, Vector3.up);
         FacingDown = BodyAngle > BMAngle;
 
-        if (BottleMode)
+        if (PlayerStats.bottleMode)
         {
             bool isMovingLil = rb.linearVelocity.magnitude > DecMagLil;
             bool isMoving = rb.linearVelocity.magnitude > DecMag;
@@ -175,7 +175,7 @@ public class Moviment : MonoBehaviour
             CamShake.FrequencyGain = 0f;
             Control?.SetMotorSpeeds(0f, 0f);
         }
-        NoBottleMode = BottleMode;
+        NoBottleMode = PlayerStats.bottleMode;
     }
 
 
@@ -187,7 +187,7 @@ public class Moviment : MonoBehaviour
             //Debug.Log("to fazendo algo aqui ");
         }
         CellingChecker();
-        if (!BottleMode)
+        if (!PlayerStats.bottleMode)
         {
             rb.centerOfMass = Vector3.zero;
             rb.linearDamping = 0.5f;
@@ -249,14 +249,14 @@ public class Moviment : MonoBehaviour
         if (!CellingChecker())
         {
             if (!FacingDown)
-                BottleMode = true;
+                PlayerStats.bottleMode = true;
 
         }
     }
     void BottleModeExit()
     {
         radius = 0.12f;
-        BottleMode = false;
+        PlayerStats.bottleMode = false;
     }
     
     void ResetLevel()
@@ -291,7 +291,7 @@ public class Moviment : MonoBehaviour
     void OnJump()
     {
      
-        if (BottleMode) return;
+        if (PlayerStatsbottleMode) return;
         inputTimer = inputBuffer;
         // Rig.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
        

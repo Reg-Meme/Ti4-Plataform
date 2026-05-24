@@ -41,7 +41,7 @@ public class IKFootSolverDaveJones : MonoBehaviour
 
     public void Update()
     {
-        float ModeBlend = BodyMov.BottleMode ? 1f : 0f;
+        float ModeBlend = BodyMov.PlayerStatsbottleMode ? 1f : 0f;
         Weight = Mathf.MoveTowards(Weight, ModeBlend, ModeSwitchSpd * Time.deltaTime);
         
         var modes = MoveModes.data.sourceObjects;
@@ -50,7 +50,7 @@ public class IKFootSolverDaveJones : MonoBehaviour
         MoveModes.data.sourceObjects = modes;
         
             
-        if (!BodyMov.BottleMode)
+        if (!BodyMov.PlayerStatsbottleMode)
         {
             RayResizeMult = Mathf.MoveTowards(RayResizeMult, 1f, RayResizeSpd * Time.deltaTime);
                 LegsNature(); 
