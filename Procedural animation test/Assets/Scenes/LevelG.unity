@@ -62674,7 +62674,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8293424375114983052, guid: ad45611b4078e994da6c61dd9a843ba6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.44486344
+      value: -1.2164686
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -63014,7 +63014,11 @@ PrefabInstance:
       objectReference: {fileID: 4409216309396238338}
     - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: radius
-      value: 0.15
+      value: 0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
+      propertyPath: jumpHeight
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2760570749874484798, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: Ground.m_Bits
