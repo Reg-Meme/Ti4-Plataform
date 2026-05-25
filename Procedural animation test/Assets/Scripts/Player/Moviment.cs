@@ -242,6 +242,7 @@ public class Moviment : MonoBehaviour
 
     void BottleModeEnter()
     {
+        if(PlayerStats.bladeMode) return;
         radius = 0.6f;
         
         PlayerStats.time = 0.0f;
