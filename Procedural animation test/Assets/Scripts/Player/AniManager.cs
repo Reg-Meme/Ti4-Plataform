@@ -56,7 +56,7 @@ public class AniManager : MonoBehaviour
         Ani.SetFloat("x",BladeRef.position.x);
         Ani.SetFloat("y",BladeRef.position.y);
         
-        if(mov.PlayerStatsbottleMode == true)
+        if(PlayerStats.bottleMode == true)
         {
             Damp.weight = 0;
             Ani.SetBool("Bottle", true);

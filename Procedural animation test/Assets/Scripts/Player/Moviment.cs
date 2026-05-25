@@ -292,7 +292,7 @@ public class Moviment : MonoBehaviour
     void OnJump()
     {
      
-        if (PlayerStatsbottleMode) return;
+        if (PlayerStats.bottleMode) return;
         inputTimer = inputBuffer;
         // Rig.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
        
