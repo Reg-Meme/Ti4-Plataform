@@ -55,7 +55,7 @@ public class PhysicsGrab : Mechanics
 
     public override void AttackButton()
     {
-        if (Moviment.moviment.BottleMode)
+        if (PlayerStats.bottleMode)
             return;
 
         if (grabbedObject != null)

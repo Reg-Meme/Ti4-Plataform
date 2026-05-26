@@ -13,7 +13,7 @@ public class Moviment : MonoBehaviour
     public Transform Body;
     Rigidbody rb;
     public static Moviment moviment;
-    
+
 
     FixedJoint fixedJoint;
     CapsuleCollider BodyCollider;
@@ -24,6 +24,7 @@ public class Moviment : MonoBehaviour
 
     [SerializeField] InputActionReference Crouch;
     public LayerMask Ground;
+    public LayerMask Celling;
     [Header("Hover")]
     public float hoverRadius = 0.5f;
     public float HoverHeight = 2f;
@@ -59,12 +60,11 @@ public class Moviment : MonoBehaviour
     public bool pressJump = false;
     Vector2 inputVelocity;
     public float rotationSpeed = 10f;
-    public bool BottleMode;
+    public bool PlayerStatsbottleMode;
 
     bool FacingDown;
     public float HoverTim = 0.5f;
-    public float rotateTimer = 1f;
-    float rotateTime;
+   
     float timer;
     public Vector3 BottleModeCOM;
     public float BMAngle;
@@ -89,21 +89,21 @@ public class Moviment : MonoBehaviour
     public float radius;
     public float assradius;
     [SerializeField] PhysicsMaterial physicsMaterial;
-   
+
 
     //public List<Move> move = new List<Move>();
     public Move[] move = new Move[2];
 
     public GameObject DownShadowObj;
-   public float ShadowOffset;
+    public float ShadowOffset;
 
 
     bool NoBottleMode; //esse bool só serve pra não ficar tocando os 0 dos efeitos de rumble e Shake Toda hora
+    bool BottleModeMant; 
+
     void Awake()
     {
         inputInfo.Initialize();
-
-        //atribuicao de eventos
         InputInfo.OnMoveEvent += MoveInput;
         InputInfo.OnJumpEvent += OnJump;
         InputInfo.OnReleaseJumpEvent += OnJumpRelease;
@@ -111,22 +111,16 @@ public class Moviment : MonoBehaviour
         InputInfo.OnCrouchEvent += BottleModeEnter;
         InputInfo.OnCrouchReleaseEvent += BottleModeExit;
         if (moviment == null) moviment = this;
-
-            
     }
 
     public Roll roll;
 
     void Start()
     {
-        // if(PlayerStats.haveCheckPoint)
-        // {
-        // transform.position = PlayerStats.checkPointPosition;
-    
-        // } 
+       
         fixedJoint = GetComponent<FixedJoint>();
         rb = Body.GetComponent<Rigidbody>();
-      
+
         BodyCollider = Body.GetComponent<CapsuleCollider>();
         CamShake = CinCam.GetComponent<CinemachineBasicMultiChannelPerlin>();
         Control = Gamepad.current;
@@ -143,8 +137,16 @@ public class Moviment : MonoBehaviour
         currentInput = Vector2.SmoothDamp(currentInput, inputValue, ref inputVelocity, movementSmoothTime);
         float BodyAngle = Vector3.Angle(Body.up, Vector3.up);
         FacingDown = BodyAngle > BMAngle;
-
-        if (BottleMode)
+        if (BottleModeMant)
+    {
+        if (!CellingChecker())
+        {
+            radius = 0.12f;
+            PlayerStats.bottleMode = false;
+            BottleModeMant = false; 
+        }
+    }
+        if (PlayerStats.bottleMode)
         {
             bool isMovingLil = rb.linearVelocity.magnitude > DecMagLil;
             bool isMoving = rb.linearVelocity.magnitude > DecMag;
@@ -176,19 +178,20 @@ public class Moviment : MonoBehaviour
             CamShake.FrequencyGain = 0f;
             Control?.SetMotorSpeeds(0f, 0f);
         }
-        NoBottleMode = BottleMode;
+
+        NoBottleMode = PlayerStats.bottleMode;
     }
 
 
     public void FixedUpdate()
     {
-       Atrito();
+        
+        Atrito();
         if (!PlayerStats.hitGround)
         {
             //Debug.Log("to fazendo algo aqui ");
         }
-        CellingChecker();
-        if (!BottleMode)
+        if (!PlayerStats.bottleMode)
         {
             rb.centerOfMass = Vector3.zero;
             rb.linearDamping = 0.5f;
@@ -199,68 +202,73 @@ public class Moviment : MonoBehaviour
             rb.mass = 2;
             //fixedJoint.connectedMassScale =3;
             timer -= Time.fixedDeltaTime;
-            rotateTime -= Time.fixedDeltaTime;
+            
 
             if (timer <= 0)
             {
-                if(!PlayerStats.isJumpig)
-                Hover();
+                if (!PlayerStats.isJumpig)
+                    Hover();
                 //jumpHeight = 5;
             }
-            if(rotateTime<0) PlayerStats.iddle = true;
-            if(!PlayerStats.bladeMode)
-            move[0].Movimentation(currentInput, rb, maxSpeed,transform);
             
+            if (!PlayerStats.bladeMode)
+                move[0].Movimentation(currentInput, rb, maxSpeed, transform);
+
             Rotation();
             Friction();
             Coyote();
             JumpBuffer();
-            
+
             //JumpImprove();
             Stabilization();
             DownShadow();
             DownShadowObj.SetActive(true);
         }
-        else
+        else 
         {
             //jumpHeight = 1.6f;
             rb.linearDamping = 0.8f;
             rb.angularDamping = 0;
             timer = HoverTim;
-            rotateTime = rotateTimer;
+           
 
-            move[1].Movimentation(currentInput, rb, MaxRotSpd,transform);
+            move[1].Movimentation(currentInput, rb, MaxRotSpd, transform);
             //BottleMoviment();
             BodyCollider.height = 2.4f;
 
             rb.mass = Mass;
             DownShadowObj.SetActive(false);
+           
         }
-
 
     }
 
 
     void BottleModeEnter()
+{
+    if(PlayerStats.bladeMode) return;
+    radius = 0.6f;
+    
+    PlayerStats.time = 0.0f;
+    if (!FacingDown)
     {
-        radius = 0.6f;
-        PlayerStats.iddle = false;
-        
-        if (!CellingChecker())
-        {
-            if (!FacingDown)
-                BottleMode = true;
-
-        }
+        PlayerStats.bottleMode = true;
+        BottleModeMant = false;
     }
-    void BottleModeExit()
+}
+
+void BottleModeExit()
+{
+    if (CellingChecker()) 
     {
-        radius = 0.12f;
-        BottleMode = false;
-
-
-
+        BottleModeMant = true; 
+        return; 
     }
+    radius = 0.12f;
+    PlayerStats.bottleMode = false;
+    BottleModeMant = false;
+}
+    
     void ResetLevel()
     {
 
@@ -269,15 +277,8 @@ public class Moviment : MonoBehaviour
 
     public bool CellingChecker()
     {
-        bool Ray = Physics.Raycast(Body.position, Vector3.up, CheckUpDis, Ground);
-        if (Ray)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        bool Ray = Physics.Raycast(Body.position, Vector3.up, CheckUpDis, Celling);
+        return Ray;
     }
     void Rotation()
     {
@@ -289,22 +290,24 @@ public class Moviment : MonoBehaviour
     {
         inputValue = v2;
     }
-
+    
     void OnJump()
     {
-        if (BottleMode) return;
+     
+        if (PlayerStats.bottleMode) return;
         inputTimer = inputBuffer;
         // Rig.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
-        if (canJump)
-        {
-            PlayerStats.isJumpig=true;
+       
+
+
+    }
+    void Jumping()
+    {
+            PlayerStats.isJumpig = true;
 
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
-            //rb.angularVelocity = new Vector3(rb.angularVelocity.x, 0, rb.angularVelocity.z);
-            rb.linearVelocity = Vector3.up * jumpHeight;
-        }
-    
-
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpHeight, rb.linearVelocity.z);;
+        
     }
     void OnJumpRelease()
     {
@@ -341,24 +344,27 @@ public class Moviment : MonoBehaviour
     }
     void JumpBuffer()
     {
+        if(inputTimer > 0){
         inputTimer -= Time.deltaTime;
-        if (inputTimer > 0 && isGrounded())
+        if (canJump && isGrounded())
         {
-            OnJump();
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+            Jumping();
             inputTimer = 0;
+        }
         }
     }
 
- 
+
     public bool isGrounded()
     {
-    
-           bool cast = Physics.CheckSphere(groundCheck.position, radius, Ground);
+
+        bool cast = Physics.CheckSphere(groundCheck.position, radius, Ground);
         if (cast)
         {
             PlayerStats.isJumpig = false;
             return true;
-            
+
         }
         else
         {
@@ -395,10 +401,11 @@ public class Moviment : MonoBehaviour
 
         // 3. Desenha uma esfera "aramada" exatamente na mesma posição e raio do CheckSphere
 
-            Gizmos.DrawWireSphere(groundCheck.position, radius);
-        
+        Gizmos.DrawWireSphere(groundCheck.position, radius);
+
         // Se preferir uma esfera sólida e semitransparente, use:
         // Gizmos.DrawSphere(groundCheck.position, radius);
+        
     }
 
 
