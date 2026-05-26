@@ -24,6 +24,7 @@ public class Moviment : MonoBehaviour
 
     [SerializeField] InputActionReference Crouch;
     public LayerMask Ground;
+    public LayerMask Celling;
     [Header("Hover")]
     public float hoverRadius = 0.5f;
     public float HoverHeight = 2f;
@@ -98,11 +99,11 @@ public class Moviment : MonoBehaviour
 
 
     bool NoBottleMode; //esse bool só serve pra não ficar tocando os 0 dos efeitos de rumble e Shake Toda hora
+    bool BottleModeMant; 
+
     void Awake()
     {
         inputInfo.Initialize();
-
-        //atribuicao de eventos
         InputInfo.OnMoveEvent += MoveInput;
         InputInfo.OnJumpEvent += OnJump;
         InputInfo.OnReleaseJumpEvent += OnJumpRelease;
@@ -110,19 +111,13 @@ public class Moviment : MonoBehaviour
         InputInfo.OnCrouchEvent += BottleModeEnter;
         InputInfo.OnCrouchReleaseEvent += BottleModeExit;
         if (moviment == null) moviment = this;
-
-
     }
 
     public Roll roll;
 
     void Start()
     {
-        // if(PlayerStats.haveCheckPoint)
-        // {
-        // transform.position = PlayerStats.checkPointPosition;
-
-        // } 
+       
         fixedJoint = GetComponent<FixedJoint>();
         rb = Body.GetComponent<Rigidbody>();
 
@@ -142,7 +137,15 @@ public class Moviment : MonoBehaviour
         currentInput = Vector2.SmoothDamp(currentInput, inputValue, ref inputVelocity, movementSmoothTime);
         float BodyAngle = Vector3.Angle(Body.up, Vector3.up);
         FacingDown = BodyAngle > BMAngle;
-
+        if (BottleModeMant)
+    {
+        if (!CellingChecker())
+        {
+            radius = 0.12f;
+            PlayerStats.bottleMode = false;
+            BottleModeMant = false; 
+        }
+    }
         if (PlayerStats.bottleMode)
         {
             bool isMovingLil = rb.linearVelocity.magnitude > DecMagLil;
@@ -175,18 +178,19 @@ public class Moviment : MonoBehaviour
             CamShake.FrequencyGain = 0f;
             Control?.SetMotorSpeeds(0f, 0f);
         }
+
         NoBottleMode = PlayerStats.bottleMode;
     }
 
 
     public void FixedUpdate()
     {
+        
         Atrito();
         if (!PlayerStats.hitGround)
         {
             //Debug.Log("to fazendo algo aqui ");
         }
-        CellingChecker();
         if (!PlayerStats.bottleMode)
         {
             rb.centerOfMass = Vector3.zero;
@@ -220,7 +224,7 @@ public class Moviment : MonoBehaviour
             DownShadow();
             DownShadowObj.SetActive(true);
         }
-        else
+        else 
         {
             //jumpHeight = 1.6f;
             rb.linearDamping = 0.8f;
@@ -234,31 +238,36 @@ public class Moviment : MonoBehaviour
 
             rb.mass = Mass;
             DownShadowObj.SetActive(false);
+           
         }
-
 
     }
 
 
     void BottleModeEnter()
+{
+    if(PlayerStats.bladeMode) return;
+    radius = 0.6f;
+    
+    PlayerStats.time = 0.0f;
+    if (!FacingDown)
     {
-        if(PlayerStats.bladeMode) return;
-        radius = 0.6f;
-        
-        PlayerStats.time = 0.0f;
-
-        if (!CellingChecker())
-        {
-            if (!FacingDown)
-                PlayerStats.bottleMode = true;
-
-        }
+        PlayerStats.bottleMode = true;
+        BottleModeMant = false;
     }
-    void BottleModeExit()
+}
+
+void BottleModeExit()
+{
+    if (CellingChecker()) 
     {
-        radius = 0.12f;
-        PlayerStats.bottleMode = false;
+        BottleModeMant = true; 
+        return; 
     }
+    radius = 0.12f;
+    PlayerStats.bottleMode = false;
+    BottleModeMant = false;
+}
     
     void ResetLevel()
     {
@@ -268,15 +277,8 @@ public class Moviment : MonoBehaviour
 
     public bool CellingChecker()
     {
-        bool Ray = Physics.Raycast(Body.position, Vector3.up, CheckUpDis, Ground);
-        if (Ray)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        bool Ray = Physics.Raycast(Body.position, Vector3.up, CheckUpDis, Celling);
+        return Ray;
     }
     void Rotation()
     {
@@ -403,6 +405,7 @@ public class Moviment : MonoBehaviour
 
         // Se preferir uma esfera sólida e semitransparente, use:
         // Gizmos.DrawSphere(groundCheck.position, radius);
+        
     }
 
 
