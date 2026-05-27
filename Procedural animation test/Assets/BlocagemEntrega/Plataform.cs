@@ -37,10 +37,8 @@ public class Plataform : MonoBehaviour
         {
             timer += Time.deltaTime;
 
-            // Tremor
             transform.position = posInicial + Random.insideUnitSphere * 0.03f;
 
-            // Cai
             if (timer >= tempoPraCair)
             {
                 rb.isKinematic = false;
