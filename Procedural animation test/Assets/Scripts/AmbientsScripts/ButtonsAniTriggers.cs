@@ -7,16 +7,18 @@ public class ButtonsAniTriggers : MonoBehaviour
     Animator ani2;
     public bool ObjectToggle;
     public GameObject[] ObjectsToggle;
+
      void Start()
     {
-        ani2 = GetComponent<Animator>();
+       
     }
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void OnTriggerEnter(Collider other)
     {
         ani.SetTrigger(TriggerAni);
         ani2.SetTrigger("Trigger");
-        if (ObjectToggle)
+        if (ObjectToggle && !IsOpen)
         {
             foreach(GameObject obj in ObjectsToggle)
             {
@@ -26,5 +28,6 @@ public class ButtonsAniTriggers : MonoBehaviour
             }
             }
         }
+        IsOpen = true;
     }
 }
