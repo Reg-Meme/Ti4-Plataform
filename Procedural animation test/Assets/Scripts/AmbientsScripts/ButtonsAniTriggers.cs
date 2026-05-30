@@ -7,6 +7,7 @@ public class ButtonsAniTriggers : MonoBehaviour
     Animator ani2;
     public bool ObjectToggle;
     public GameObject[] ObjectsToggle;
+    public bool IsOpen;
 
      void Start()
     {
