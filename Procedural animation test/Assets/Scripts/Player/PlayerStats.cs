@@ -8,6 +8,7 @@ public class PlayerStats
    
     public static float time = 0.0f;
     public static bool hitGround;
+   
     public static bool bladeMode;
     public static bool isJumpig;
     public static bool cutUnlock = false;

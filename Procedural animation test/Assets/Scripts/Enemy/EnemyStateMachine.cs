@@ -8,6 +8,8 @@ public class EnemyStateMachine : MonoBehaviour
     IEnemyStates state;
     public Transform[ ] wayPoint;
     public NavMeshAgent agent;
+    
+  
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,4 +29,5 @@ public class EnemyStateMachine : MonoBehaviour
         this.state = state;
         state?.Enter();
     }
+    
 }
