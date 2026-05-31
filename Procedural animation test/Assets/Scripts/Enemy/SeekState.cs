@@ -27,7 +27,7 @@ public class SeekState : IEnemyStates
     public void Update()
     {
        agent.SetDestination(Moviment.moviment.transform.position);
-       if(!FieldOfView.fieldOfView.canSeePlayer) state.ChangeState(new PatrolState(state, wayPoint, agent));
+       if(!FieldOfView.fieldOfView.fieldOfViewData.canSeePlayer) state.ChangeState(new PatrolState(state, wayPoint, agent));
        
     }
     public void Exit()

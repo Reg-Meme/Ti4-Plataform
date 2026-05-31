@@ -28,7 +28,7 @@ public class PatrolState : IEnemyStates
 
     public void Update()
     {
-        //if (FieldOfView.fieldOfView.canSeePlayer) state.ChangeState(new SeekState(state, agent, wayPoint));
+        if (FieldOfView.fieldOfView.fieldOfViewData.canSeePlayer) state.ChangeState(new SeekState(state, agent, wayPoint));
         agent.SetDestination(wayPoint[count].position);
         if (Vector3.Distance(agent.transform.position, wayPoint[count].position) <= 0.2f)
         {
