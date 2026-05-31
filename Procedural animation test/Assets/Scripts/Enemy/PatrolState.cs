@@ -15,7 +15,7 @@ public class PatrolState : IEnemyStates
         this.state = state;
         for (int i = 0; i < this.wayPoint.Length; i++) this.wayPoint[i] = wayPoint[i];
         this.agent = agent;
-        
+
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Enter()
@@ -28,8 +28,8 @@ public class PatrolState : IEnemyStates
 
     public void Update()
     {
-        if(FieldOfView.fieldOfView.canSeePlayer) state.ChangeState(new SeekState(state, agent, wayPoint));
-         agent.SetDestination(wayPoint[count].position);
+        //if (FieldOfView.fieldOfView.canSeePlayer) state.ChangeState(new SeekState(state, agent, wayPoint));
+        agent.SetDestination(wayPoint[count].position);
         if (Vector3.Distance(agent.transform.position, wayPoint[count].position) <= 0.2f)
         {
             count++;
@@ -37,12 +37,9 @@ public class PatrolState : IEnemyStates
         // state.ChangeState(new IddleState(state))
         if (count >= wayPoint.Length) count = 0;
 
-        }
+    }
 
 
-
-      
-    
     public void Exit()
     {
 

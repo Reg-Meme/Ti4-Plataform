@@ -21,7 +21,6 @@ public class FieldOfView : MonoBehaviour
     IEnumerator FovRoutine()
     {
 
-
         while (true)
         {
             yield return new WaitForSeconds(0.2f);
