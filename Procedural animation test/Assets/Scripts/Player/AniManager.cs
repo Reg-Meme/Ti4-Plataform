@@ -55,7 +55,10 @@ public class AniManager : MonoBehaviour
     {
         Ani.SetFloat("x",BladeRef.position.x);
         Ani.SetFloat("y",BladeRef.position.y);
-        
+        float legsTarget = !PlayerStats.isJumpig? 1f : 0f;
+            float jumpLayerTarget = !PlayerStats.isJumpig ? 0f : 1f;
+        float currentLayerWeight = Ani.GetLayerWeight(1);
+            float nextLayerWeight = Mathf.Lerp(currentLayerWeight, jumpLayerTarget, Time.deltaTime * 6);
         if(PlayerStats.bottleMode == true)
         {
             Damp.weight = 0;
@@ -67,11 +70,9 @@ public class AniManager : MonoBehaviour
             isSided =r.IsSided;
             Damp.weight = 1;
             Ani.SetBool("Bottle", false);
-            float legsTarget = !PlayerStats.isJumpig? 1f : 0f;
-            float jumpLayerTarget = !PlayerStats.isJumpig ? 0f : 1f;
+            
             Legs.weight = Mathf.Lerp(Legs.weight, legsTarget, Time.deltaTime * 8);
-            float currentLayerWeight = Ani.GetLayerWeight(1);
-            float nextLayerWeight = Mathf.Lerp(currentLayerWeight, jumpLayerTarget, Time.deltaTime * 6);
+            
             Ani.SetLayerWeight(1, nextLayerWeight);
             Ani.SetBool("Jump", PlayerStats.isJumpig);
         }
@@ -85,6 +86,13 @@ public class AniManager : MonoBehaviour
         {
            Ani.SetBool("Blade", false);
            CutVFX.SendEvent("OnExit");
+        }
+
+        if(PlayerStats.bottleMode|| PlayerStats.isJumpig)
+        {
+            Legs.weight = Mathf.Lerp(Legs.weight, legsTarget, Time.deltaTime * 8);
+            Ani.SetLayerWeight(1, nextLayerWeight);
+            Ani.SetBool("Jump", PlayerStats.isJumpig);  
         }
         
     }
