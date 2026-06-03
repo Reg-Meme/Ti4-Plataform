@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CutsceneTriggers : MonoBehaviour
 {
+
     public GameObject Cut;
     void Start()
     {
@@ -16,6 +17,8 @@ public class CutsceneTriggers : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player")) Cut.SetActive(true);
-        Destroy(gameObject);
+        
     }
+    
+    
 }

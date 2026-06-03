@@ -100,6 +100,7 @@ public class Moviment : MonoBehaviour
 
     bool NoBottleMode; //esse bool só serve pra não ficar tocando os 0 dos efeitos de rumble e Shake Toda hora
     bool BottleModeMant; 
+    public bool NoMov;
 
     void Awake()
     {
@@ -132,8 +133,9 @@ public class Moviment : MonoBehaviour
     }
     public void Update()
     {
-
-
+        // if (NoMov)currentInput = Vector2.zero; 
+        
+        // else
         currentInput = Vector2.SmoothDamp(currentInput, inputValue, ref inputVelocity, movementSmoothTime);
         float BodyAngle = Vector3.Angle(Body.up, Vector3.up);
         FacingDown = BodyAngle > BMAngle;
@@ -246,6 +248,7 @@ public class Moviment : MonoBehaviour
 
     void BottleModeEnter()
 {
+    // if(NoMov) return;
     if(PlayerStats.bladeMode) return;
     radius = 0.6f;
     
@@ -293,7 +296,7 @@ void BottleModeExit()
     
     void OnJump()
     {
-     
+        // if(NoMov) return;
         if (PlayerStats.bottleMode) return;
         inputTimer = inputBuffer;
         // Rig.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
