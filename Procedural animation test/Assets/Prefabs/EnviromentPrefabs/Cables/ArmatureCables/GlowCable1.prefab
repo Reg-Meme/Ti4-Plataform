@@ -53,6 +53,22 @@ PrefabInstance:
       value: GlowCable1
       objectReference: {fileID: 0}
     - target: {fileID: 4886273301095635376, guid: af76333c22cbf534cbbc5412b5c44012, type: 3}
+      propertyPath: m_AABB.m_Center.x
+      value: 0.0014805435
+      objectReference: {fileID: 0}
+    - target: {fileID: 4886273301095635376, guid: af76333c22cbf534cbbc5412b5c44012, type: 3}
+      propertyPath: m_AABB.m_Center.z
+      value: -0.0024421
+      objectReference: {fileID: 0}
+    - target: {fileID: 4886273301095635376, guid: af76333c22cbf534cbbc5412b5c44012, type: 3}
+      propertyPath: m_AABB.m_Extent.x
+      value: -0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 4886273301095635376, guid: af76333c22cbf534cbbc5412b5c44012, type: 3}
+      propertyPath: m_AABB.m_Extent.z
+      value: -0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4886273301095635376, guid: af76333c22cbf534cbbc5412b5c44012, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: a371a28c6ef0ba44c9c155f0aea9c60f, type: 2}
