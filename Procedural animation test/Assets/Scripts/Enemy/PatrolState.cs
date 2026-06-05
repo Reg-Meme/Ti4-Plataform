@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEditor.AdaptivePerformance.Editor;
 using UnityEngine;
@@ -21,6 +23,7 @@ public class PatrolState : IEnemyStates
     public void Enter()
     {
         count = 0;
+      
     }
 
     // Update is called once per frame
@@ -29,7 +32,7 @@ public class PatrolState : IEnemyStates
     public void Update()
     {
         if (FieldOfView.fieldOfView.fieldOfViewData.canSeePlayer) state.ChangeState(new SeekState(state, agent, wayPoint));
-        agent.SetDestination(wayPoint[count].position);
+       
         if (Vector3.Distance(agent.transform.position, wayPoint[count].position) <= 0.2f)
         {
             count++;
@@ -38,7 +41,12 @@ public class PatrolState : IEnemyStates
         if (count >= wayPoint.Length) count = 0;
 
     }
-
+    IEnumerator SetDestiny()
+    {
+        yield return new WaitForSeconds(0);
+        agent.SetDestination(wayPoint[count].position);
+        
+    }
 
     public void Exit()
     {
