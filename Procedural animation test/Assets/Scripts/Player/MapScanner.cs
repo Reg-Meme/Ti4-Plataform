@@ -28,7 +28,7 @@ public class MapScanner : MonoBehaviour
     {
         Input = GetComponent<PlayerInput>();
         ScannerObj.SetActive(false);
-        Shader.SetGlobalFloat("_MapBGClipping", 3f);
+       // Shader.SetGlobalFloat("_MapBGClipping", 3f);
         InputInfo.OnMapEvent += MapActive;
     }
     public void MapActive()

@@ -12,7 +12,8 @@ namespace SfXManager
         SecurityDoor,
         Crane,
         ChargeStation,
-
+        Snack,
+        BagLoop,
     }
 
     [ExecuteInEditMode]

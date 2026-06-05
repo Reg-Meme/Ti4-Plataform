@@ -1054,7 +1054,7 @@ Transform:
   m_GameObject: {fileID: 2291156193068030198}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.193, z: 0}
+  m_LocalPosition: {x: 0, y: 0.19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2640,15 +2640,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: d54be901d359f10468f6daba12b7dd17, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.05
+      value: -0.164
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d54be901d359f10468f6daba12b7dd17, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 25.19
+      value: 25.233
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d54be901d359f10468f6daba12b7dd17, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.17
+      value: -1.45
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d54be901d359f10468f6daba12b7dd17, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3336,7 +3336,10 @@ MonoBehaviour:
   Ground:
     serializedVersion: 2
     m_Bits: 2184
-  hoverRadius: 0.05
+  Celling:
+    serializedVersion: 2
+    m_Bits: 2248
+  hoverRadius: 0.025
   HoverHeight: 0.85
   hoverForce: 16
   hoverDamp: 8
@@ -3350,7 +3353,7 @@ MonoBehaviour:
   RollForce: 50
   movementSmoothTime: 0.1
   MaxRotSpd: 50
-  jumpHeight: 10
+  jumpHeight: 5
   inicialJumpHeight: 0
   lateralFriction: 2
   brakingDrag: 15
@@ -3361,9 +3364,8 @@ MonoBehaviour:
   canJump: 1
   pressJump: 0
   rotationSpeed: 1.5
-  BottleMode: 0
+  PlayerStatsbottleMode: 0
   HoverTim: 0.5
-  rotateTimer: 1
   BottleModeCOM: {x: 0, y: 0.1, z: 0}
   BMAngle: 100
   RollCheck: 0.5
@@ -3377,7 +3379,7 @@ MonoBehaviour:
   CamShakeFreqASF: 0.5
   Mass: 20
   groundCheck: {fileID: 5654548086625706075}
-  radius: 0.13
+  radius: 0.15
   assradius: 0.5
   physicsMaterial: {fileID: 13400000, guid: 704797898bbd95d4b8ba21b445b33f68, type: 2}
   DownShadowObj: {fileID: 5502306895430477047}
