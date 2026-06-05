@@ -3,17 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SfXManager
+namespace BagheeraSfXManager
 {
     public enum SoundType
 
     {
-
-        SecurityDoor,
-        Crane,
-        ChargeStation,
+        Walk,
+        Run,
+        Roar,
+        Question,
+        RoarLoop,
         Snack,
-        BagLoop,
+        Purr,
+        Jump,
     }
 
     [ExecuteInEditMode]
@@ -24,8 +26,6 @@ namespace SfXManager
         public static soundManager instance;
        
         public AudioSource musicSource;
-        private static bool isLooping = false;
-      
 
         public void Start()
         {
@@ -44,10 +44,6 @@ namespace SfXManager
             AudioClip randomClip = clips[UnityEngine.Random.Range(0, clips.Length)];
             instance.musicSource.PlayOneShot(randomClip, volume);
 
-
-
-
-
         }
         public static void StopSound(SoundType sound, float volume = 1f)
         {
@@ -57,26 +53,6 @@ namespace SfXManager
 
             instance.musicSource.Stop();
 
-        }
-        public static void PlayLoop(SoundType sound, float volume = 1f)
-        {
-            if (isLooping) return;
-
-            AudioClip[] clips = instance.soundList[(int)sound].Sounds;
-            AudioClip randomClip = clips[UnityEngine.Random.Range(0, clips.Length)];
-
-            instance.musicSource.clip = randomClip;
-            instance.musicSource.volume = volume;
-            instance.musicSource.loop = true;
-            instance.musicSource.Play();
-            isLooping = true;
-        }
-
-        public static void StopLoop()
-        {
-            instance.musicSource.loop = false;
-            instance.musicSource.Stop();
-            isLooping = false;
         }
 
 #if UNITY_EDITOR

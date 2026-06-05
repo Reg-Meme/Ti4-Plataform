@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.VFX;
 public class SecurityDoorTriggerEvents : MonoBehaviour
 {
+    public AudioSource AudioSource;
     public VisualEffect vfx1;
     public VisualEffect vfx2;
     public VisualEffect vfx3;
@@ -21,7 +22,7 @@ public class SecurityDoorTriggerEvents : MonoBehaviour
     }
     public void PlaySfx()
     {
-        SfXManager.soundManager.PlaySound(SfXManager.SoundType.SecurityDoor);
+        AudioSource.Play();
     }
     public void OnPlay()
     {
