@@ -22,7 +22,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: MetalTi2
   m_Shader: {fileID: -6465566751694194690, guid: 49ffba4f7d0008740a1a20d1ab6cd1f9, type: 3}
-  m_Parent: {fileID: 2100000, guid: bf83a537bb3118e49a5927fc222cb254, type: 2}
+  m_Parent: {fileID: 2100000, guid: d5ad5991de2985b4a99a4b49be638c65, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
