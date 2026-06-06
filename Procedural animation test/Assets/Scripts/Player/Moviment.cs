@@ -300,17 +300,18 @@ void BottleModeExit()
         if (PlayerStats.bottleMode) return;
         inputTimer = inputBuffer;
         // Rig.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
+        
        
-
+      
 
     }
     void Jumping()
     {
             PlayerStats.isJumpig = true;
-
+             HermitSfXManager.soundManager.PlaySound(HermitSfXManager.SoundType.Jump);
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpHeight, rb.linearVelocity.z);;
-        
+
     }
     void OnJumpRelease()
     {
@@ -319,7 +320,7 @@ void BottleModeExit()
         {
             canJump = false;
             rb.AddForce(Vector3.down * rb.linearVelocity.y * 0.3f, ForceMode.VelocityChange);
-
+            
         }
     }
     void Atrito()
