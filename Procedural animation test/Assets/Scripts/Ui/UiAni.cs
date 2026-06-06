@@ -123,6 +123,7 @@ public class UiAni : MonoBehaviour
     }
     public void UIIntro()
     {
+        UiSfXManager.soundManager.PlaySound(UiSfXManager.SoundType.OpenMenu);
         // Dokills 
         UiCG.DOKill();
         UpPartBlockCG.DOKill();
@@ -179,6 +180,7 @@ public class UiAni : MonoBehaviour
 
     public void UIountro()
     {
+        UiSfXManager.soundManager.PlaySound(UiSfXManager.SoundType.CloseMenu);
         // Dokills 
         UpPartBlock.DOKill();
         UpPartBlockCG.DOKill();
@@ -248,6 +250,7 @@ public class UiAni : MonoBehaviour
         CabesDeco.transform.DOKill();
         if (options)
         {
+            UiSfXManager.soundManager.PlaySound(UiSfXManager.SoundType.OpenSettings);
             OptionsisAni = true;
             // Options intro
             OptionsTxT.DOScaleX(1, 0.3f).SetUpdate(true);
@@ -274,6 +277,7 @@ public class UiAni : MonoBehaviour
         }
         else
         {
+            UiSfXManager.soundManager.PlaySound(UiSfXManager.SoundType.CloseSettings);
             OptionsisAni = true;
             // Options Outro
             
