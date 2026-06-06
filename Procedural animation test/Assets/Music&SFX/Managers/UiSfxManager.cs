@@ -14,7 +14,8 @@ namespace UiSfXManager
         CloseSettings,
         CutsceneUp,
         CutsceneDown,
-        
+        BoolOn,
+        BoolOff,
     }
 
     [ExecuteInEditMode]
