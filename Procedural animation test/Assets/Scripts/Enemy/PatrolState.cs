@@ -33,7 +33,7 @@ public class PatrolState : IEnemyStates
     {
         if (state.fieldOfView.fieldOfViewData.canSeePlayer) state.ChangeState(new SeekState(state));
 
-        if (Vector3.Distance(state.agent.transform.position, state.wayPoint[state.fieldOfView.fieldOfViewData.count].position) <= 0.2f)
+        if (Vector3.Distance(state.transform.position, state.wayPoint[state.fieldOfView.fieldOfViewData.count].position) <= 0.2f)
         {
             state.fieldOfView.fieldOfViewData.count++;
             if (state.fieldOfView.fieldOfViewData.count >= state.wayPoint.Length) state.fieldOfView.fieldOfViewData.count = 0;

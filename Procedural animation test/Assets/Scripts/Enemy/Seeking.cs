@@ -27,8 +27,8 @@ public class Seeking : IEnemyStates
         Debug.Log("here");
         randomPos[0] = state.fieldOfView.fieldOfViewData.pos.position + (Random.insideUnitSphere * state.fieldOfView.fieldOfViewData.radius);
         randomPos[1] = state.fieldOfView.fieldOfViewData.pos.position + (Random.insideUnitSphere * state.fieldOfView.fieldOfViewData.radius);
-        randomPos[0].y = state.agent.transform.position.y;
-        randomPos[1].y = state.agent.transform.position.y;
+        randomPos[0].y = state.transform.position.y;
+        randomPos[1].y = state.transform.position.y;
         state.agent.SetDestination(randomPos[0]);
     }
 
@@ -43,9 +43,9 @@ public class Seeking : IEnemyStates
             return;
         }
 
-        if (Vector3.Distance(state.agent.transform.position, randomPos[count]) <= 0.3f)
+        if (Vector3.Distance(state.transform.position, randomPos[count]) <= 0.3f)
         {
-            Debug.Log("" + count + "");
+            
             count++;
             if (count >= 2)
             {
