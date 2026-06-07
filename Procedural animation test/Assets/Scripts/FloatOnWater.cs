@@ -7,6 +7,7 @@ public class FloatOnWater : MonoBehaviour
 
     public float rotationAmount = 5f;
     public float rotationSpeed = 0.8f;
+    public float objRotY;
 
     private Vector3 startPos;
 
@@ -17,14 +18,13 @@ public class FloatOnWater : MonoBehaviour
 
     void Update()
     {
-        // Movimento vertical
         float y = startPos.y + Mathf.Sin(Time.time * frequency) * amplitude;
         transform.position = new Vector3(startPos.x, y, startPos.z);
 
-        // Balanço
+        float rotY = objRotY;
         float rotZ = Mathf.Sin(Time.time * rotationSpeed) * rotationAmount;
         float rotX = Mathf.Cos(Time.time * rotationSpeed * 0.7f) * rotationAmount;
 
-        transform.rotation = Quaternion.Euler(rotX, 0, rotZ);
+        transform.rotation = Quaternion.Euler(rotX, rotY, rotZ);
     }
 }
