@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b31e07777535cb468715a65a648457b, type: 3}
   m_Name: FieldOfViewData
   m_EditorClassIdentifier: Assembly-CSharp::FieldOfViewData
-  radius: 1.2
-  angle: 60
+  radius: 2.26
+  angle: 107
   player:
     serializedVersion: 2
     m_Bits: 8192
@@ -22,5 +22,5 @@ MonoBehaviour:
     m_Bits: 8137
   canSeePlayer: 0
   playerObj: {fileID: 0}
-  count: 3
+  count: 0
   pos: {fileID: 0}

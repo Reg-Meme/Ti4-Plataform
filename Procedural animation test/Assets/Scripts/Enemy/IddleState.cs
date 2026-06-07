@@ -5,15 +5,11 @@ public class IddleState : IEnemyStates
 {
     float timer = 5f;
     EnemyStateMachine state;
-    NavMeshAgent agent;
-    FieldOfView fieldOfView;
-    Transform[] wayPoint = new Transform[4];
-    public IddleState (EnemyStateMachine state, NavMeshAgent agent, FieldOfView fieldOfView, Transform[] wayPoint)
+
+    public IddleState (EnemyStateMachine state)
     {
         this.state = state;
-        this.agent = agent;
-        this.fieldOfView = fieldOfView;
-        this.wayPoint = wayPoint;
+       
 
     }
     public void Enter()
@@ -34,6 +30,6 @@ public class IddleState : IEnemyStates
     public void Update()
     {
          timer -= Time.deltaTime;
-        if (timer <= 0) state.ChangeState(new PatrolState(state,wayPoint,agent,fieldOfView));
+        if (timer <= 0) state.ChangeState(new PatrolState(state));
     }
 }

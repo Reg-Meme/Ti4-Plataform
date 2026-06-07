@@ -10,13 +10,13 @@ public class ChangeScene : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-        // if(!isLoaded)
-        //     {
-        // SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive);
-        // SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive);
-        //         isLoaded = true;
-        //     }
-          SceneManager.LoadScene(name);  
+        if(!isLoaded)
+            {
+        SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive);
+                isLoaded = true;
+            }
+          //SceneManager.LoadScene(name);  
         } 
     }
 }

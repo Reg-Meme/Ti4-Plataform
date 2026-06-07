@@ -16,7 +16,7 @@ public class EnemyStateMachine : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        ChangeState(new PatrolState(this, wayPoint, agent,fieldOfView));
+        ChangeState(new PatrolState(this));
     }
 
     // Update is called once per frame

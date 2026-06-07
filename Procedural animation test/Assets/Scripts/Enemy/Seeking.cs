@@ -9,29 +9,27 @@ public class Seeking : IEnemyStates
 
     EnemyStateMachine state;
 
-    NavMeshAgent agent;
+    //NavMeshAgent agent;
 
     int count = 0;
-    FieldOfView fieldOfView;
-    Transform[] wayPoint = new Transform[4];
+    // FieldOfView fieldOfView;
+    // Transform[] wayPoint = new Transform[4];
     Vector3[] randomPos = new Vector3[2];
-    public Seeking(EnemyStateMachine state, NavMeshAgent agent, FieldOfView fieldOfView, Transform[] wayPoint)
+    public Seeking(EnemyStateMachine state)
     {
         this.state = state;
-        this.agent = agent;
-        this.fieldOfView = fieldOfView;
-        for (int i = 0; i < this.wayPoint.Length; i++) this.wayPoint[i] = wayPoint[i];
+       
 
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Enter()
     {
         Debug.Log("here");
-        randomPos[0] = fieldOfView.fieldOfViewData.pos.position + (Random.insideUnitSphere * fieldOfView.fieldOfViewData.radius);
-        randomPos[1] = fieldOfView.fieldOfViewData.pos.position + (Random.insideUnitSphere * fieldOfView.fieldOfViewData.radius);
-        randomPos[0].y = agent.transform.position.y;
-        randomPos[1].y = agent.transform.position.y;
-        agent.SetDestination(randomPos[0]);
+        randomPos[0] = state.fieldOfView.fieldOfViewData.pos.position + (Random.insideUnitSphere * state.fieldOfView.fieldOfViewData.radius);
+        randomPos[1] = state.fieldOfView.fieldOfViewData.pos.position + (Random.insideUnitSphere * state.fieldOfView.fieldOfViewData.radius);
+        randomPos[0].y = state.agent.transform.position.y;
+        randomPos[1].y = state.agent.transform.position.y;
+        state.agent.SetDestination(randomPos[0]);
     }
 
     // Update is called once per frame
@@ -39,22 +37,22 @@ public class Seeking : IEnemyStates
 
     public void Update()
     {
-        if(fieldOfView.fieldOfViewData.canSeePlayer)
+        if(state.fieldOfView.fieldOfViewData.canSeePlayer)
         {
-            state.ChangeState(new SeekState(state, agent, wayPoint, fieldOfView));
+            state.ChangeState(new SeekState(state));
             return;
         }
 
-        if (Vector3.Distance(agent.transform.position, randomPos[count]) <= 0.3f)
+        if (Vector3.Distance(state.agent.transform.position, randomPos[count]) <= 0.3f)
         {
             Debug.Log("" + count + "");
             count++;
             if (count >= 2)
             {
-                state.ChangeState(new PatrolState(state, wayPoint, agent, fieldOfView));
+                state.ChangeState(new PatrolState(state));
                 return;
             }
-            agent.SetDestination(randomPos[count]);
+           state.agent.SetDestination(randomPos[count]);
 
 
         }
