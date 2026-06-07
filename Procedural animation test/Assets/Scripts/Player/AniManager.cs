@@ -21,6 +21,8 @@ public class AniManager : MonoBehaviour
     SlashMechanic slash;
     Use Use;
     Vector3 DefaultRefPos;
+    public GameObject Knife;
+    public GameObject Magnet;
     bool isSided;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
