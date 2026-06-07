@@ -10,6 +10,7 @@ public class SecurityDoorTriggerEvents : MonoBehaviour
     public VisualEffect vfx5;
     public VisualEffect vfx6;
     public VisualEffect vfx7;
+    public RumbleManager rumble;
     void Start()
     {
         
@@ -23,6 +24,7 @@ public class SecurityDoorTriggerEvents : MonoBehaviour
     public void PlaySfx()
     {
         AudioSource.Play();
+        
     }
     public void OnPlay()
     {
@@ -35,7 +37,7 @@ public class SecurityDoorTriggerEvents : MonoBehaviour
     public void OnPlay2()
     {
         vfx5.SendEvent("OnPlay");
-        
+        rumble.RumblePulse(0.01f, 0.08f,3f);
     
     }
     public void OnPlay3()
@@ -49,6 +51,7 @@ public class SecurityDoorTriggerEvents : MonoBehaviour
         vfx2.SendEvent("OnStop"); 
         vfx3.SendEvent("OnStop"); 
         vfx4.SendEvent("OnStop");
+        rumble.RumblePulse(0.21f, 0.3f,4f);
     }
 
     public void OnExit2()

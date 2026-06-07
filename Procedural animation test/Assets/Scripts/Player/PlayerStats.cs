@@ -9,9 +9,10 @@ public class PlayerStats
     public static float time = 0.0f;
     public static bool hitGround;
     public static bool bladeMode;
+    public static bool GrabMode;
     public static bool isJumpig;
     public static bool cutUnlock = false;
-    public static bool grabUnlock = false;
+    public static bool grabUnlock = false; 
     public static Vector3 checkPointPosition;
     public static bool haveCheckPoint = false;
    

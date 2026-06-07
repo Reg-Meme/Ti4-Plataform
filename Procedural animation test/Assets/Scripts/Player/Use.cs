@@ -53,8 +53,18 @@ public class Use : MonoBehaviour
     void Trade()
     {
         if (Grab == null || Slash == null) return;
-        if (trade) mechanics = Slash;
-        else mechanics = Grab;
+        if (trade)
+        {
+            AniRef.Trade1Ani();
+            mechanics = Slash;
+           
+        }
+        else
+        {
+            AniRef.Trade2Ani();
+            mechanics = Grab;
+          
+        }
         mechanics.Initialize(battery);
 
         inputInfo.ClearMechanicsEvent();

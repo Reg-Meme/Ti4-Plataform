@@ -55,6 +55,7 @@ public class AniManager : MonoBehaviour
     }
     public void Update()
     {
+        
         Ani.SetFloat("x",BladeRef.position.x);
         Ani.SetFloat("y",BladeRef.position.y);
         float legsTarget = !PlayerStats.isJumpig? 1f : 0f;
@@ -98,6 +99,25 @@ public class AniManager : MonoBehaviour
             Ani.SetLayerWeight(1, nextLayerWeight);
             Ani.SetBool("Jump", PlayerStats.isJumpig);  
         }
+        if (PlayerStats.GrabMode)
+        {
+            Ani.SetBool("Grabbing", true);
+            Damp.weight = 0;
+        }
+        else if(!PlayerStats.bottleMode)
+        {
+            Ani.SetBool("Grabbing", false);
+            Damp.weight = 1;
+        }
+        if (PlayerStats.cutUnlock==false)
+        {
+            Knife.SetActive(false);
+        }
+        if (PlayerStats.grabUnlock==false)
+        {
+            Magnet.SetActive(false);
+        }
+        
         
     }
     public void NoDamp()
@@ -111,5 +131,29 @@ public class AniManager : MonoBehaviour
     public void CloseSfx()
     {
         HermitSfXManager.soundManager.PlaySound(HermitSfXManager.SoundType.SwitchToBottle);
+    }
+    public void Trade1Ani()
+    {
+        Ani.SetTrigger("Trade1");
+    }
+    public void Trade2Ani()
+    {
+        Ani.SetTrigger("Trade2");
+    }
+    public void KnifeActv()
+    {
+            Knife.SetActive(true);
+    }
+    public void MagnetActv()
+    {
+            Magnet.SetActive(true);
+    }
+    public void KnifeDesat()
+    {
+            Knife.SetActive(false);
+    }
+    public void MagnetDesat()
+    {
+            Magnet.SetActive(false);
     }
 }
