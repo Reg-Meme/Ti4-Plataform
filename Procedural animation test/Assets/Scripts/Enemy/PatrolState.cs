@@ -11,19 +11,24 @@ public class PatrolState : IEnemyStates
     EnemyStateMachine state;
     Transform[] wayPoint = new Transform[4];
     NavMeshAgent agent;
-    int count = 0;
-    public PatrolState(EnemyStateMachine state, Transform[] wayPoint, NavMeshAgent agent)
+    FieldOfView fieldOfView;
+    public float iddleTimer = 10f;
+    public PatrolState(EnemyStateMachine state, Transform[] wayPoint, NavMeshAgent agent, FieldOfView fieldOfView)
     {
         this.state = state;
         for (int i = 0; i < this.wayPoint.Length; i++) this.wayPoint[i] = wayPoint[i];
+
         this.agent = agent;
+        this.fieldOfView = fieldOfView;
 
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Enter()
     {
-        count = 0;
-      
+        Debug.Log("voltei para o patrol state");
+        if (fieldOfView.fieldOfViewData.count >= wayPoint.Length) fieldOfView.fieldOfViewData.count = 0;
+        agent.SetDestination(wayPoint[fieldOfView.fieldOfViewData.count].position);
+
     }
 
     // Update is called once per frame
@@ -31,21 +36,22 @@ public class PatrolState : IEnemyStates
 
     public void Update()
     {
-        if (FieldOfView.fieldOfView.fieldOfViewData.canSeePlayer) state.ChangeState(new SeekState(state, agent, wayPoint));
-       
-        if (Vector3.Distance(agent.transform.position, wayPoint[count].position) <= 0.2f)
-        {
-            count++;
-        }
-        // state.ChangeState(new IddleState(state))
-        if (count >= wayPoint.Length) count = 0;
+        if (fieldOfView.fieldOfViewData.canSeePlayer) state.ChangeState(new SeekState(state, agent, wayPoint, fieldOfView));
 
-    }
-    IEnumerator SetDestiny()
-    {
-        yield return new WaitForSeconds(0);
-        agent.SetDestination(wayPoint[count].position);
-        
+        if (Vector3.Distance(agent.transform.position, wayPoint[fieldOfView.fieldOfViewData.count].position) <= 0.2f)
+        {
+            fieldOfView.fieldOfViewData.count++;
+            if (fieldOfView.fieldOfViewData.count >= wayPoint.Length) fieldOfView.fieldOfViewData.count = 0;
+            agent.SetDestination(wayPoint[fieldOfView.fieldOfViewData.count].position);
+        }
+        iddleTimer -= Time.deltaTime;
+        if (iddleTimer <= 0)
+        {
+            state.ChangeState(new IddleState(state, agent, fieldOfView, wayPoint));
+            return;
+        }
+
+
     }
 
     public void Exit()

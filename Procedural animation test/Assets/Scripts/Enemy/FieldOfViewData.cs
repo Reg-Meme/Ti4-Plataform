@@ -10,5 +10,7 @@ public class FieldOfViewData : ScriptableObject
     public LayerMask obstacles;
     public bool canSeePlayer;
     public GameObject playerObj;
-    
+    public int count;
+    public Transform pos;
+   
 }

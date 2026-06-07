@@ -20,5 +20,7 @@ MonoBehaviour:
   obstacles:
     serializedVersion: 2
     m_Bits: 8137
-  canSeePlayer: 1
+  canSeePlayer: 0
   playerObj: {fileID: 0}
+  count: 3
+  pos: {fileID: 0}

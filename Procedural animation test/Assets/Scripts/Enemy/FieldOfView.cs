@@ -18,6 +18,7 @@ public class FieldOfView : MonoBehaviour
         fieldOfViewData.playerObj = Moviment.moviment.gameObject;
         if (fieldOfView == null) fieldOfView = this;
         StartCoroutine(FovRoutine());
+        fieldOfViewData.pos = transform;
     }
     IEnumerator FovRoutine()
     {

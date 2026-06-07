@@ -1,26 +1,26 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class IddleState : IEnemyStates
 {
-    
+    float timer = 5f;
     EnemyStateMachine state;
-    public IddleState(EnemyStateMachine state)
+    NavMeshAgent agent;
+    FieldOfView fieldOfView;
+    Transform[] wayPoint = new Transform[4];
+    public IddleState (EnemyStateMachine state, NavMeshAgent agent, FieldOfView fieldOfView, Transform[] wayPoint)
     {
         this.state = state;
+        this.agent = agent;
+        this.fieldOfView = fieldOfView;
+        this.wayPoint = wayPoint;
+
     }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-   public void Enter()
+    public void Enter()
     {
-       
+        
     }
 
-    // Update is called once per frame
-    
-
-    public void Update()
-    {
-       
-    }
     public void Exit()
     {
         
@@ -29,5 +29,11 @@ public class IddleState : IEnemyStates
     public void Move()
     {
        
+    }
+
+    public void Update()
+    {
+         timer -= Time.deltaTime;
+        if (timer <= 0) state.ChangeState(new PatrolState(state,wayPoint,agent,fieldOfView));
     }
 }
