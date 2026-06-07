@@ -228,6 +228,7 @@ public class Moviment : MonoBehaviour
         }
         else 
         {
+            
             //jumpHeight = 1.6f;
             rb.linearDamping = 0.8f;
             rb.angularDamping = 0;

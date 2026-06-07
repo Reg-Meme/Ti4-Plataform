@@ -74,6 +74,7 @@ public class UiAni : MonoBehaviour
     public float OptionsOverlapTimeTwo;
     [SerializeField] CanvasGroup SchemesGroup;
     public GameObject KBCtrlscheme;
+    public GameObject MouseCtrlscheme;
     public GameObject GPCtrlscheme;
     public AudioSource MenuBgSound;
 
@@ -105,11 +106,13 @@ public class UiAni : MonoBehaviour
         if (Scheme == "Gamepad")
         {
             KBCtrlscheme.SetActive(false);
+            MouseCtrlscheme.SetActive(false);
             GPCtrlscheme.SetActive(true);
         }
         else
         {
             KBCtrlscheme.SetActive(true);
+            MouseCtrlscheme.SetActive(true);
             GPCtrlscheme.SetActive(false);
         }
     }

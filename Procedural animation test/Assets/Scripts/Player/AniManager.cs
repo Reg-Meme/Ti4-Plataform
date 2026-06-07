@@ -63,6 +63,7 @@ public class AniManager : MonoBehaviour
         {
             Damp.weight = 0;
             Ani.SetBool("Bottle", true);
+            
         }
         else
         {
@@ -90,6 +91,7 @@ public class AniManager : MonoBehaviour
 
         if(PlayerStats.bottleMode|| PlayerStats.isJumpig)
         {
+            
             Legs.weight = Mathf.Lerp(Legs.weight, legsTarget, Time.deltaTime * 8);
             Ani.SetLayerWeight(1, nextLayerWeight);
             Ani.SetBool("Jump", PlayerStats.isJumpig);  
@@ -103,5 +105,9 @@ public class AniManager : MonoBehaviour
     public void YeaDamp()
     {
         Damp.weight = 1;
+    }
+    public void CloseSfx()
+    {
+        HermitSfXManager.soundManager.PlaySound(HermitSfXManager.SoundType.SwitchToBottle);
     }
 }
