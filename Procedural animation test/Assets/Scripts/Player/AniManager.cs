@@ -23,7 +23,15 @@ public class AniManager : MonoBehaviour
     Vector3 DefaultRefPos;
     public GameObject Knife;
     public GameObject Magnet;
+    public AudioSource RollFrontSFX;
+    public AudioSource RollBackSFX;
+    public Rigidbody Body;
     bool isSided;
+    public float minPitch ;
+    public float maxPitch ;
+    public float minSpd ;
+    public float maxSpd ;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -66,12 +74,37 @@ public class AniManager : MonoBehaviour
         {
             Damp.weight = 0;
             Ani.SetBool("Bottle", true);
+        
+            RollFrontSFX.mute = false;
+            RollBackSFX.mute = false;
+
+            float curSpd = Body.angularVelocity.magnitude;
+
             
+            if (curSpd >= minSpd && mov.isAssGrounded() && PlayerStats.isJumpig == false)
+            {
+                RollFrontSFX.volume = Mathf.Lerp(RollFrontSFX.volume, 1f, Time.deltaTime * 2f);
+                RollBackSFX.volume = Mathf.Lerp(RollBackSFX.volume, 0.2f, Time.deltaTime * 2f);
+
+                float targetPitch = Mathf.Lerp(minPitch, maxPitch, curSpd / maxSpd);
+                RollFrontSFX.pitch = Mathf.Lerp(RollFrontSFX.pitch, targetPitch, Time.deltaTime * 100f);
+            }
+            else
+            {
+                RollFrontSFX.volume = Mathf.Lerp(RollFrontSFX.volume, 0f, Time.deltaTime * 2f);
+                RollBackSFX.volume = Mathf.Lerp(RollBackSFX.volume, 0f, Time.deltaTime * 2f);
+                RollFrontSFX.pitch = Mathf.Lerp(RollFrontSFX.pitch, 0f, Time.deltaTime * 10f);  
+            }
         }
         else
         {
+            RollFrontSFX.pitch = 0;
+            RollFrontSFX.volume = Mathf.Lerp(RollFrontSFX.volume, 0f, Time.deltaTime * 100f);
+            RollBackSFX.volume = Mathf.Lerp(RollBackSFX.volume, 0f, Time.deltaTime * 100f);
+           
             if(Moviment.moviment.move[1] is Roll r)
-            isSided =r.IsSided;
+                isSided = r.IsSided;
+                
             Damp.weight = 1;
             Ani.SetBool("Bottle", false);
             
