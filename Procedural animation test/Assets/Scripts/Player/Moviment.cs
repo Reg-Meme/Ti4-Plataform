@@ -98,9 +98,10 @@ public class Moviment : MonoBehaviour
     public float ShadowOffset;
 
 
-    bool NoBottleMode; //esse bool só serve pra não ficar tocando os 0 dos efeitos de rumble e Shake Toda hora
+    bool NoBottleMode= false; //esse bool só serve pra não ficar tocando os 0 dos efeitos de rumble e Shake Toda hora
     bool BottleModeMant; 
     public bool NoMov;
+    bool NoGrab= false;
 
     void Awake()
     {
@@ -182,6 +183,16 @@ public class Moviment : MonoBehaviour
         }
 
         NoBottleMode = PlayerStats.bottleMode;
+
+        if (PlayerStats.GrabMode)
+        {
+            Control.SetMotorSpeeds(0.01f,0.08f);
+        }
+        else if (NoGrab)
+        {
+            Control.SetMotorSpeeds(0f, 0f);
+        }
+        NoGrab=PlayerStats.GrabMode;
     }
 
 
@@ -228,6 +239,7 @@ public class Moviment : MonoBehaviour
         }
         else 
         {
+            
             //jumpHeight = 1.6f;
             rb.linearDamping = 0.8f;
             rb.angularDamping = 0;
@@ -300,17 +312,18 @@ void BottleModeExit()
         if (PlayerStats.bottleMode) return;
         inputTimer = inputBuffer;
         // Rig.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
+        
        
-
+      
 
     }
     void Jumping()
     {
             PlayerStats.isJumpig = true;
-
+             HermitSfXManager.soundManager.PlaySound(HermitSfXManager.SoundType.Jump);
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpHeight, rb.linearVelocity.z);;
-        
+
     }
     void OnJumpRelease()
     {
@@ -319,7 +332,7 @@ void BottleModeExit()
         {
             canJump = false;
             rb.AddForce(Vector3.down * rb.linearVelocity.y * 0.3f, ForceMode.VelocityChange);
-
+            
         }
     }
     void Atrito()

@@ -101,6 +101,8 @@ public class IKFootSolverDaveJones : MonoBehaviour
                 Lerp = 0;
                 OldPos = CurrentPos;
                 NewPos = hit.point + footOffset;
+                if(!PlayerStats.isJumpig && Random.value < 0.9f)
+                HermitSfXManager.soundManager.PlaySound(HermitSfXManager.SoundType.Walk);
             }
         }
 

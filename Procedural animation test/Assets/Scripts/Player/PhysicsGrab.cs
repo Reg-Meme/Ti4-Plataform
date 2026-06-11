@@ -105,9 +105,10 @@ public class PhysicsGrab : Mechanics
 
     void MoveObject()
     {
+        
         if (grabbedObject == null)
             return;
-
+        PlayerStats.GrabMode = true;
         Transform targetPoint = holdingOverhead ? overheadPoint : grabPoint;
 
         float weightFactor = 1f / grabbedObject.mass;
@@ -142,6 +143,7 @@ public class PhysicsGrab : Mechanics
 
     void ThrowObject()
     {
+        PlayerStats.GrabMode=false;
         if (grabbedObject == null)
             return;
 

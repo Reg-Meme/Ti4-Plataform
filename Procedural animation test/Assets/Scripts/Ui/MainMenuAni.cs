@@ -191,44 +191,50 @@ public class MainMenuAni : MonoBehaviour
     }
     public void OptionsAni()
     {
-        Sequence intro = DOTween.Sequence().SetUpdate(true);
+       Sequence intro = DOTween.Sequence().SetUpdate(true);
         Sequence outro = DOTween.Sequence().SetUpdate(true).OnComplete(() => Settings.SetActive(false));
+
         if (!options)
         {
-        intro.Kill();
+            intro.Kill();
         }
         else
         {
-          outro.Kill(); 
-    
-        }
+            outro.Kill();
         
+        }
+
         OptionsGroup.DOKill();
         OptionsBg.DOKill();
         Optionsicon.DOKill();
         OptionsTxT.DOKill();
         OptionsTxTCG.DOKill();
         OptionsiconCG.DOKill();
-      
+    
+
         if (options)
         {
+
+            if (!Settings.activeSelf)
+            {
+                UiSfXManager.soundManager.PlaySound(UiSfXManager.SoundType.OpenSettings);
+            }
+
             OptionsisAni = true;
             // Options intro
             OptionsTxT.DOScaleX(1, 0.3f).SetUpdate(true);
             Settings.SetActive(true);
-            
-            
-            intro.Join(SchemesGroup.DOFade(0,0.5f));
-            intro.Join(OptionsGroup.DOScaleY(OptionsGpSizeFinal, OptionsTweenDur));
-            
 
+            intro.Join(SchemesGroup.DOFade(0, 0.5f));
+            intro.Join(OptionsGroup.DOScaleY(OptionsGpSizeFinal, OptionsTweenDur));
+         
 
             float fixedInsert = OptionsTweenDur - OptionsOverlapTime;
             float fixedInsertTwo = OptionsTweenDur - OptionsOverlapTimeTwo;
-            
+
             intro.Insert(fixedInsert, OptionsBg.DOAnchorPosX(OptionsBgFinalAnchor, OptionsTweenDur));
             intro.Insert(fixedInsert, OptionsBg.DOScaleX(OptionsBgSizeFinalAnchor, OptionsTweenDur));
-           
+         
             intro.Insert(fixedInsertTwo, Optionsicon.DOAnchorPosY(OptionsIconFinalAnchor, OptionsTweenDur));
             intro.Insert(fixedInsertTwo, Optionsicon.DORotate(new Vector3(0, 0, 360), TweenDur, RotateMode.FastBeyond360).SetEase(Ease.OutCubic));
             intro.Insert(fixedInsert, OptionsiconCG.DOFade(1, OptionsTweenDur).SetEase(Ease.InFlash));
@@ -238,26 +244,34 @@ public class MainMenuAni : MonoBehaviour
         }
         else
         {
+
+            if (Settings.activeSelf)
+            {
+                UiSfXManager.soundManager.PlaySound(UiSfXManager.SoundType.CloseSettings);
+            }
+
             OptionsisAni = true;
             // Options Outro
-            
-          
+
+
             outro.Join(OptionsBg.DOAnchorPosX(OptionsBgStartAnchor, OptionsTweenDur));
             outro.Join(OptionsBg.DOScaleX(OptionsBgSizeStartAnchor, OptionsTweenDur));
-    
+        
             outro.Join(Optionsicon.DOAnchorPosY(OptionsIconStartAnchor, OptionsTweenDur));
             outro.Join(Optionsicon.DORotate(new Vector3(0, 0, -360), TweenDur, RotateMode.FastBeyond360).SetEase(Ease.OutCubic));
             outro.Join(OptionsiconCG.DOFade(0, 0.2f).SetEase(Ease.InFlash));
             outro.Join(OptionsTxT.DOAnchorPosX(OptionsTxTStartAnchor, OptionsTweenDur));
             outro.Join(OptionsTxTCG.DOFade(0, OptionsTweenDur).SetEase(Ease.InFlash));
 
-
             float fixedInsertOut = OptionsTweenDur - OptionsOverlapTime;
-  
-            outro.Insert(Mathf.Max(0, fixedInsertOut), OptionsGroup.DOScaleY(OptionsGpSizeStart, OptionsTweenDur));
-            outro.Insert(fixedInsertOut,SchemesGroup.DOFade(1,BGFadeTime));
-            outro.OnComplete(() => {OptionsisAni = false;});
 
+            outro.Insert(Mathf.Max(0, fixedInsertOut), OptionsGroup.DOScaleY(OptionsGpSizeStart, OptionsTweenDur));
+            outro.Insert(fixedInsertOut, SchemesGroup.DOFade(1, BGFadeTime));
+            outro.OnComplete(() =>
+            {
+                OptionsisAni = false;
+                Settings.SetActive(false);
+            });
         }
         
     }

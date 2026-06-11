@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.Users;
+using System.Collections.Generic;
+using System.Collections;
+using UnityEditor;
 public class UiAni : MonoBehaviour
 {
     public PlayerInput Input;
@@ -71,7 +74,9 @@ public class UiAni : MonoBehaviour
     public float OptionsOverlapTimeTwo;
     [SerializeField] CanvasGroup SchemesGroup;
     public GameObject KBCtrlscheme;
+    public GameObject MouseCtrlscheme;
     public GameObject GPCtrlscheme;
+    public AudioSource MenuBgSound;
 
     void Start()
     {
@@ -101,11 +106,13 @@ public class UiAni : MonoBehaviour
         if (Scheme == "Gamepad")
         {
             KBCtrlscheme.SetActive(false);
+            MouseCtrlscheme.SetActive(false);
             GPCtrlscheme.SetActive(true);
         }
         else
         {
             KBCtrlscheme.SetActive(true);
+            MouseCtrlscheme.SetActive(true);
             GPCtrlscheme.SetActive(false);
         }
     }
@@ -123,6 +130,9 @@ public class UiAni : MonoBehaviour
     }
     public void UIIntro()
     {
+        UiSfXManager.soundManager.PlaySound(UiSfXManager.SoundType.OpenMenu);
+        MenuBgSound.Play();
+        MenuBgSound.volume=0.2f;
         // Dokills 
         UiCG.DOKill();
         UpPartBlockCG.DOKill();
@@ -176,9 +186,25 @@ public class UiAni : MonoBehaviour
         intro.Insert(fixedInsertTwo, ButtonsGroup.DOAnchorPosY(ButtonsGroupFinalAnchor, TweenDur).SetEase(Ease.InOutCubic));
         intro.Insert(fixedInsert, ButtonsGroupCG.DOFade(1, BGFadeTime).SetEase(Ease.InFlash));
     }
+    IEnumerator FadeOutBG(AudioSource audioSource, float Dur)
+{
+    float VolIni = audioSource.volume;
+    float Temp = 0f;
+    while (Temp < Dur)
+    {
+        Temp += Time.unscaledDeltaTime;
+        audioSource.volume = Mathf.Lerp(VolIni, 0f, Temp / Dur);
+        yield return null; 
+    }
 
+    audioSource.volume = 0f;
+    audioSource.Stop();
+}
     public void UIountro()
     {
+        
+        UiSfXManager.soundManager.PlaySound(UiSfXManager.SoundType.CloseMenu);
+        StartCoroutine(FadeOutBG(MenuBgSound,1f));
         // Dokills 
         UpPartBlock.DOKill();
         UpPartBlockCG.DOKill();
@@ -228,16 +254,17 @@ public class UiAni : MonoBehaviour
     {
         Sequence intro = DOTween.Sequence().SetUpdate(true);
         Sequence outro = DOTween.Sequence().SetUpdate(true).OnComplete(() => Settings.SetActive(false));
+
         if (!options)
         {
-        intro.Kill();
+            intro.Kill();
         }
         else
         {
-          outro.Kill(); 
-          CubesDeco.localScale = Vector3.zero;
+            outro.Kill();
+            CubesDeco.localScale = Vector3.zero;
         }
-        
+
         OptionsGroup.DOKill();
         OptionsBg.DOKill();
         Optionsicon.DOKill();
@@ -246,25 +273,30 @@ public class UiAni : MonoBehaviour
         OptionsiconCG.DOKill();
         CubesDeco.transform.DOKill();
         CabesDeco.transform.DOKill();
+
         if (options)
         {
+
+            if (!Settings.activeSelf)
+            {
+                UiSfXManager.soundManager.PlaySound(UiSfXManager.SoundType.OpenSettings);
+            }
+
             OptionsisAni = true;
             // Options intro
             OptionsTxT.DOScaleX(1, 0.3f).SetUpdate(true);
             Settings.SetActive(true);
-            
-            
-            intro.Join(SchemesGroup.DOFade(0,0.5f));
+
+            intro.Join(SchemesGroup.DOFade(0, 0.5f));
             intro.Join(OptionsGroup.DOScaleY(OptionsGpSizeFinal, OptionsTweenDur));
             intro.Join(CabesDeco.transform.DOLocalMoveZ(-5.63f, TweenDur).SetEase(Ease.OutCubic));
 
-
             float fixedInsert = OptionsTweenDur - OptionsOverlapTime;
             float fixedInsertTwo = OptionsTweenDur - OptionsOverlapTimeTwo;
-            
+
             intro.Insert(fixedInsert, OptionsBg.DOAnchorPosX(OptionsBgFinalAnchor, OptionsTweenDur));
             intro.Insert(fixedInsert, OptionsBg.DOScaleX(OptionsBgSizeFinalAnchor, OptionsTweenDur));
-            intro.Insert(fixedInsertTwo,CubesDeco.DOScale(1,OptionsTweenDur+1));
+            intro.Insert(fixedInsertTwo, CubesDeco.DOScale(1, OptionsTweenDur + 1));
             intro.Insert(fixedInsertTwo, Optionsicon.DOAnchorPosY(OptionsIconFinalAnchor, OptionsTweenDur));
             intro.Insert(fixedInsertTwo, Optionsicon.DORotate(new Vector3(0, 0, 360), TweenDur, RotateMode.FastBeyond360).SetEase(Ease.OutCubic));
             intro.Insert(fixedInsert, OptionsiconCG.DOFade(1, OptionsTweenDur).SetEase(Ease.InFlash));
@@ -274,10 +306,16 @@ public class UiAni : MonoBehaviour
         }
         else
         {
+
+            if (Settings.activeSelf)
+            {
+                UiSfXManager.soundManager.PlaySound(UiSfXManager.SoundType.CloseSettings);
+            }
+
             OptionsisAni = true;
             // Options Outro
-            
-            outro.Join(CubesDeco.DOScale(0,OptionsTweenDur).SetEase(Ease.OutFlash));
+
+            outro.Join(CubesDeco.DOScale(0, OptionsTweenDur).SetEase(Ease.OutFlash));
             outro.Join(OptionsBg.DOAnchorPosX(OptionsBgStartAnchor, OptionsTweenDur));
             outro.Join(OptionsBg.DOScaleX(OptionsBgSizeStartAnchor, OptionsTweenDur));
             outro.Join(CabesDeco.transform.DOLocalMoveZ(-4.13f, OptionsTweenDur).SetEase(Ease.InFlash));
@@ -287,13 +325,15 @@ public class UiAni : MonoBehaviour
             outro.Join(OptionsTxT.DOAnchorPosX(OptionsTxTStartAnchor, OptionsTweenDur));
             outro.Join(OptionsTxTCG.DOFade(0, OptionsTweenDur).SetEase(Ease.InFlash));
 
-
             float fixedInsertOut = OptionsTweenDur - OptionsOverlapTime;
-            outro.Insert(fixedInsertOut,CubesDeco.DOScale(0,0.1f).SetEase(Ease.InCubic));
+            outro.Insert(fixedInsertOut, CubesDeco.DOScale(0, 0.1f).SetEase(Ease.InCubic));
             outro.Insert(Mathf.Max(0, fixedInsertOut), OptionsGroup.DOScaleY(OptionsGpSizeStart, OptionsTweenDur));
-            outro.Insert(fixedInsertOut,SchemesGroup.DOFade(1,BGFadeTime));
-            outro.OnComplete(() => {OptionsisAni = false;});
-
+            outro.Insert(fixedInsertOut, SchemesGroup.DOFade(1, BGFadeTime));
+            outro.OnComplete(() =>
+            {
+                OptionsisAni = false;
+                Settings.SetActive(false);
+            });
         }
         
     }
@@ -305,6 +345,12 @@ public class UiAni : MonoBehaviour
         Time.timeScale = 1;
         EventSystem.current.SetSelectedGameObject(null);
     }
-
-
+    public void BoolOnSound()
+    {
+        UiSfXManager.soundManager.PlaySound(UiSfXManager.SoundType.BoolOn);
+    }
+    public void BoolOffSound()
+    {
+        UiSfXManager.soundManager.PlaySound(UiSfXManager.SoundType.BoolOff);
+    }
 }

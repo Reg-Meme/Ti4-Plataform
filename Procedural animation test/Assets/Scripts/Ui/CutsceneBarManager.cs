@@ -15,7 +15,7 @@ public class CutsceneBarManager : MonoBehaviour
     {
         Shader.SetGlobalFloat("_MapBGClipping", Clip); 
     }
-
+    
     
     
 }
