@@ -7,7 +7,7 @@ public class CutsceneBarManager : MonoBehaviour
     public float Clip;
     void Start()
     {
-        Shader.SetGlobalFloat("_MapBGClipping", 2f); 
+      //  Shader.SetGlobalFloat("_MapBGClipping", 2f);
     }
 
     // Update is called once per frame

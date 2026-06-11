@@ -77,6 +77,7 @@ public class UiAni : MonoBehaviour
     public GameObject MouseCtrlscheme;
     public GameObject GPCtrlscheme;
     public AudioSource MenuBgSound;
+   
 
     void Start()
     {
@@ -144,7 +145,7 @@ public class UiAni : MonoBehaviour
         DownPartBlock.DOKill();
         ButtonsGroup.DOKill();
         RotatingCircleCG.DOKill();
-        
+        Input.SwitchCurrentActionMap("UI");
         // 2. Reset de posição inicial (Instantâneo)
         UiCG.alpha = 0;
         UpPartBlockCG.alpha = 0;
@@ -235,7 +236,7 @@ public class UiAni : MonoBehaviour
         outro.Join(ButtonsGroupCG.DOFade(0, BGFadeTime).SetEase(Ease.InFlash));
 
         // Outro fade
-        outro.Join(UiCG.DOFade(0, 1).SetEase(Ease.InFlash).OnComplete(() =>{ UI.SetActive(false);CamUi.SetActive(false);}));
+        outro.Join(UiCG.DOFade(0, 1).SetEase(Ease.InFlash).OnComplete(() =>{ UI.SetActive(false);CamUi.SetActive(false);Input.SwitchCurrentActionMap("Player");;}));
 
         // Bars 
         float maxInitialDur = Mathf.Max(BRotationime, 1f);

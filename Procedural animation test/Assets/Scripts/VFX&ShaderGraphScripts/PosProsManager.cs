@@ -31,7 +31,7 @@ public class PosProsManager : MonoBehaviour
 
         if (colorAdjustments != null && GameColor != null)
         {
-            if (currentSceneIndex == 3)
+            if (currentSceneIndex == 0)
             {
                 colorAdjustments.active = true;
                 GameColor.active = false;

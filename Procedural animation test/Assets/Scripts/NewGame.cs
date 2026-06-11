@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 public class NewGame : MonoBehaviour
 {
@@ -16,6 +15,6 @@ public class NewGame : MonoBehaviour
     }
     public void StartLv1()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 }
