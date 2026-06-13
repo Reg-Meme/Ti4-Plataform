@@ -9,7 +9,7 @@ public class FieldOfView : MonoBehaviour
     // public float angle;
     // public LayerMask player;
     // public LayerMask obstacles;
-    // public bool canSeePlayer;
+     public bool canSeePlayer;
     // public GameObject playerObj;
     public FieldOfViewData fieldOfViewData;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -42,18 +42,18 @@ public class FieldOfView : MonoBehaviour
                 float distanceToPlayer = Vector3.Distance(transform.position, target.position);
 
                 if (!Physics.Raycast(transform.position, directionToPlayer, distanceToPlayer, fieldOfViewData.obstacles))
-                    fieldOfViewData.canSeePlayer = true;
-                else fieldOfViewData.canSeePlayer = false;
+                    canSeePlayer = true;
+                else canSeePlayer = false;
 
 
             }
-            else fieldOfViewData.canSeePlayer = false;
+            else canSeePlayer = false;
 
 
 
         }
-        else if (fieldOfViewData.canSeePlayer)
-            fieldOfViewData.canSeePlayer = false;
+        else if (canSeePlayer)
+            canSeePlayer = false;
     }
 
     // Update is called once per frame

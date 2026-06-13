@@ -32,7 +32,7 @@ public class SeekState : IEnemyStates
     public void Update()
     {
 
-        if (!state.fieldOfView.fieldOfViewData.canSeePlayer)
+        if (!state.fieldOfView.canSeePlayer)
         {
             state.ChangeState(new Seeking(state));
             return;
