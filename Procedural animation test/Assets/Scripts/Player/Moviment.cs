@@ -64,7 +64,7 @@ public class Moviment : MonoBehaviour
 
     bool FacingDown;
     public float HoverTim = 0.5f;
-   
+
     float timer;
     public Vector3 BottleModeCOM;
     public float BMAngle;
@@ -98,14 +98,14 @@ public class Moviment : MonoBehaviour
     public float ShadowOffset;
 
 
-    bool NoBottleMode= false; //esse bool só serve pra não ficar tocando os 0 dos efeitos de rumble e Shake Toda hora
-    bool BottleModeMant; 
+    bool NoBottleMode = false; //esse bool só serve pra não ficar tocando os 0 dos efeitos de rumble e Shake Toda hora
+    bool BottleModeMant;
     public bool NoMov;
-    bool NoGrab= false;
+    bool NoGrab = false;
 
     void Awake()
     {
-        inputInfo.Initialize();
+        //inputInfo.Initialize();
         InputInfo.OnMoveEvent += MoveInput;
         InputInfo.OnJumpEvent += OnJump;
         InputInfo.OnReleaseJumpEvent += OnJumpRelease;
@@ -113,13 +113,14 @@ public class Moviment : MonoBehaviour
         InputInfo.OnCrouchEvent += BottleModeEnter;
         InputInfo.OnCrouchReleaseEvent += BottleModeExit;
         if (moviment == null) moviment = this;
+        
     }
 
     public Roll roll;
 
     void Start()
     {
-       
+
         fixedJoint = GetComponent<FixedJoint>();
         rb = Body.GetComponent<Rigidbody>();
 
@@ -129,31 +130,25 @@ public class Moviment : MonoBehaviour
         move[0] = new Walk();
         move[1] = new Roll(Body, Ground);
         inicialJumpHeight = jumpHeight;
-        if(PlayerStats.haveCheckPoint)
-        {
-            Debug.Log("estou aqui");
-         transform.position = PlayerStats.checkPointPosition;
-         Body.transform.position = PlayerStats.checkPointPosition;
-        }
-
+       //Respawn();
     }
     public void Update()
     {
         // if (NoMov)currentInput = Vector2.zero; 
-        
+
         // else
         currentInput = Vector2.SmoothDamp(currentInput, inputValue, ref inputVelocity, movementSmoothTime);
         float BodyAngle = Vector3.Angle(Body.up, Vector3.up);
         FacingDown = BodyAngle > BMAngle;
         if (BottleModeMant)
-    {
-        if (!CellingChecker())
         {
-            radius = 0.12f;
-            PlayerStats.bottleMode = false;
-            BottleModeMant = false; 
+            if (!CellingChecker())
+            {
+                radius = 0.12f;
+                PlayerStats.bottleMode = false;
+                BottleModeMant = false;
+            }
         }
-    }
         if (PlayerStats.bottleMode)
         {
             bool isMovingLil = rb.linearVelocity.magnitude > DecMagLil;
@@ -191,19 +186,19 @@ public class Moviment : MonoBehaviour
 
         if (PlayerStats.GrabMode)
         {
-            Control.SetMotorSpeeds(0.01f,0.08f);
+            Control.SetMotorSpeeds(0.01f, 0.08f);
         }
         else if (NoGrab)
         {
             Control.SetMotorSpeeds(0f, 0f);
         }
-        NoGrab=PlayerStats.GrabMode;
+        NoGrab = PlayerStats.GrabMode;
     }
 
 
     public void FixedUpdate()
     {
-        
+
         Atrito();
         if (!PlayerStats.hitGround)
         {
@@ -220,7 +215,7 @@ public class Moviment : MonoBehaviour
             rb.mass = 2;
             //fixedJoint.connectedMassScale =3;
             timer -= Time.fixedDeltaTime;
-            
+
 
             if (timer <= 0)
             {
@@ -228,7 +223,7 @@ public class Moviment : MonoBehaviour
                     Hover();
                 //jumpHeight = 5;
             }
-            
+
             if (!PlayerStats.bladeMode)
                 move[0].Movimentation(currentInput, rb, maxSpeed, transform);
 
@@ -242,14 +237,14 @@ public class Moviment : MonoBehaviour
             DownShadow();
             DownShadowObj.SetActive(true);
         }
-        else 
+        else
         {
-            
+
             //jumpHeight = 1.6f;
             rb.linearDamping = 0.8f;
             rb.angularDamping = 0;
             timer = HoverTim;
-           
+
 
             move[1].Movimentation(currentInput, rb, MaxRotSpd, transform);
             //BottleMoviment();
@@ -257,38 +252,51 @@ public class Moviment : MonoBehaviour
 
             rb.mass = Mass;
             DownShadowObj.SetActive(false);
-           
+
         }
 
+    }
+    void Respawn()
+    {
+        Debug.Log("respawn");
+        if (!PlayerStats.haveCheckPoint)return;
+        if(fixedJoint != null) fixedJoint.connectedBody = null;
+        
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+        transform.position = PlayerStats.checkPointPosition;
+        Body.transform.position = PlayerStats.checkPointPosition;
+        fixedJoint.connectedBody = rb;
     }
 
 
     void BottleModeEnter()
-{
-    // if(NoMov) return;
-    if(PlayerStats.bladeMode) return;
-    radius = 0.6f;
-    
-    PlayerStats.time = 0.0f;
-    if (!FacingDown)
     {
-        PlayerStats.bottleMode = true;
+        // if(NoMov) return;
+        if (PlayerStats.bladeMode) return;
+        radius = 0.6f;
+
+        PlayerStats.time = 0.0f;
+        if (!FacingDown)
+        {
+            PlayerStats.bottleMode = true;
+            BottleModeMant = false;
+        }
+    }
+
+    void BottleModeExit()
+    {
+        if (CellingChecker())
+        {
+            BottleModeMant = true;
+            return;
+        }
+        radius = 0.12f;
+        PlayerStats.bottleMode = false;
         BottleModeMant = false;
     }
-}
 
-void BottleModeExit()
-{
-    if (CellingChecker()) 
-    {
-        BottleModeMant = true; 
-        return; 
-    }
-    radius = 0.12f;
-    PlayerStats.bottleMode = false;
-    BottleModeMant = false;
-}
-    
     void ResetLevel()
     {
 
@@ -310,24 +318,24 @@ void BottleModeExit()
     {
         inputValue = v2;
     }
-    
+
     void OnJump()
     {
         // if(NoMov) return;
         if (PlayerStats.bottleMode) return;
         inputTimer = inputBuffer;
         // Rig.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
-        
-       
-      
+
+
+
 
     }
     void Jumping()
     {
-            PlayerStats.isJumpig = true;
-             HermitSfXManager.soundManager.PlaySound(HermitSfXManager.SoundType.Jump);
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpHeight, rb.linearVelocity.z);;
+        PlayerStats.isJumpig = true;
+        HermitSfXManager.soundManager.PlaySound(HermitSfXManager.SoundType.Jump);
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpHeight, rb.linearVelocity.z); ;
 
     }
     void OnJumpRelease()
@@ -337,7 +345,7 @@ void BottleModeExit()
         {
             canJump = false;
             rb.AddForce(Vector3.down * rb.linearVelocity.y * 0.3f, ForceMode.VelocityChange);
-            
+
         }
     }
     void Atrito()
@@ -365,14 +373,15 @@ void BottleModeExit()
     }
     void JumpBuffer()
     {
-        if(inputTimer > 0){
-        inputTimer -= Time.deltaTime;
-        if (canJump && isGrounded())
+        if (inputTimer > 0)
         {
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
-            Jumping();
-            inputTimer = 0;
-        }
+            inputTimer -= Time.deltaTime;
+            if (canJump && isGrounded())
+            {
+                rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+                Jumping();
+                inputTimer = 0;
+            }
         }
     }
 
@@ -426,7 +435,7 @@ void BottleModeExit()
 
         // Se preferir uma esfera sólida e semitransparente, use:
         // Gizmos.DrawSphere(groundCheck.position, radius);
-        
+
     }
 
 
