@@ -16,6 +16,7 @@ public class PlayerStats
     public static bool grabUnlock = false; 
     public static Vector3 checkPointPosition;
     public static bool haveCheckPoint = false;
+    public static bool IsDead;
    
    public static void Init(PlayerData data)
     {
