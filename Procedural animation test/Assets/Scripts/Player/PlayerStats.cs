@@ -10,11 +10,13 @@ public class PlayerStats
     public static bool hitGround;
    
     public static bool bladeMode;
+    public static bool GrabMode;
     public static bool isJumpig;
     public static bool cutUnlock = false;
-    public static bool grabUnlock = false;
+    public static bool grabUnlock = false; 
     public static Vector3 checkPointPosition;
-    public static bool haveCheckPoint;
+    public static bool haveCheckPoint = false;
+    public static bool IsDead;
    
    public static void Init(PlayerData data)
     {

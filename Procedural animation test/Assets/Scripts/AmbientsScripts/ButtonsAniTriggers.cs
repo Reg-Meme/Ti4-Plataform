@@ -19,7 +19,7 @@ public class ButtonsAniTriggers : MonoBehaviour
     {
         ani.SetTrigger(TriggerAni);
         ani2.SetTrigger("Trigger");
-        if (ObjectToggle && !IsOpen)
+        if (ObjectToggle)
         {
             foreach(GameObject obj in ObjectsToggle)
             {
@@ -29,6 +29,6 @@ public class ButtonsAniTriggers : MonoBehaviour
             }
             }
         }
-        IsOpen = true;
+       // IsOpen = true;
     }
 }
