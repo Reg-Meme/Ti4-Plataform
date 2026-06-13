@@ -127,7 +127,12 @@ public class Moviment : MonoBehaviour
         move[0] = new Walk();
         move[1] = new Roll(Body, Ground);
         inicialJumpHeight = jumpHeight;
-
+        if(PlayerStats.haveCheckPoint)
+        {
+            Debug.Log("estou aqui");
+         transform.position = PlayerStats.checkPointPosition;
+         Body.transform.position = PlayerStats.checkPointPosition;
+        }
 
     }
     public void Update()
