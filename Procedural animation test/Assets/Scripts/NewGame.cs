@@ -2,19 +2,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class NewGame : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void StartLv1()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadSceneAsync("Gameplay",LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync("1Level",LoadSceneMode.Additive);
     }
 }
