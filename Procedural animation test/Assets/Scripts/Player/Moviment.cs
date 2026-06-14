@@ -106,21 +106,21 @@ public class Moviment : MonoBehaviour
     void Awake()
     {
         //inputInfo.Initialize();
-        InputInfo.OnMoveEvent += MoveInput;
-        InputInfo.OnJumpEvent += OnJump;
-        InputInfo.OnReleaseJumpEvent += OnJumpRelease;
-        InputInfo.OnResetEvent += ResetLevel;
-        InputInfo.OnCrouchEvent += BottleModeEnter;
-        InputInfo.OnCrouchReleaseEvent += BottleModeExit;
+
         if (moviment == null) moviment = this;
-        
+
     }
 
     public Roll roll;
 
     void Start()
     {
-
+        InputInfo.OnMoveEvent += MoveInput;
+        InputInfo.OnJumpEvent += OnJump;
+        InputInfo.OnReleaseJumpEvent += OnJumpRelease;
+        InputInfo.OnResetEvent += ResetLevel;
+        InputInfo.OnCrouchEvent += BottleModeEnter;
+        InputInfo.OnCrouchReleaseEvent += BottleModeExit;
         fixedJoint = GetComponent<FixedJoint>();
         rb = Body.GetComponent<Rigidbody>();
 
@@ -130,7 +130,7 @@ public class Moviment : MonoBehaviour
         move[0] = new Walk();
         move[1] = new Roll(Body, Ground);
         inicialJumpHeight = jumpHeight;
-       //Respawn();
+        Respawn();
     }
     public void Update()
     {
@@ -259,15 +259,14 @@ public class Moviment : MonoBehaviour
     void Respawn()
     {
         Debug.Log("respawn");
-        if (!PlayerStats.haveCheckPoint)return;
-        if(fixedJoint != null) fixedJoint.connectedBody = null;
-        
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-
+        if (fixedJoint != null) Destroy(fixedJoint);
+        if (!PlayerStats.haveCheckPoint) return;
         transform.position = PlayerStats.checkPointPosition;
-        Body.transform.position = PlayerStats.checkPointPosition;
+        Body.transform.position = transform.position + new Vector3(0, 0.36f, 0);
+        fixedJoint = gameObject.AddComponent<FixedJoint>();
+        Physics.SyncTransforms();
         fixedJoint.connectedBody = rb;
+
     }
 
 

@@ -28,22 +28,22 @@ public class Use : MonoBehaviour
     {
         if (PlayerStats.LoadStats() != null)
             PlayerStats.Init(PlayerStats.LoadStats());
-        InputInfo.OnTradeEvent += Trade;
-        InputInfo.OnLockEvent += LockEvent;
- battery = GetComponent<BatterySystem>();
-        
+
+        battery = GetComponent<BatterySystem>();
+
     }
     void Start()
     {
+        InputInfo.OnTradeEvent += Trade;
+        InputInfo.OnLockEvent += LockEvent;
 
-        
-        
+
         if (PlayerStats.grabUnlock)
-        UnlockGrab();
-        
-        if (PlayerStats.cutUnlock) 
-        UnlockCut();
-      
+            UnlockGrab();
+
+        if (PlayerStats.cutUnlock)
+            UnlockCut();
+
     }
 
     void LockEvent(Vector2 v2)
@@ -57,13 +57,13 @@ public class Use : MonoBehaviour
         {
             AniRef.Trade1Ani();
             mechanics = Slash;
-           
+
         }
         else
         {
             AniRef.Trade2Ani();
             mechanics = Grab;
-          
+
         }
         mechanics.Initialize(battery);
 
