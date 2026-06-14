@@ -8,6 +8,8 @@ public class SeekState : IEnemyStates
     //  public NavMeshAgent agent;
     //  Transform[] wayPoint = new Transform[4];
     float timer = 0.2f;
+    float timerSerch = 2;
+
     // FieldOfView fieldOfView;
     public SeekState(EnemyStateMachine state)
     {
@@ -34,9 +36,13 @@ public class SeekState : IEnemyStates
 
         if (!state.fieldOfView.canSeePlayer)
         {
+            timerSerch-= Time.deltaTime;
+            if (timerSerch < 0)
+            {
             state.ChangeState(new Seeking(state));
             return;
-        }
+            }
+        }else timerSerch = 2;
         timer -= Time.deltaTime;
         if (timer <= 0)
         {

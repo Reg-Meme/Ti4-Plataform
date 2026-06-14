@@ -5,44 +5,59 @@ public class PlayerStats
 {
     public static bool iddle = true;
     public static bool bottleMode;
-   
+
     public static float time = 0.0f;
     public static bool hitGround;
-   
+
     public static bool bladeMode;
     public static bool GrabMode;
     public static bool isJumpig;
     public static bool cutUnlock = false;
-    public static bool grabUnlock = false; 
+    public static bool grabUnlock = false;
     public static Vector3 checkPointPosition;
     public static bool haveCheckPoint = false;
     public static bool IsDead;
-   
-   public static void Init(PlayerData data)
+
+    public static void Init(PlayerData data)
     {
         cutUnlock = data.cutUnlock;
         grabUnlock = data.grabUnlock;
         checkPointPosition = data.checkPointPosition;
         haveCheckPoint = data.haveCheckPoint;
     }
-   
-   
-    public static void SaveStats ()
+    public static void Del()
     {
-        PlayerData data = new PlayerData(cutUnlock, grabUnlock,checkPointPosition,haveCheckPoint);
-        string json = JsonUtility.ToJson(data);      
+        cutUnlock = false;
+        grabUnlock = false;
+        haveCheckPoint = false;
+    }
+
+
+    public static void SaveStats()
+    {
+        PlayerData data = new PlayerData(cutUnlock, grabUnlock, checkPointPosition, haveCheckPoint);
+        string json = JsonUtility.ToJson(data);
         File.WriteAllText(Application.persistentDataPath + "/PlayerStats.json", json);
         Debug.Log(Application.persistentDataPath);
     }
     public static PlayerData LoadStats()
     {
         string path = Application.persistentDataPath + "/PlayerStats.json";
-        if(File.Exists(path))
+        if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
             PlayerData data = JsonUtility.FromJson<PlayerData>(json);
             return data;
         }
         else return null;
+    }
+    public static void ClearStats()
+    {
+        string path = Application.persistentDataPath + "/PlayerStats.json";
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+            Del();
+        }
     }
 }

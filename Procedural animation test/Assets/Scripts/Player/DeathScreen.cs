@@ -19,6 +19,7 @@ public class DeathScreenAni : MonoBehaviour
     UiControl MenuUi;
     public float currentValue;
     [SerializeField] private InputInfo inputInfo;
+    public static DeathScreenAni deathScreen;
     void Start()
     {
         MenuUi = GetComponent<UiControl>();
@@ -28,6 +29,7 @@ public class DeathScreenAni : MonoBehaviour
         audioListener.enabled = false;
         Player = GameObject.FindGameObjectWithTag("Player");
         input.enabled = false;
+        if(deathScreen == null) deathScreen = this;
     }
 
 
