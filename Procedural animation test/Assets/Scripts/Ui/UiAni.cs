@@ -344,7 +344,7 @@ public class UiAni : MonoBehaviour
         inputInfo.SetGameplay();
         UIountro();
         Time.timeScale = 1;
-        EventSystem.current.SetSelectedGameObject(null);
+        //EventSystem.current.SetSelectedGameObject(null);
     }
     public void BoolOnSound()
     {

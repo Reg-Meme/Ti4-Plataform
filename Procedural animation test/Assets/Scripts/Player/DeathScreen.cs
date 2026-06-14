@@ -16,11 +16,12 @@ public class DeathScreenAni : MonoBehaviour
     public GameObject Player;
     AudioListener audioListener;
     PlayerInput input;
-    
+    UiControl MenuUi;
     public float currentValue;
-
+    [SerializeField] private InputInfo inputInfo;
     void Start()
     {
+        MenuUi = GetComponent<UiControl>();
         input= GetComponent<PlayerInput>();
         audioListener= GetComponent<AudioListener>();
         DeathScreen.SetActive(false);
@@ -35,8 +36,9 @@ public class DeathScreenAni : MonoBehaviour
     {
         if (PlayerStats.IsDead == true)
         {
+            inputInfo.SetUi();
             EventSystem.current.SetSelectedGameObject(CurrentButton);
-            input.SwitchCurrentActionMap("Ui");
+            input.SwitchCurrentActionMap("DeathUi");
         }
     }
 
@@ -45,6 +47,7 @@ public class DeathScreenAni : MonoBehaviour
             DeathScreen.SetActive(true);
             DeathScreenBg.DOFade(1,tweenDur).SetUpdate(true);
             DeathScreenInfo.DOFade(1,tweenDur+1.5f).SetUpdate(true);
+            MenuUi.enabled = false;
     }
 
     public void Killer()
