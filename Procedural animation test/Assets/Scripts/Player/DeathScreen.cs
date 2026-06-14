@@ -5,10 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 public class DeathScreenAni : MonoBehaviour
 {
-    public PlayerInput Input;
-    public float BatteryTim = 390f;
-    public float Fill = 1.5f;
-    public float EffectActiv = 1.3f;
+    //public InputInfo Input;
     [SerializeField] GameObject DeathScreen;
     [SerializeField] GameObject CurrentButton;
     public CanvasGroup DeathScreenBg;
@@ -16,16 +13,20 @@ public class DeathScreenAni : MonoBehaviour
     public float tweenDur;
     public float MaxEffectPower = 0.8f;
     public float maxVignetteSize = 0.8f;
-    Material LowBatMat;
-    float timer;
+    public GameObject Player;
+    AudioListener audioListener;
+    PlayerInput input;
     
     public float currentValue;
 
     void Start()
     {
-        timer = BatteryTim;
-        currentValue = Fill;
+        input= GetComponent<PlayerInput>();
+        audioListener= GetComponent<AudioListener>();
         DeathScreen.SetActive(false);
+        audioListener.enabled=false;
+        Player = GameObject.FindGameObjectWithTag("Player");
+        input.enabled= false;
     }
     
      
@@ -35,15 +36,23 @@ public class DeathScreenAni : MonoBehaviour
         if (PlayerStats.IsDead == true)
         {
             EventSystem.current.SetSelectedGameObject(CurrentButton);
+            input.SwitchCurrentActionMap("Ui");
+        }
+    }
+
+    public void ShowDeathScreen()
+    {
             DeathScreen.SetActive(true);
-            Input.SwitchCurrentActionMap("UI");
             DeathScreenBg.DOFade(1,tweenDur).SetUpdate(true);
             DeathScreenInfo.DOFade(1,tweenDur+1.5f).SetUpdate(true);
-        }
     }
 
     public void Killer()
     {
         PlayerStats.IsDead = true;
+        Destroy(Player);
+        audioListener.enabled= true;
+        input.enabled= true;
     }
+
 }

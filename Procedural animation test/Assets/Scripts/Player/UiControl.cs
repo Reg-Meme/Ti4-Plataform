@@ -51,7 +51,7 @@ public class UiControl : MonoBehaviour
             inputInfo.SetGameplay();
             MenuAni.UIountro();
           //  Time.timeScale = 1;
-            EventSystem.current.SetSelectedGameObject(null);
+            //EventSystem.current.SetSelectedGameObject(null);
         }
     }
 
