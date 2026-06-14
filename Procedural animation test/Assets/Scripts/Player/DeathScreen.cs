@@ -22,40 +22,41 @@ public class DeathScreenAni : MonoBehaviour
     void Start()
     {
         MenuUi = GetComponent<UiControl>();
-        input= GetComponent<PlayerInput>();
-        audioListener= GetComponent<AudioListener>();
+        input = GetComponent<PlayerInput>();
+        audioListener = GetComponent<AudioListener>();
         DeathScreen.SetActive(false);
-        audioListener.enabled=false;
+        audioListener.enabled = false;
         Player = GameObject.FindGameObjectWithTag("Player");
-        input.enabled= false;
+        input.enabled = false;
     }
-    
-     
-    
+
+
+
     void Update()
     {
         if (PlayerStats.IsDead == true)
         {
-            inputInfo.SetUi();
-            EventSystem.current.SetSelectedGameObject(CurrentButton);
-            input.SwitchCurrentActionMap("DeathUi");
+
+
         }
     }
 
     public void ShowDeathScreen()
     {
-            DeathScreen.SetActive(true);
-            DeathScreenBg.DOFade(1,tweenDur).SetUpdate(true);
-            DeathScreenInfo.DOFade(1,tweenDur+1.5f).SetUpdate(true);
-            MenuUi.enabled = false;
+        DeathScreen.SetActive(true);
+        DeathScreenBg.DOFade(1, tweenDur).SetUpdate(true);
+        DeathScreenInfo.DOFade(1, tweenDur + 1.5f).SetUpdate(true);
+        MenuUi.enabled = false;
     }
 
     public void Killer()
     {
         PlayerStats.IsDead = true;
         Destroy(Player);
-        audioListener.enabled= true;
-        input.enabled= true;
+        GameManager.Instance.inputInfo.SetUi();
+        EventSystem.current.SetSelectedGameObject(CurrentButton);
+        audioListener.enabled = true;
+
     }
 
 }

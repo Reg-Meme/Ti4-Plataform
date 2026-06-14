@@ -34,6 +34,7 @@ public class UiControl : MonoBehaviour
     public void OpenMenu()
     {
         Debug.Log("pause");
+        if(PlayerStats.IsDead) return;
         MenuUi = !MenuCanvas.activeSelf;
 
         if (MenuUi)
