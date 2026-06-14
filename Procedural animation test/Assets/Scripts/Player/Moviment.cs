@@ -118,7 +118,7 @@ public class Moviment : MonoBehaviour
         InputInfo.OnMoveEvent += MoveInput;
         InputInfo.OnJumpEvent += OnJump;
         InputInfo.OnReleaseJumpEvent += OnJumpRelease;
-        InputInfo.OnResetEvent += ResetLevel;
+        
         InputInfo.OnCrouchEvent += BottleModeEnter;
         InputInfo.OnCrouchReleaseEvent += BottleModeExit;
         fixedJoint = GetComponent<FixedJoint>();
@@ -302,11 +302,7 @@ public class Moviment : MonoBehaviour
         BottleModeMant = false;
     }
 
-    void ResetLevel()
-    {
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
+    
 
     public bool CellingChecker()
     {

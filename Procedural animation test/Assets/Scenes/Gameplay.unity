@@ -140,17 +140,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7358827473946265413, guid: d5e3d0255d4930a48a91f84b639fbfd9, type: 3}
   m_PrefabInstance: {fileID: 623467699}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &76994221 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2796217972283827598, guid: 53286d439ab94e94f9f890f62ee11e9c, type: 3}
-  m_PrefabInstance: {fileID: 5228728683400659445}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00ae8fd7d27fb604cac4fdbaecd966e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
 --- !u!225 &94382479 stripped
 CanvasGroup:
   m_CorrespondingSourceObject: {fileID: 2801353341292270898, guid: a4439660c8d7c1b4890ae2e334eccdff, type: 3}
@@ -897,11 +886,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8334513994270912434, guid: d5e3d0255d4930a48a91f84b639fbfd9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.2711513
+      value: 26.523153
       objectReference: {fileID: 0}
     - target: {fileID: 8334513994270912434, guid: d5e3d0255d4930a48a91f84b639fbfd9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.013148
+      value: -3.289148
       objectReference: {fileID: 0}
     - target: {fileID: 8334513994270912434, guid: d5e3d0255d4930a48a91f84b639fbfd9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1977,11 +1966,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6469108829441528758, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.2711513
+      value: 26.523153
       objectReference: {fileID: 0}
     - target: {fileID: 6469108829441528758, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.013148
+      value: -3.289148
       objectReference: {fileID: 0}
     - target: {fileID: 6469108829441528758, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2217,11 +2206,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8583857167334722344, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 25.252
       objectReference: {fileID: 0}
     - target: {fileID: 8583857167334722344, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1.276
       objectReference: {fileID: 0}
     - target: {fileID: 8583857167334722344, guid: 12d0b476ce350a64eae4ad20b9a0e858, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2676,7 +2665,7 @@ PrefabInstance:
     - target: {fileID: 7154427290122289878, guid: 57406c7ba31ec204cac2263ba1ef8bbe, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 76994221}
+      objectReference: {fileID: 0}
     - target: {fileID: 7154427290122289878, guid: 57406c7ba31ec204cac2263ba1ef8bbe, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
@@ -3089,7 +3078,8 @@ PrefabInstance:
       propertyPath: DeathScreenInfo
       value: 
       objectReference: {fileID: 513999559}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2796217972283827598, guid: 53286d439ab94e94f9f890f62ee11e9c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3105,7 +3095,7 @@ PrefabInstance:
     - target: {fileID: 1681190061751958267, guid: a4439660c8d7c1b4890ae2e334eccdff, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 76994221}
+      objectReference: {fileID: 0}
     - target: {fileID: 1765440504854280968, guid: a4439660c8d7c1b4890ae2e334eccdff, type: 3}
       propertyPath: 'm_TargetAudioSources.Array.data[0]'
       value: 
@@ -3113,7 +3103,7 @@ PrefabInstance:
     - target: {fileID: 4114347976027204286, guid: a4439660c8d7c1b4890ae2e334eccdff, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 76994221}
+      objectReference: {fileID: 0}
     - target: {fileID: 4458248037264825794, guid: a4439660c8d7c1b4890ae2e334eccdff, type: 3}
       propertyPath: audioSource
       value: 

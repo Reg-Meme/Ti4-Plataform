@@ -1,14 +1,17 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] public InputInfo inputInfo;
     public static GameManager Instance;
+    public string name;
     void Awake()
     {
         if (Instance == null) Instance = this;
         inputInfo.Initialize();
+        InputInfo.OnResetEvent += ResetLevel;
         DontDestroyOnLoad(gameObject);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -21,5 +24,18 @@ public class GameManager : MonoBehaviour
     public void RestartFromTheLastCheckpoint()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    void ResetLevel()
+    {
+        StartCoroutine(Reset());
+
+    }
+    IEnumerator Reset()
+    {
+         AsyncOperation load = SceneManager.LoadSceneAsync("Gameplay", LoadSceneMode.Single);
+         inputInfo.Initialize();
+
+         yield return load;
+         SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive);
     }
 }
