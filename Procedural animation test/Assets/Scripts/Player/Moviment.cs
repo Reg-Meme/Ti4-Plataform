@@ -260,7 +260,13 @@ public class Moviment : MonoBehaviour
     {
         Debug.Log("respawn");
         if (fixedJoint != null) Destroy(fixedJoint);
-        if (!PlayerStats.haveCheckPoint) return;
+        if (!PlayerStats.haveCheckPoint)
+        {
+        fixedJoint = gameObject.AddComponent<FixedJoint>();
+        Physics.SyncTransforms();
+        fixedJoint.connectedBody = rb;
+        return;
+        } 
         transform.position = PlayerStats.checkPointPosition;
         Body.transform.position = transform.position + new Vector3(0, 0.36f, 0);
         fixedJoint = gameObject.AddComponent<FixedJoint>();

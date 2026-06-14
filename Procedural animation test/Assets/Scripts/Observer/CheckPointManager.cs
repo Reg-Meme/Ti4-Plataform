@@ -20,6 +20,7 @@ public class CheckPointManager : MonoBehaviour
     {
         PlayerStats.checkPointPosition = newPosition;
         PlayerStats.haveCheckPoint = true;
+        PlayerStats.SaveStats();
         Debug.Log("Checkpoint Salvo em: " + newPosition + PlayerStats.haveCheckPoint);
 
     }
