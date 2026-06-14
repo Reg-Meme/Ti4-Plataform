@@ -23,20 +23,20 @@ public class MainMenuControl : MonoBehaviour
     void Start()
     {
         InputInfo.OnMenuEvent += OpenMenu;
+        
     }
 
 
     public void OpenMenu()
     {
-            
+          inputInfo.SetUi();
+        EventSystem.current.SetSelectedGameObject(CurrentButton);
+        Input.SwitchCurrentActionMap("UI");  
     }
 
 
     void Update()
     {
-        inputInfo.SetUi();
-            EventSystem.current.SetSelectedGameObject(CurrentButton);
-
-            EventSystem.current.SetSelectedGameObject(null);
+        
     }
 }
