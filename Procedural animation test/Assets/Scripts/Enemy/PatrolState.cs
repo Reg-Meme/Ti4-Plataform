@@ -34,7 +34,7 @@ public class PatrolState : IEnemyStates
         if (state.fieldOfView.canSeePlayer) state.ChangeState(new SeekState(state));
 
        // if (Vector3.Distance(state.transform.position, state.wayPoint[state.fieldOfView.fieldOfViewData.count].position) <= 0.2f)
-        if (Vector3.Distance(state.transform.position, state.wayPoints.transform.position) <= 0.2f)
+        if (Vector3.Distance(state.transform.position, state.wayPoints.transform.position) <= 0.5f)
         {
             //state.fieldOfView.fieldOfViewData.count++;
             //if (state.fieldOfView.fieldOfViewData.count >= state.wayPoint.Length) state.fieldOfView.fieldOfViewData.count = 0;
@@ -42,7 +42,7 @@ public class PatrolState : IEnemyStates
             state.wayPoints = state.wayPoints.next;
             state.agent.SetDestination(state.wayPoints.transform.position);
         }
-        iddleTimer -= Time.deltaTime;
+        iddleTimer -= Time.fixedDeltaTime;
         if (iddleTimer <= 0)
         {
             state.ChangeState(new IddleState(state));

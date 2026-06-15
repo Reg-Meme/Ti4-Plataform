@@ -43,7 +43,7 @@ public class Seeking : IEnemyStates
             return;
         }
 
-        if (Vector3.Distance(state.transform.position, randomPos[count]) <= 0.3f)
+        if (Vector3.Distance(state.transform.position, randomPos[count]) <= 0.5f)
         {
             
             count++;
