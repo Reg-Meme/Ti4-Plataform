@@ -19,16 +19,7 @@ public class GameManager : MonoBehaviour
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-    public void ExitToMenu()
-    {
-        SceneManager.LoadScene("MainMenu"); 
-    }
-
-    public void RestartFromTheLastCheckpoint()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        inputInfo.Initialize();
-    }
+  
     void ResetLevel()
     {
          SceneManager.LoadScene(SceneManager.GetActiveScene().name);

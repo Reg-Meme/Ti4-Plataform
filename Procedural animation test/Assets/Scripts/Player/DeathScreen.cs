@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using JetBrains.Annotations;
+using UnityEngine.SceneManagement;
 public class DeathScreenAni : MonoBehaviour
 {
     //public InputInfo Input;
@@ -29,10 +31,22 @@ public class DeathScreenAni : MonoBehaviour
         audioListener.enabled = false;
 
         input.enabled = false;
+        InputInfo.LevelChange += Killer;
         if(deathScreen == null) deathScreen = this;
     }
 
+  public void ExitToMenu()
+    {
+        Debug.LogWarning("exit");
+        SceneManager.LoadScene("MainMenu"); 
+    }
 
+    public void RestartFromTheLastCheckpoint()
+    {
+         Debug.LogWarning("restart");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        inputInfo.Initialize();
+    }
 
     public void ShowDeathScreen()
     {
@@ -50,6 +64,7 @@ public class DeathScreenAni : MonoBehaviour
         GameManager.Instance.inputInfo.SetUi();
         EventSystem.current.SetSelectedGameObject(CurrentButton);
         audioListener.enabled = true;
+        
 
     }
 
