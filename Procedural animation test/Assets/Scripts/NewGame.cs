@@ -10,7 +10,7 @@ public class NewGame : MonoBehaviour
         //StartCoroutine(SceneSwitch());
 
     //     SceneManager.LoadSceneAsync("Gameplay",LoadSceneMode.Additive);
-         SceneManager.LoadScene("1LevelOld");
+         SceneManager.LoadScene("Ctscene1");
     //        SceneManager.UnloadSceneAsync("MainMenu");
    
     }
