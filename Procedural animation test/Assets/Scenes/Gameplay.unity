@@ -1932,6 +1932,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FreeCamera
       objectReference: {fileID: 0}
+    - target: {fileID: 1188503977809714022, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2225660886329531926, guid: dd46f4912a269bf4fa44e47db089f99b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.02

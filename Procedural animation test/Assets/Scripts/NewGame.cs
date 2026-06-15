@@ -7,10 +7,10 @@ public class NewGame : MonoBehaviour
 
     public void StartLv1()
      {
-        StartCoroutine(SceneSwitch());
+        //StartCoroutine(SceneSwitch());
 
     //     SceneManager.LoadSceneAsync("Gameplay",LoadSceneMode.Additive);
-    //     SceneManager.LoadSceneAsync("1Level",LoadSceneMode.Additive);
+         SceneManager.LoadScene("1LevelOld");
     //        SceneManager.UnloadSceneAsync("MainMenu");
    
     }

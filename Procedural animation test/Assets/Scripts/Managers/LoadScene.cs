@@ -11,12 +11,12 @@ public class LoadScene : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-        if(!isLoaded)
-            {
-                StartCoroutine(NewScene());
-                isLoaded = true;
-            }
-          //SceneManager.LoadScene(name);  
+        // if(!isLoaded)
+        //     {
+        //         StartCoroutine(NewScene());
+        //         isLoaded = true;
+        //     }
+          SceneManager.LoadScene(name);  
         } 
     }
     IEnumerator NewScene()

@@ -9,7 +9,10 @@ public class GameManager : MonoBehaviour
     public string name;
     void Awake()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         if (Instance == null) Instance = this;
+        else Destroy(this);
         inputInfo.Initialize();
         InputInfo.OnResetEvent += ResetLevel;
         DontDestroyOnLoad(gameObject);
@@ -24,10 +27,13 @@ public class GameManager : MonoBehaviour
     public void RestartFromTheLastCheckpoint()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        inputInfo.Initialize();
     }
     void ResetLevel()
     {
-        StartCoroutine(Reset());
+         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //StartCoroutine(Reset());
+
 
     }
     IEnumerator Reset()

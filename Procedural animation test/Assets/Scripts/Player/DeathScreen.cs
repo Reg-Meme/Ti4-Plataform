@@ -27,7 +27,7 @@ public class DeathScreenAni : MonoBehaviour
         audioListener = GetComponent<AudioListener>();
         DeathScreen.SetActive(false);
         audioListener.enabled = false;
-        Player = GameObject.FindGameObjectWithTag("Player");
+                
         input.enabled = false;
         if(deathScreen == null) deathScreen = this;
     }
@@ -54,7 +54,7 @@ public class DeathScreenAni : MonoBehaviour
     public void Killer()
     {
         PlayerStats.IsDead = true;
-        Destroy(Player);
+        Destroy(Player.gameObject);
         GameManager.Instance.inputInfo.SetUi();
         EventSystem.current.SetSelectedGameObject(CurrentButton);
         audioListener.enabled = true;
