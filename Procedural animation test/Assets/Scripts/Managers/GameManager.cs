@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
 
 
     }
-    IEnumerator Reset()
+    IEnumerator reset()
     {
          AsyncOperation load = SceneManager.LoadSceneAsync("Gameplay", LoadSceneMode.Single);
          inputInfo.Initialize();

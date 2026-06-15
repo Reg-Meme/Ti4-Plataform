@@ -44,6 +44,8 @@ public class UiControl : MonoBehaviour
             MenuCanvas.SetActive(true);
             MenuAni.UIIntro();
           //  Time.timeScale = 0;
+         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         
             EventSystem.current.SetSelectedGameObject(CurrentButton);
         }

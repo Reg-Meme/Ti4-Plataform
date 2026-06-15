@@ -44,7 +44,7 @@ public class DeathScreenAni : MonoBehaviour
 
     public void Killer()
     {
-       
+       Debug.LogError("|Estou na builda");
         PlayerStats.IsDead = true;
         Destroy(Player);
         GameManager.Instance.inputInfo.SetUi();
