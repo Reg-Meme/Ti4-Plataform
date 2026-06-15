@@ -31,7 +31,7 @@ public class MainMenuControl : MonoBehaviour
     {
           inputInfo.SetUi();
         EventSystem.current.SetSelectedGameObject(CurrentButton);
-        Input.SwitchCurrentActionMap("UI");  
+        
     }
 
 
