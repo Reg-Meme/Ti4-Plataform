@@ -66,10 +66,13 @@ public class MainMenuAni : MonoBehaviour
     public CanvasGroup safeexitfade;
     public GameObject CurButton;
     public GameObject ExitButton;
+
+    public CanvasGroup TheFade;
     void Start()
     {
         safeexit.SetActive(false);
         Settings.SetActive(false);
+        TheFade.DOFade(0,1.8f);
     }
     void OnEnable()
     {
@@ -301,6 +304,11 @@ public class MainMenuAni : MonoBehaviour
         safeexit.SetActive(false);
         EventSystem.current.SetSelectedGameObject(ExitButton);
     }
-
+    
+    public async void Quit()
+    {
+        await TheFade.DOFade(1,1.8f).SetUpdate(true).AsyncWaitForCompletion();
+        Application.Quit();
+    }
 
 }
