@@ -13,7 +13,7 @@ public class TextShow : MonoBehaviour
 
     int LastChar = 0;
     int CharAt = 0; 
-     void Start()
+     void Awake()
     {
         
         IniciarDigitacao();
