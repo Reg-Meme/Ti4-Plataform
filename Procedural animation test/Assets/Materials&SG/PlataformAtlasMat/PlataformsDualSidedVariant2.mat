@@ -8,8 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PlataformsDualSidedVariant2
-  m_Shader: {fileID: -6465566751694194690, guid: 49ffba4f7d0008740a1a20d1ab6cd1f9, type: 3}
-  m_Parent: {fileID: 2100000, guid: 95e957de3dc18064e8672bb47abb587c, type: 2}
+  m_Shader: {fileID: -6465566751694194690, guid: 513eb1a87efdecc44930328ace977d4d, type: 3}
+  m_Parent: {fileID: 2100000, guid: dd34c74214ba9284d8708b35fbafb956, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
