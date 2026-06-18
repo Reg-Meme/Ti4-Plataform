@@ -16,6 +16,7 @@ public class LoadScene : MonoBehaviour
         //         StartCoroutine(NewScene());
         //         isLoaded = true;
         //     }
+          PlayerStats.lastScene = name;
           SceneManager.LoadScene(name);  
         } 
     }

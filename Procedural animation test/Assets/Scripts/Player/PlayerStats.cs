@@ -17,6 +17,7 @@ public class PlayerStats
     public static Vector3 checkPointPosition;
     public static bool haveCheckPoint = false;
     public static bool IsDead;
+    public static string lastScene;
 
     public static void Init(PlayerData data)
     {
@@ -24,6 +25,7 @@ public class PlayerStats
         grabUnlock = data.grabUnlock;
         checkPointPosition = data.checkPointPosition;
         haveCheckPoint = data.haveCheckPoint;
+        lastScene = data.lastScene;
     }
     public static void Del()
     {
@@ -35,7 +37,7 @@ public class PlayerStats
 
     public static void SaveStats()
     {
-        PlayerData data = new PlayerData(cutUnlock, grabUnlock, checkPointPosition, haveCheckPoint);
+        PlayerData data = new PlayerData(cutUnlock, grabUnlock, checkPointPosition, haveCheckPoint, lastScene);
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(Application.persistentDataPath + "/PlayerStats.json", json);
         Debug.Log(Application.persistentDataPath);

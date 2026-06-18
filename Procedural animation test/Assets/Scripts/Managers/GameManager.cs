@@ -9,11 +9,16 @@ public class GameManager : MonoBehaviour
     public string name;
     void Awake()
     {
+        
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         if (Instance == null) Instance = this;
         else Destroy(this);
         inputInfo.Initialize();
+        
+        if (PlayerStats.LoadStats() != null)
+            PlayerStats.Init(PlayerStats.LoadStats());
+
         InputInfo.OnResetEvent += ResetLevel;
         DontDestroyOnLoad(gameObject);
     }

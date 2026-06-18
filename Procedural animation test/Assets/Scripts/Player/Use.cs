@@ -26,8 +26,6 @@ public class Use : MonoBehaviour
 
     void Awake()
     {
-        if (PlayerStats.LoadStats() != null)
-            PlayerStats.Init(PlayerStats.LoadStats());
 
         battery = GetComponent<BatterySystem>();
 
