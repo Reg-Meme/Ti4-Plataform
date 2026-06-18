@@ -139,8 +139,5 @@ public class Use : MonoBehaviour
         PlayerStats.SaveStats();
 
     }
-    public void OnApplicationQuit()
-    {
-        PlayerStats.SaveStats();
-    }
+   
 }
