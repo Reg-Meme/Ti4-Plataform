@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     void ResetLevel()
     {
          SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+         PlayerStats.IsDead = false;
         //StartCoroutine(Reset());
 
 

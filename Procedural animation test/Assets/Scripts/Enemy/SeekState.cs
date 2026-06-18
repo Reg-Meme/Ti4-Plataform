@@ -24,7 +24,7 @@ public class SeekState : IEnemyStates
     public void Enter()
     {
         Debug.Log("State");
-
+        state.agent.speed = 10f;
 
     }
 
@@ -33,16 +33,18 @@ public class SeekState : IEnemyStates
 
     public void Update()
     {
-
+        
         if (!state.fieldOfView.canSeePlayer)
         {
-            timerSerch-= Time.deltaTime;
+            timerSerch -= Time.deltaTime;
             if (timerSerch < 0)
             {
-            state.ChangeState(new Seeking(state));
-            return;
+                state.ChangeState(new Seeking(state));
+                return;
             }
-        }else timerSerch = 2;
+        }
+        else timerSerch = 2;
+
         timer -= Time.deltaTime;
         if (timer <= 0)
         {
@@ -50,7 +52,9 @@ public class SeekState : IEnemyStates
             timer = 0;
         }
 
+
     }
+
     public void Exit()
     {
 
