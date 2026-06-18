@@ -8,6 +8,7 @@ TagManager:
   - WallWalk
   - UnlockGrab
   - UnlockCut
+  - Box
   layers:
   - Default
   - TransparentFX

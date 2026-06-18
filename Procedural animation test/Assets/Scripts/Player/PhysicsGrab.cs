@@ -14,18 +14,14 @@ public class PhysicsGrab : Mechanics
     float maxLiftMass;
     float rotationInput;
 
+    Vector3 rotationAxis = Vector3.up;
+
     Renderer lastRenderer;
     Material[] originalMaterials;
     Rigidbody grabbedObject;
     bool holdingOverhead;
 
-    public PhysicsGrab(
-        Transform camera,
-        LayerMask layer,
-        PhysicsGrabConfig config,
-        Transform grabPoint,
-        Transform overheadPoint,
-        Material highlightMaterial)
+    public PhysicsGrab( Transform camera, LayerMask layer, PhysicsGrabConfig config,  Transform grabPoint, Transform overheadPoint, Material highlightMaterial)
     {
         this.cameraTransform = camera;
         this.interactionLayer = layer;
@@ -42,7 +38,16 @@ public class PhysicsGrab : Mechanics
 
         rotationInput = Mouse.current.scroll.ReadValue().y;
 
-        Debug.DrawRay(grabPoint.position, grabPoint.forward * config.grabDistance, Color.red );
+        if (Keyboard.current.xKey.wasPressedThisFrame)
+        {
+            if (rotationAxis == Vector3.up) rotationAxis = Vector3.right;
+            else if (rotationAxis == Vector3.right) rotationAxis = Vector3.forward;
+            else rotationAxis = Vector3.up;
+
+           // Debug.Log("Eixo de rotação: " + rotationAxis);
+        }
+
+        Debug.DrawRay( grabPoint.position,grabPoint.forward * config.grabDistance, Color.red);
     }
 
     public override void FixedTick()
@@ -60,13 +65,13 @@ public class PhysicsGrab : Mechanics
 
         if (grabbedObject != null)
         {
-            ThrowObject();
+            Release();
             return;
         }
 
         RaycastHit hit;
 
-        if (Physics.Raycast(grabPoint.position,grabPoint.forward,out hit, config.grabDistance,interactionLayer))
+        if (Physics.Raycast(grabPoint.position, grabPoint.forward,out hit,config.grabDistance, interactionLayer))
         {
             Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
 
@@ -80,14 +85,10 @@ public class PhysicsGrab : Mechanics
                     grabbedObject = rb;
 
                     grabbedObject.useGravity = false;
-
                     grabbedObject.linearDamping = 5f;
-
                     grabbedObject.interpolation = RigidbodyInterpolation.Interpolate;
-
                     grabbedObject.collisionDetectionMode =CollisionDetectionMode.Continuous;
-
-                   // Debug.Log("PEGOU: " + grabbedObject.name);
+                    grabbedObject.constraints =RigidbodyConstraints.FreezeRotation;
                 }
             }
         }
@@ -95,6 +96,11 @@ public class PhysicsGrab : Mechanics
 
     public override void AimButton()
     {
+        if (grabbedObject != null)
+        {
+            ThrowObject();return;
+        }
+
         holdingOverhead = true;
     }
 
@@ -105,25 +111,23 @@ public class PhysicsGrab : Mechanics
 
     void MoveObject()
     {
-        
-        if (grabbedObject == null)
-            return;
+        if (grabbedObject == null)return;
+
         PlayerStats.GrabMode = true;
+
         Transform targetPoint = holdingOverhead ? overheadPoint : grabPoint;
 
         float weightFactor = 1f / grabbedObject.mass;
 
         Vector3 dir = targetPoint.position - grabbedObject.position;
 
-        // força principal
         Vector3 force = dir * config.grabForce;
 
-        // damping anti tremor
         Vector3 dampingForce = -grabbedObject.linearVelocity * config.damping;
 
-        grabbedObject.AddForce((force + dampingForce) * weightFactor, ForceMode.Acceleration);
+        grabbedObject.AddForce( (force + dampingForce) * weightFactor,ForceMode.Acceleration);
 
-        if (Vector3.Distance(targetPoint.position, grabbedObject.position) > 5f)
+        if (Vector3.Distance(targetPoint.position,grabbedObject.position) > 5f)
         {
             Release();
         }
@@ -132,27 +136,26 @@ public class PhysicsGrab : Mechanics
         {
             Vector3 shake = Random.insideUnitSphere * config.lowBatteryShake;
 
-            grabbedObject.AddForce( shake, ForceMode.Acceleration);
+            grabbedObject.AddForce( shake,ForceMode.Acceleration);
         }
-
         if (Mathf.Abs(rotationInput) > 0.01f)
         {
-            grabbedObject.AddTorque(grabPoint.up * rotationInput * 5f,ForceMode.Acceleration );
+            grabbedObject.transform.Rotate(rotationAxis, rotationInput * 5f,Space.World);
         }
     }
 
     void ThrowObject()
     {
-        PlayerStats.GrabMode=false;
-        if (grabbedObject == null)
-            return;
+        if (grabbedObject == null) return;
 
         Vector3 throwDir = grabPoint.forward;
 
         grabbedObject.useGravity = true;
         grabbedObject.linearDamping = 0f;
 
-        grabbedObject.AddForce(throwDir * config.throwForce * grabbedObject.mass, ForceMode.Impulse );
+        grabbedObject.constraints = RigidbodyConstraints.None;
+
+        grabbedObject.AddForce( throwDir * config.throwForce *grabbedObject.mass, ForceMode.Impulse);
 
         Release();
     }
@@ -163,19 +166,23 @@ public class PhysicsGrab : Mechanics
         {
             grabbedObject.useGravity = true;
             grabbedObject.linearDamping = 0f;
+
+            grabbedObject.constraints = RigidbodyConstraints.None;
         }
 
         grabbedObject = null;
         holdingOverhead = false;
 
-        Debug.Log("SOLTOU");
+        PlayerStats.GrabMode = false;
+
+        //Debug.Log("SOLTOU");
     }
 
     void CheckHighlight()
     {
         RaycastHit hit;
 
-        if (Physics.Raycast( grabPoint.position,grabPoint.forward, out hit,config.grabDistance,interactionLayer))
+        if (Physics.Raycast(grabPoint.position,grabPoint.forward,out hit,config.grabDistance,interactionLayer))
         {
             Renderer r = hit.collider.GetComponentInParent<Renderer>();
 

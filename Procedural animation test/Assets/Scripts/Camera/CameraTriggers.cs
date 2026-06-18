@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -9,9 +10,12 @@ public class CameraTriggers : MonoBehaviour
     [Tooltip("Tag do objeto que ativa a trigger")]
     public string collisionTag = "Player";
 
+    [Header("Timer")]
+    public bool useTimer = false;
+    public float timerSeconds = 3f;
+
     [Header("Cameras")]
     public CinemachineCamera enterCamera;
-
     public CinemachineCamera exitCamera;
 
     private bool alreadyEntered = false;
@@ -21,10 +25,16 @@ public class CameraTriggers : MonoBehaviour
     {
         if (alreadyEntered) return;
 
-        if (!string.IsNullOrEmpty(collisionTag) && !collision.CompareTag(collisionTag))
-            return;
+        if (!string.IsNullOrEmpty(collisionTag) &&!collision.CompareTag(collisionTag)) return;
 
-        CameraManeger.SwitchCamera(enterCamera);
+        if (useTimer)
+        {
+            StartCoroutine(CameraTimer());
+        }
+        else
+        {
+            CameraManeger.SwitchCamera(enterCamera);
+        }
 
         if (oneShot)
         {
@@ -34,10 +44,11 @@ public class CameraTriggers : MonoBehaviour
 
     private void OnTriggerExit(Collider collision)
     {
+        if (useTimer) return;
+
         if (alreadyExited) return;
 
-        if (!string.IsNullOrEmpty(collisionTag) &&!collision.CompareTag(collisionTag))
-            return;
+        if (!string.IsNullOrEmpty(collisionTag) && !collision.CompareTag(collisionTag)) return;
 
         CameraManeger.SwitchCamera(exitCamera);
 
@@ -45,5 +56,14 @@ public class CameraTriggers : MonoBehaviour
         {
             alreadyExited = true;
         }
+    }
+
+    private IEnumerator CameraTimer()
+    {
+        CameraManeger.SwitchCamera(enterCamera);
+
+        yield return new WaitForSeconds(timerSeconds);
+
+        CameraManeger.SwitchCamera(exitCamera);
     }
 }

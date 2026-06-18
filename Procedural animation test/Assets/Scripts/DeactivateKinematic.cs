@@ -5,28 +5,48 @@ public class DeactivateKinematic : MonoBehaviour
     [Header("Config")]
     public bool oneShot = false;
 
-    [Tooltip("Rigidbody que terá a física ativada")]
-    public Rigidbody cano;
+    [Tooltip("Rigidbodies que terão a física ativada")]
+    public Rigidbody[] rbs;
 
     [Tooltip("Tag do objeto que ativa a trigger")]
-    public string collisionTag = "Player";
+    public string collisionTag;
+
+    [Header("Collider Opcional")]
+    public bool alterarCollider = false;
+    public bool habilitarCollider = false;
+    public BoxCollider[] colliders;
 
     private bool alreadyEntered = false;
 
     void Awake()
     {
-        if (cano == null) cano = GetComponent<Rigidbody>();
+        if (rbs == null || rbs.Length == 0) rbs = GetComponentsInChildren<Rigidbody>();
 
-        if (cano != null) cano.isKinematic = true;
+        foreach (Rigidbody rb in rbs)
+        {
+            if (rb != null) rb.isKinematic = true;
+        }
     }
 
     private void OnTriggerEnter(Collider collision)
     {
         if (alreadyEntered) return;
 
-        if (!string.IsNullOrEmpty(collisionTag) && !collision.CompareTag(collisionTag)) return;
+        if (!string.IsNullOrEmpty(collisionTag) &&!collision.CompareTag(collisionTag))
+            return;
 
-        cano.isKinematic = false;
+        foreach (Rigidbody rb in rbs)
+        {
+            if (rb != null) rb.isKinematic = false;
+        }
+
+        if (alterarCollider)
+        {
+            foreach (BoxCollider col in colliders)
+            {
+                if (col != null) col.enabled = habilitarCollider;
+            }
+        }
 
         if (oneShot) alreadyEntered = true;
     }
