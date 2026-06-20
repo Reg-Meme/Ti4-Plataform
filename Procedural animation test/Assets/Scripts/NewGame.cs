@@ -3,12 +3,17 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using DG.Tweening;
 public class NewGame : MonoBehaviour
 {
     public GameObject panelConfirm;
+    public CanvasGroup PanelGroup;
     public GameObject continueBtn;
     public GameObject newGameBtn;
+    public GameObject NoBtn;
     public EventSystem eventSystem;
+
+    public float tweendur;
     void Start()
     {
         if (PlayerStats.LoadStats() != null)
@@ -39,8 +44,22 @@ public class NewGame : MonoBehaviour
     public void CheckStats()
     {
         if (PlayerStats.LoadStats() == null) StartLv1();
-        else panelConfirm.SetActive(true);
+        else SafeNewGame();
     }
+
+    public void SafeNewGame()
+    {
+        PanelGroup.DOFade(1, tweendur);
+        panelConfirm.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(NoBtn);
+    }
+    public async void No()
+    {
+        await  PanelGroup.DOFade(0, 1f).SetUpdate(true).AsyncWaitForCompletion();
+        panelConfirm.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(newGameBtn);
+    }
+    
     public void Cotinue()
     {
         SceneManager.LoadScene(PlayerStats.lastScene);
