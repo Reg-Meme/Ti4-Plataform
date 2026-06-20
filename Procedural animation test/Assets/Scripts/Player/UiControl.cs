@@ -17,10 +17,7 @@ public class UiControl : MonoBehaviour
     [SerializeField] GameObject CurrentButton;
     public UiAni MenuAni;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
-    {
-        
-    }
+   
 
     void Start()
     {
@@ -59,13 +56,5 @@ public class UiControl : MonoBehaviour
     }
 
 
-    void Update()
-    {
-        // if(inputs.Global.Menu.triggered)
-        // {
-
-        //  OpenMenu();
-        // }
-        //Debug.Log(Input.currentActionMap);
-    }
+    
 }

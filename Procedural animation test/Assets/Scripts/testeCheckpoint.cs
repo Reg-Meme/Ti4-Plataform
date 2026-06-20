@@ -6,17 +6,14 @@ public class testeCheckpoint : MonoBehaviour
     void Start()
     {
         Debug.Log(PlayerStats.haveCheckPoint);
-        if(PlayerStats.haveCheckPoint)
+        if (PlayerStats.haveCheckPoint)
         {
             Debug.Log("im here");
-        transform.position = PlayerStats.checkPointPosition;
-    
-        } 
+            transform.position = PlayerStats.checkPointPosition;
+
+        }
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

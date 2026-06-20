@@ -18,10 +18,7 @@ public class CheatManager : MonoBehaviour
         InputInfo.LevelChange2 += ChangeScene2;
 
     } 
-    void Start()
-    {
-      
-    }
+   
     void ChangeScene()
     {
        

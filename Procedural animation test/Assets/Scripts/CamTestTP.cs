@@ -8,10 +8,7 @@ public class CamTestTP : MonoBehaviour
     public float minDist = 0.3f;
     public CinemachineCamera Maincam;
     public CinemachineCamera otherCamera;
-    void Start()
-    {
-        
-    }
+    
     void Update()
     {
         var check = player.transform.position - Maincam.transform.position;

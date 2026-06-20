@@ -24,6 +24,7 @@ public class Moviment : MonoBehaviour
 
     [SerializeField] InputActionReference Crouch;
     public LayerMask Ground;
+    public LayerMask Plataform;
     public LayerMask Celling;
     [Header("Hover")]
     public float hoverRadius = 0.5f;
@@ -404,7 +405,7 @@ public class Moviment : MonoBehaviour
     }
     public bool isAssGrounded()
     {
-        bool cast = Physics.Raycast(groundCheck.transform.position, Vector3.down, assradius, Ground);
+        bool cast = Physics.Raycast(groundCheck.transform.position, Vector3.down, assradius, Plataform);
         if (cast)
         {
             return true;

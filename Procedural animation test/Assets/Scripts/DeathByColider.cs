@@ -15,10 +15,7 @@ public class DeathByColider : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))

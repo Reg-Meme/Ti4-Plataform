@@ -17,9 +17,6 @@ public class CheckPoint : MonoBehaviour
             }
 
     }
-    void OnDisable()
-    {
-        
-    }
+    
 
 }
