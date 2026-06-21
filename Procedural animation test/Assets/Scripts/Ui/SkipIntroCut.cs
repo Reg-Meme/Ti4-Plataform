@@ -9,6 +9,7 @@ public class CutsceneButtons : MonoBehaviour
     public String Name;
     public CanvasGroup fade;
     public CanvasGroup buttonfade;
+    bool jump = false;
     int count;
     void Start()
     {
@@ -18,18 +19,21 @@ public class CutsceneButtons : MonoBehaviour
     
     public async void Skip()
     {
+      
+        
         count++;
-
+        if (count >= 3) return;
         if (count ==1)
         {
             buttonfade.DOFade(1, 1f).SetUpdate(true);
         }
         else if (count >=2)
         {
+        
         await fade.DOFade(1, 2f).SetUpdate(true).AsyncWaitForCompletion();
         SceneManager.LoadScene(Name); 
         }
-        
+        jump = true;
     }
     
 }
