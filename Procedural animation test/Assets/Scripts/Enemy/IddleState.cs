@@ -16,6 +16,7 @@ public class IddleState : IEnemyStates
     {
         state.agent.SetDestination(state.hole.transform.position);
         //Toca animacao de iddle aqui
+        Debug.Log("Iddle");
 
     }
 
