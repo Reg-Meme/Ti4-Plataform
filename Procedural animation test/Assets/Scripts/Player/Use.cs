@@ -16,6 +16,8 @@ public class Use : MonoBehaviour
     public GameObject slashCam;
     public GameObject aimSlashCam;
     public Material crossSectionMat;
+    public GameObject knife;
+    public GameObject magnet;
     [SerializeField] LayerMask grabLayerMask;
     [SerializeField] LayerMask slashLayerMask;
     AniManager AniRef;
@@ -100,9 +102,11 @@ public class Use : MonoBehaviour
         PlayerStats.cutUnlock = true;
         Slash = new SlashMechanic(cutPlane, slashCam, aimSlashCam, crossSectionMat, slashLayerMask);
         mechanics = Slash;
+
         AniRef = GetComponent<AniManager>();
         mechanics.Initialize(battery);
         inputInfo.ClearMechanicsEvent();
+        knife.SetActive(true);
         AssignInputs();
 
     }
@@ -112,6 +116,7 @@ public class Use : MonoBehaviour
         Grab = new PhysicsGrab(Camera.main.transform, grabLayerMask, grabConfig, grabPoint, overheadPoint, highlightMaterial);
         //if(PlayerStats.cutUnlock) return;
         mechanics = Grab;
+        magnet.SetActive(true);
         mechanics.Initialize(battery);
         inputInfo.ClearMechanicsEvent();
         AssignInputs();
@@ -122,6 +127,7 @@ public class Use : MonoBehaviour
         {
             if (!PlayerStats.cutUnlock)
                 UnlockCut();
+                
             Destroy(other.gameObject);
         }
         if (other.CompareTag("UnlockGrab"))
