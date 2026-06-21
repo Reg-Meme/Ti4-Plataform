@@ -81,7 +81,7 @@ public class AniManager : MonoBehaviour
             float curSpd = Body.angularVelocity.magnitude;
 
             
-            if (curSpd >= minSpd && mov.isAssGrounded() && PlayerStats.isJumpig == false)
+            if (curSpd >= minSpd && mov.isGrounded() && PlayerStats.isJumpig == false)
             {
                 RollFrontSFX.volume = Mathf.Lerp(RollFrontSFX.volume, 1f, Time.deltaTime * 2f);
                 RollBackSFX.volume = Mathf.Lerp(RollBackSFX.volume, 0.2f, Time.deltaTime * 2f);
