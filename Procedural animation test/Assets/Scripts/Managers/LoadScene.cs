@@ -17,6 +17,7 @@ public class LoadScene : MonoBehaviour
         //         isLoaded = true;
         //     }
           PlayerStats.lastScene = name;
+          PlayerStats.haveCheckPoint = false;
           SceneManager.LoadScene(name);  
         } 
     }
