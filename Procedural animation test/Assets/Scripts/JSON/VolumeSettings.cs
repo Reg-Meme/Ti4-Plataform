@@ -35,7 +35,7 @@ public class VolumeSettings : MonoBehaviour
     {
         float volume = musicSlider.value;
         float clampedVolume = Mathf.Max(volume, 0.0001f); 
-        mixer.SetFloat("SounTrack", Mathf.Log10(clampedVolume) * 20);
+        mixer.SetFloat("SoundTrack", Mathf.Log10(clampedVolume) * 20);
         SaveVolume();
     }
 

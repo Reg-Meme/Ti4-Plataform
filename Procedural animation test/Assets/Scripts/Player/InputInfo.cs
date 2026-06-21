@@ -76,14 +76,14 @@ public class InputInfo :  ScriptableObject, Inputs.IPlayerActions, Inputs.IGloba
     }
     public void SetGameplay()
     {
-        input.Player.Enable();
-        input.Global.Enable();
-        input.UI.Disable();
+        input?.Player.Enable();
+        input?.Global.Enable();
+        input?.UI.Disable();
     }
     public void SetUi()
     {
-        input.Player.Disable();
-        input.UI.Enable();
+        input?.Player.Disable();
+        input?.UI.Enable();
     }
 
    

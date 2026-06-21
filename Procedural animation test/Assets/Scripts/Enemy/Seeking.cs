@@ -37,13 +37,13 @@ public class Seeking : IEnemyStates
 
     public void Update()
     {
-        if(state.fieldOfView.fieldOfViewData.canSeePlayer)
+        if(state.fieldOfView.canSeePlayer)
         {
             state.ChangeState(new SeekState(state));
             return;
         }
 
-        if (Vector3.Distance(state.transform.position, randomPos[count]) <= 0.3f)
+        if (Vector3.Distance(state.transform.position, randomPos[count]) <= 0.5f)
         {
             
             count++;

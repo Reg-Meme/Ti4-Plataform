@@ -8,6 +8,8 @@ public class SeekState : IEnemyStates
     //  public NavMeshAgent agent;
     //  Transform[] wayPoint = new Transform[4];
     float timer = 0.2f;
+    float timerSerch = 2;
+
     // FieldOfView fieldOfView;
     public SeekState(EnemyStateMachine state)
     {
@@ -21,8 +23,8 @@ public class SeekState : IEnemyStates
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Enter()
     {
-        Debug.Log("State");
-
+        
+        state.agent.speed = state.seekSpeed;
 
     }
 
@@ -31,12 +33,22 @@ public class SeekState : IEnemyStates
 
     public void Update()
     {
-
-        if (!state.fieldOfView.fieldOfViewData.canSeePlayer)
+        if(state.playerInHole)
         {
-            state.ChangeState(new Seeking(state));
-            return;
+        state.ChangeState(new IddleState(state));
+        return;    
+        } 
+        if (!state.fieldOfView.canSeePlayer)
+        {
+            timerSerch -= Time.deltaTime;
+            if (timerSerch < 0)
+            {
+                state.ChangeState(new Seeking(state));
+                return;
+            }
         }
+        else timerSerch = 2;
+
         timer -= Time.deltaTime;
         if (timer <= 0)
         {
@@ -44,7 +56,9 @@ public class SeekState : IEnemyStates
             timer = 0;
         }
 
+
     }
+
     public void Exit()
     {
 

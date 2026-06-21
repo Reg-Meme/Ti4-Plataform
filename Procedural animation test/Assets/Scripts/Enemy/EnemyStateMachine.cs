@@ -6,17 +6,24 @@ public class EnemyStateMachine : MonoBehaviour
 {
    
     IEnemyStates state;
-    public Transform[ ] wayPoint;
+   
+    public WayPoint wayPoints;
     public NavMeshAgent agent;
     public FieldOfView fieldOfView;
-    
+    public bool fixedIddle = true;
+    public float seekSpeed;
+    public float patrolSpeed;
+    public bool playerInHole;
+    public WayPoint hole;
     
   
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        ChangeState(new PatrolState(this));
+        ChangeState(new FixedIddle(this));
+        //ChangeState(new PatrolState(this));
+
     }
 
     // Update is called once per frame

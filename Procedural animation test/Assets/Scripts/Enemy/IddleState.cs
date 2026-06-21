@@ -14,7 +14,9 @@ public class IddleState : IEnemyStates
     }
     public void Enter()
     {
-        
+        state.agent.SetDestination(state.hole.transform.position);
+        //Toca animacao de iddle aqui
+
     }
 
     public void Exit()
@@ -29,7 +31,6 @@ public class IddleState : IEnemyStates
 
     public void Update()
     {
-         timer -= Time.deltaTime;
-        if (timer <= 0) state.ChangeState(new PatrolState(state));
+        if(!state.playerInHole) state.ChangeState(new SeekState(state));
     }
 }

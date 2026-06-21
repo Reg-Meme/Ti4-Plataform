@@ -37,6 +37,10 @@ public class CameraShakeManager : MonoBehaviour
             CamShake = Cam1Shake;
         }
     }
+    public void ShakePulseCutscene()
+    {
+        ShakePulse(10,10,4);
+    }
     public void ShakePulse(float CamShakeAmp, float CamShakeFreq, float Dur)
     {
         if (OnOffOptions.Instance.CameraShake)

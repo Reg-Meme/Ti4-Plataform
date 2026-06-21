@@ -13,15 +13,12 @@ public class CheatManager : MonoBehaviour
         else Destroy(gameObject);
         DontDestroyOnLoad(gameObject);  
         Debug.Log("entrei no start");
-         InputInfo.LevelChange += ChangeScene;
+         //InputInfo.LevelChange += ChangeScene;
         InputInfo.LevelChange1 += ChangeScene1;
         InputInfo.LevelChange2 += ChangeScene2;
 
     } 
-    void Start()
-    {
-      
-    }
+   
     void ChangeScene()
     {
        

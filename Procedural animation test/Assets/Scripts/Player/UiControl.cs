@@ -17,10 +17,7 @@ public class UiControl : MonoBehaviour
     [SerializeField] GameObject CurrentButton;
     public UiAni MenuAni;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
-    {
-        
-    }
+   
 
     void Start()
     {
@@ -34,6 +31,7 @@ public class UiControl : MonoBehaviour
     public void OpenMenu()
     {
         Debug.Log("pause");
+        if(PlayerStats.IsDead) return;
         MenuUi = !MenuCanvas.activeSelf;
 
         if (MenuUi)
@@ -43,6 +41,8 @@ public class UiControl : MonoBehaviour
             MenuCanvas.SetActive(true);
             MenuAni.UIIntro();
           //  Time.timeScale = 0;
+         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         
             EventSystem.current.SetSelectedGameObject(CurrentButton);
         }
@@ -51,18 +51,10 @@ public class UiControl : MonoBehaviour
             inputInfo.SetGameplay();
             MenuAni.UIountro();
           //  Time.timeScale = 1;
-            EventSystem.current.SetSelectedGameObject(null);
+            //EventSystem.current.SetSelectedGameObject(null);
         }
     }
 
 
-    void Update()
-    {
-        // if(inputs.Global.Menu.triggered)
-        // {
-
-        //  OpenMenu();
-        // }
-        //Debug.Log(Input.currentActionMap);
-    }
+    
 }

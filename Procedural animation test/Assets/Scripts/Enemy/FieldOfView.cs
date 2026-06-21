@@ -9,7 +9,7 @@ public class FieldOfView : MonoBehaviour
     // public float angle;
     // public LayerMask player;
     // public LayerMask obstacles;
-    // public bool canSeePlayer;
+     public bool canSeePlayer;
     // public GameObject playerObj;
     public FieldOfViewData fieldOfViewData;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -34,26 +34,31 @@ public class FieldOfView : MonoBehaviour
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, fieldOfViewData.radius, fieldOfViewData.player);
         if (rangeChecks.Length > 0)
         {
+            
             Transform target = rangeChecks[0].transform;
             Vector3 directionToPlayer = (target.position - transform.position).normalized;
 
             if (Vector3.Angle(transform.forward, directionToPlayer) < fieldOfViewData.angle / 2)
             {
                 float distanceToPlayer = Vector3.Distance(transform.position, target.position);
-
+                if(distanceToPlayer < 0.5f)
+                {
+                DeathScreenAni.deathScreen.Killer();
+                    return;
+                }
                 if (!Physics.Raycast(transform.position, directionToPlayer, distanceToPlayer, fieldOfViewData.obstacles))
-                    fieldOfViewData.canSeePlayer = true;
-                else fieldOfViewData.canSeePlayer = false;
+                    canSeePlayer = true;
+                else canSeePlayer = false;
 
 
             }
-            else fieldOfViewData.canSeePlayer = false;
+            else canSeePlayer = false;
 
 
 
         }
-        else if (fieldOfViewData.canSeePlayer)
-            fieldOfViewData.canSeePlayer = false;
+        else if (canSeePlayer)
+            canSeePlayer = false;
     }
 
     // Update is called once per frame

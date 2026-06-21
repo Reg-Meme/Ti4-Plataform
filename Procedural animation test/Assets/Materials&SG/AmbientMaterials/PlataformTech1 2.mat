@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: PlataformTech1 2
   m_Shader: {fileID: -6465566751694194690, guid: 49ffba4f7d0008740a1a20d1ab6cd1f9, type: 3}
-  m_Parent: {fileID: 2100000, guid: 5eda2654f54f13148aefe8ab2cb059d9, type: 2}
+  m_Parent: {fileID: 2100000, guid: 7b3d75820699bf44bb302b4b7ea7ab95, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []

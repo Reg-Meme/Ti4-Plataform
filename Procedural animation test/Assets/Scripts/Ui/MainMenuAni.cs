@@ -61,10 +61,18 @@ public class MainMenuAni : MonoBehaviour
     public GameObject KBCtrlscheme;
     public GameObject GPCtrlscheme;
 
+
+    public GameObject safeexit;
+    public CanvasGroup safeexitfade;
+    public GameObject CurButton;
+    public GameObject ExitButton;
+
+    public CanvasGroup TheFade;
     void Start()
     {
-  
+        safeexit.SetActive(false);
         Settings.SetActive(false);
+        TheFade.DOFade(0,1.8f);
     }
     void OnEnable()
     {
@@ -284,5 +292,23 @@ public class MainMenuAni : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
     }
 
+    public void SafeExit()
+    {
+        safeexitfade.DOFade(1, OptionsTweenDur);
+        safeexit.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(CurButton);
+    }
+    public async void No()
+    {
+        await  safeexitfade.DOFade(0, 1f).SetUpdate(true).AsyncWaitForCompletion();
+        safeexit.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(ExitButton);
+    }
+    
+    public async void Quit()
+    {
+        await TheFade.DOFade(1,1.8f).SetUpdate(true).AsyncWaitForCompletion();
+        Application.Quit();
+    }
 
 }
