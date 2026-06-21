@@ -23,8 +23,8 @@ public class SeekState : IEnemyStates
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Enter()
     {
-        Debug.Log("State");
-        state.agent.speed = 10f;
+        
+        state.agent.speed = state.seekSpeed;
 
     }
 
@@ -33,7 +33,11 @@ public class SeekState : IEnemyStates
 
     public void Update()
     {
-        
+        if(state.playerInHole)
+        {
+        state.ChangeState(new IddleState(state));
+        return;    
+        } 
         if (!state.fieldOfView.canSeePlayer)
         {
             timerSerch -= Time.deltaTime;

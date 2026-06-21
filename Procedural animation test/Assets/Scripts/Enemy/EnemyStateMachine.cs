@@ -11,7 +11,10 @@ public class EnemyStateMachine : MonoBehaviour
     public NavMeshAgent agent;
     public FieldOfView fieldOfView;
     public bool fixedIddle = true;
-    
+    public float seekSpeed;
+    public float patrolSpeed;
+    public bool playerInHole;
+    public WayPoint hole;
     
   
 

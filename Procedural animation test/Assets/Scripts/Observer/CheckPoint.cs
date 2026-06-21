@@ -12,7 +12,7 @@ public class CheckPoint : MonoBehaviour
 
             {
                 takePoint = true;
-                GameBroadcast.CheckPointSave(other.transform.position);
+                GameBroadcast.CheckPointSave(transform.position);
              
             }
 

@@ -8,20 +8,21 @@ public class PatrolState : IEnemyStates
 {
 
     EnemyStateMachine state;
- 
+
     public float iddleTimer = 10f;
     public PatrolState(EnemyStateMachine state)
     {
         this.state = state;
-      
+
 
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Enter()
     {
         Debug.Log("voltei para o patrol state");
+        state.agent.speed = state.patrolSpeed;
         //if (state.fieldOfView.fieldOfViewData.count >= state.wayPoint.Length) state.fieldOfView.fieldOfViewData.count = 0;
-       // state.agent.SetDestination(state.wayPoint[state.fieldOfView.fieldOfViewData.count].position);
+        // state.agent.SetDestination(state.wayPoint[state.fieldOfView.fieldOfViewData.count].position);
         state.agent.SetDestination(state.wayPoints.transform.position);
 
     }
@@ -31,9 +32,18 @@ public class PatrolState : IEnemyStates
 
     public void Update()
     {
-        if (state.fieldOfView.canSeePlayer) state.ChangeState(new SeekState(state));
+        if (state.playerInHole)
+        {
+            state.ChangeState(new IddleState(state));
+            return;
+        }
+        if (state.fieldOfView.canSeePlayer)
+        {
+        state.ChangeState(new SeekState(state));
+        return;    
+        } 
 
-       // if (Vector3.Distance(state.transform.position, state.wayPoint[state.fieldOfView.fieldOfViewData.count].position) <= 0.2f)
+        // if (Vector3.Distance(state.transform.position, state.wayPoint[state.fieldOfView.fieldOfViewData.count].position) <= 0.2f)
         if (Vector3.Distance(state.transform.position, state.wayPoints.transform.position) <= 0.5f)
         {
             //state.fieldOfView.fieldOfViewData.count++;
@@ -42,13 +52,7 @@ public class PatrolState : IEnemyStates
             state.wayPoints = state.wayPoints.next;
             state.agent.SetDestination(state.wayPoints.transform.position);
         }
-        iddleTimer -= Time.fixedDeltaTime;
-        if (iddleTimer <= 0)
-        {
-            state.ChangeState(new IddleState(state));
-            return;
-        }
-
+       
 
     }
 

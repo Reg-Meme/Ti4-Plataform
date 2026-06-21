@@ -18,10 +18,14 @@ public class CheckPointManager : MonoBehaviour
     } 
     public static void SavePosition(Vector3 newPosition)
     {
+        if(PlayerStats.checkPointPosition != newPosition)
+        {
         PlayerStats.checkPointPosition = newPosition;
         PlayerStats.haveCheckPoint = true;
         PlayerStats.SaveStats();
         Debug.Log("Checkpoint Salvo em: " + newPosition + PlayerStats.haveCheckPoint);
+            
+        }
 
     }
     
