@@ -6,7 +6,8 @@ public class CheckpointCutEvent : MonoBehaviour
     public GameObject[] Visual;
     bool takePoint = false;
     public Transform Checkpoint;
-    public void OnDestroy()
+    
+    public void OnDisable()
     {
         Visual[0].SetActive(true);
         Visual[1].SetActive(true);
