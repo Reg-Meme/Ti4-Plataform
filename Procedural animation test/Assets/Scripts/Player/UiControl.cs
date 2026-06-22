@@ -26,6 +26,10 @@ public class UiControl : MonoBehaviour
         // Input.actions.FindActionMap("Global").Enable();
         InputInfo.OnMenuEvent += OpenMenu;
     }
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
 
 
     public void OpenMenu()
@@ -41,8 +45,7 @@ public class UiControl : MonoBehaviour
             MenuCanvas.SetActive(true);
             MenuAni.UIIntro();
           //  Time.timeScale = 0;
-         Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+      
         
             EventSystem.current.SetSelectedGameObject(CurrentButton);
         }
