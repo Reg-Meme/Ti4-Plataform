@@ -7,6 +7,7 @@ public class DeathByColider : MonoBehaviour
     public GameObject Player;
     public GameObject SplashVfx;
     public VisualEffect ploftVfx;
+    public float Offset;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -20,7 +21,7 @@ public class DeathByColider : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            SplashVfx.transform.position = new Vector3(Player.transform.position.x,Player.transform.position.y+0.02f,Player.transform.position.z);
+            SplashVfx.transform.position = new Vector3(Player.transform.position.x,Player.transform.position.y+Offset,Player.transform.position.z);
             ploftVfx.SendEvent("OnPlay");
             Death.Killer();
             
