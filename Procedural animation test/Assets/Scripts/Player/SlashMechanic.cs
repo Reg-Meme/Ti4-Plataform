@@ -37,7 +37,7 @@ public class SlashMechanic : Mechanics
        
         if (PlayerStats.bladeMode)
         {
-        if (!battery.Consume(batteryCost))return;
+      
           
 
             Collider[] hits = Physics.OverlapBox(cutPlane.transform.position, new Vector3(2, 0.1f, 2), cutPlane.transform.rotation, layerMask);

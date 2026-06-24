@@ -77,11 +77,10 @@ public class PhysicsGrab : Mechanics
 
             if (rb != null)
             {
-                float batteryFactor = battery.GetNormalized();
-                float allowedMass = maxLiftMass * batteryFactor;
+                
+             
 
-                if (rb.mass <= allowedMass)
-                {
+               
                     grabbedObject = rb;
 
                     grabbedObject.useGravity = false;
@@ -89,7 +88,7 @@ public class PhysicsGrab : Mechanics
                     grabbedObject.interpolation = RigidbodyInterpolation.Interpolate;
                     grabbedObject.collisionDetectionMode =CollisionDetectionMode.Continuous;
                     grabbedObject.constraints =RigidbodyConstraints.FreezeRotation;
-                }
+                
             }
         }
     }
@@ -132,12 +131,7 @@ public class PhysicsGrab : Mechanics
             Release();
         }
 
-        if (battery.currentBattery < 20f)
-        {
-            Vector3 shake = Random.insideUnitSphere * config.lowBatteryShake;
-
-            grabbedObject.AddForce( shake,ForceMode.Acceleration);
-        }
+       
         if (Mathf.Abs(rotationInput) > 0.01f)
         {
             grabbedObject.transform.Rotate(rotationAxis, rotationInput * 5f,Space.World);

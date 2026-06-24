@@ -33,6 +33,7 @@ public class Elevator : MonoBehaviour
             if (PlayerInContact())
             {
                 timer = .2f;
+                if(ElevatorTouching()) return;
                 Up();
             }
 
@@ -60,6 +61,12 @@ public class Elevator : MonoBehaviour
     bool PlayerInContact()
     {
       if(Physics.CheckBox(transform.position + offset,size/2, Quaternion.identity, LayerMask.GetMask("Player"))) 
+      return true;
+      else return false;
+    }
+    bool ElevatorTouching()
+    {
+    if(Physics.CheckBox(transform.position + offset,size, Quaternion.identity, LayerMask.GetMask("Cut"))) 
       return true;
       else return false;
     }

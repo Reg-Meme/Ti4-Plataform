@@ -65,7 +65,7 @@ public class Use : MonoBehaviour
             mechanics = Grab;
 
         }
-        mechanics.Initialize(battery);
+      
 
         inputInfo.ClearMechanicsEvent();
         AssignInputs();
@@ -104,7 +104,7 @@ public class Use : MonoBehaviour
         mechanics = Slash;
 
         AniRef = GetComponent<AniManager>();
-        mechanics.Initialize(battery);
+       
         inputInfo.ClearMechanicsEvent();
         knife.SetActive(true);
         AssignInputs();
@@ -118,7 +118,7 @@ public class Use : MonoBehaviour
         //if(PlayerStats.cutUnlock) return;
         mechanics = Grab;
         magnet.SetActive(true);
-        mechanics.Initialize(battery);
+      
         inputInfo.ClearMechanicsEvent();
         AssignInputs();
     }
