@@ -9,6 +9,9 @@ TagManager:
   - UnlockGrab
   - UnlockCut
   - Box
+  - RO
+  - Sea
+  - Grabblable
   layers:
   - Default
   - TransparentFX
@@ -24,7 +27,7 @@ TagManager:
   - Plataform
   - UIMesh
   - Player
-  - 
+  - Sea
   - 
   - 
   - 
