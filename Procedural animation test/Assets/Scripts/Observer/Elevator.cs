@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Text.RegularExpressions;
+using NUnit.Framework;
+using UnityEditor;
 using UnityEngine;
 
 public class Elevator : MonoBehaviour
@@ -10,6 +12,9 @@ public class Elevator : MonoBehaviour
     Vector3 b;
     public float speed = 0.2f;
     public float timer = 0.2f;
+    public Vector3 size;
+    public Vector3 offset;
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,9 +28,9 @@ public class Elevator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Moviment.moviment != null)
+        
 
-            if (Moviment.moviment.isAssGrounded())
+            if (PlayerInContact())
             {
                 timer = .2f;
                 Up();
@@ -51,5 +56,22 @@ public class Elevator : MonoBehaviour
         total = Vector3.MoveTowards(transform.position, startPosition, Time.deltaTime * speed);
 
         transform.position = total;
+    }
+    bool PlayerInContact()
+    {
+      if(Physics.CheckBox(transform.position + offset,size/2, Quaternion.identity, LayerMask.GetMask("Player"))) 
+      return true;
+      else return false;
+    }
+
+public void OnDrawGizmosSelected()
+    {
+        if (PlayerInContact())
+
+        Gizmos.color = Color.green;
+        else
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawWireCube(transform.position + offset, size);
     }
 }

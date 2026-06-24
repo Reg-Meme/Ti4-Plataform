@@ -112,6 +112,7 @@ public class Use : MonoBehaviour
     }
     public void UnlockGrab()
     {
+    
         PlayerStats.grabUnlock = true;
         Grab = new PhysicsGrab(Camera.main.transform, grabLayerMask, grabConfig, grabPoint, overheadPoint, highlightMaterial);
         //if(PlayerStats.cutUnlock) return;

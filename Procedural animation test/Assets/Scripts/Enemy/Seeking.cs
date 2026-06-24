@@ -30,6 +30,7 @@ public class Seeking : IEnemyStates
         randomPos[0].y = state.transform.position.y;
         randomPos[1].y = state.transform.position.y;
         state.agent.SetDestination(randomPos[0]);
+        state.agent.speed = state.patrolSpeed;
     }
 
     // Update is called once per frame
@@ -49,6 +50,7 @@ public class Seeking : IEnemyStates
             count++;
             if (count >= 2)
             {
+                Debug.LogError("to entrando aqui n ");
                 state.ChangeState(new PatrolState(state));
                 return;
             }

@@ -37,8 +37,10 @@ public class PlayerStats
 
     public static void SaveStats()
     {
-        PlayerData data = new PlayerData(cutUnlock, grabUnlock, checkPointPosition, haveCheckPoint, lastScene);
+        
+        PlayerData data = new PlayerData(grabUnlock, cutUnlock, checkPointPosition, haveCheckPoint, lastScene);
         string json = JsonUtility.ToJson(data);
+     
         File.WriteAllText(Application.persistentDataPath + "/PlayerStats.json", json);
         Debug.Log(Application.persistentDataPath);
     }
