@@ -12,6 +12,7 @@ TagManager:
   - RO
   - Sea
   - Grabblable
+  - Batery
   layers:
   - Default
   - TransparentFX
