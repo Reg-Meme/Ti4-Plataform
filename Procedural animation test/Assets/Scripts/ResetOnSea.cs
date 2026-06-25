@@ -4,31 +4,30 @@ public class ResetOnSea : MonoBehaviour
 {
     private Vector3 _startPosition;
     private Quaternion _startRotation;
-    private Transform _resetPoint;
+
+    [SerializeField] private Transform _resetPoint;
 
     void Start()
     {
         _startPosition = transform.position;
         _startRotation = transform.rotation;
-        GameObject ro = GameObject.FindWithTag("RO");
-        if (ro != null) _resetPoint = ro.transform;
-        else Debug.LogWarning("[ResetOnSea] Nenhum GameObject com a tag 'RO' foi encontrado na cena!");
+
+        if (_resetPoint == null)
+        {
+            GameObject ro = GameObject.FindWithTag("RO");
+            if (ro != null) _resetPoint = ro.transform;
+            else Debug.LogWarning("[ResetOnSea] Nenhum GameObject com a tag 'RO' foi encontrado na cena!");
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Sea"))
-        {
-            ResetObject();
-        }
+        if (other.CompareTag("Sea")) ResetObject();
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Sea"))
-        {
-            ResetObject();
-        }
+        if (collision.gameObject.CompareTag("Sea")) ResetObject();
     }
 
     private void ResetObject()
