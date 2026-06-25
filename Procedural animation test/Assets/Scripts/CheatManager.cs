@@ -29,7 +29,7 @@ public class CheatManager : MonoBehaviour
     {
         PlayerStats.haveCheckPoint = false;
         PlayerStats.SaveStats();
-        SceneManager.LoadScene("2LevelNew");
+        SceneManager.LoadScene("2Level New");
     }
     void ChangeScene2()
     {
