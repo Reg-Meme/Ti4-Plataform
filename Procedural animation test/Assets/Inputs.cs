@@ -208,6 +208,15 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""F4"",
+                    ""type"": ""Button"",
+                    ""id"": ""95523868-ecde-4396-a797-50062bcd7444"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -637,6 +646,17 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""F3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b544bc53-46fc-4689-a9cd-84986c3753e2"",
+                    ""path"": ""<Keyboard>/f4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""F4"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1541,6 +1561,7 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         m_Player_F1 = m_Player.FindAction("F1", throwIfNotFound: true);
         m_Player_F2 = m_Player.FindAction("F2", throwIfNotFound: true);
         m_Player_F3 = m_Player.FindAction("F3", throwIfNotFound: true);
+        m_Player_F4 = m_Player.FindAction("F4", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1652,6 +1673,7 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_F1;
     private readonly InputAction m_Player_F2;
     private readonly InputAction m_Player_F3;
+    private readonly InputAction m_Player_F4;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1715,6 +1737,10 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/F3".
         /// </summary>
         public InputAction @F3 => m_Wrapper.m_Player_F3;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/F4".
+        /// </summary>
+        public InputAction @F4 => m_Wrapper.m_Player_F4;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1780,6 +1806,9 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
             @F3.started += instance.OnF3;
             @F3.performed += instance.OnF3;
             @F3.canceled += instance.OnF3;
+            @F4.started += instance.OnF4;
+            @F4.performed += instance.OnF4;
+            @F4.canceled += instance.OnF4;
         }
 
         /// <summary>
@@ -1830,6 +1859,9 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
             @F3.started -= instance.OnF3;
             @F3.performed -= instance.OnF3;
             @F3.canceled -= instance.OnF3;
+            @F4.started -= instance.OnF4;
+            @F4.performed -= instance.OnF4;
+            @F4.canceled -= instance.OnF4;
         }
 
         /// <summary>
@@ -2380,6 +2412,13 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnF3(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "F4" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnF4(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

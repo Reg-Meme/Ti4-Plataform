@@ -31,7 +31,7 @@ public class DeathScreenAni : MonoBehaviour
         audioListener.enabled = false;
 
         input.enabled = false;
-        InputInfo.LevelChange += Killer;
+       
         if(deathScreen == null) deathScreen = this;
     }
 
