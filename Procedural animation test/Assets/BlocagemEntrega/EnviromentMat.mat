@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DoorMat 1
+  m_Name: EnviromentMat
   m_Shader: {fileID: -6465566751694194690, guid: 49ffba4f7d0008740a1a20d1ab6cd1f9, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
