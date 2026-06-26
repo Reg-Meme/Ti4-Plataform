@@ -20,10 +20,7 @@ public class CraneTriggerEvents : MonoBehaviour
     {
         
     }
-    public void PlaySfx()
-    {
-        AudioSource.Play();
-    }
+   
     public void OnPlay()
     {
         vfx1.SendEvent("OnPlay");
