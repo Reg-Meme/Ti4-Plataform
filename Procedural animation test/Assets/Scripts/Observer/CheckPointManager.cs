@@ -1,4 +1,6 @@
+using Unity.VectorGraphics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CheckPointManager : MonoBehaviour
 {
@@ -22,6 +24,7 @@ public class CheckPointManager : MonoBehaviour
         {
         PlayerStats.checkPointPosition = newPosition;
         PlayerStats.haveCheckPoint = true;
+        PlayerStats.lastScene = SceneManager.GetActiveScene().name;
         PlayerStats.SaveStats();
         Debug.Log("Checkpoint Salvo em: " + newPosition + PlayerStats.haveCheckPoint);
             
