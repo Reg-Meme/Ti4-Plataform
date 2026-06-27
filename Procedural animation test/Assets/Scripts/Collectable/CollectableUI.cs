@@ -15,6 +15,7 @@ public class CollectableUI : MonoBehaviour
     public float fadeOutDuration = 0.8f;
 
     private Coroutine currentCoroutine;
+    private int totalInScene;
 
     private void Awake()
     {
@@ -22,11 +23,18 @@ public class CollectableUI : MonoBehaviour
         SetAlpha(0f);
     }
 
+    private void Start()
+    {
+        totalInScene = FindObjectsByType<Collectable>(FindObjectsInactive.Include,FindObjectsSortMode.None).Length;
+    }
+
     public void ShowCollectable(string itemName)
     {
         if (currentCoroutine != null) StopCoroutine(currentCoroutine);
 
-        collectableText.text = itemName;
+        int collected = PlayerStats.collectedItems.Count;
+        collectableText.text = $"{itemName}  {collected}/{totalInScene}";
+
         currentCoroutine = StartCoroutine(FadeRoutine());
     }
 

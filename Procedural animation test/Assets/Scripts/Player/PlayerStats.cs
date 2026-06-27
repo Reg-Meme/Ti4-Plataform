@@ -77,4 +77,9 @@ public class PlayerStats
             Del();
         }
     }
+    public static void ClearCollectables()
+    {
+        collectedItems = new List<string>();
+        SaveStats();
+    }
 }
