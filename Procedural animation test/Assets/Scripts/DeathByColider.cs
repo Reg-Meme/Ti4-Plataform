@@ -12,11 +12,7 @@ public class DeathByColider : MonoBehaviour
     void Start()
     {
         Death =  FindAnyObjectByType<DeathScreenAni>();
-        
     }
-
-    // Update is called once per frame
-    
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -24,10 +20,7 @@ public class DeathByColider : MonoBehaviour
             SplashVfx.transform.position = new Vector3(Player.transform.position.x,Player.transform.position.y+Offset,Player.transform.position.z);
             ploftVfx.SendEvent("OnPlay");
             Death.Killer();
-            
             Death.ShowDeathScreen();
-        } 
-        
-        
+        }   
     }
 }

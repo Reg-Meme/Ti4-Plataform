@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
@@ -18,6 +19,7 @@ public class PlayerStats
     public static bool haveCheckPoint = false;
     public static bool IsDead;
     public static string lastScene;
+    public static List<string> collectedItems = new List<string>();
 
     public static void Init(PlayerData data)
     {
@@ -26,23 +28,34 @@ public class PlayerStats
         checkPointPosition = data.checkPointPosition;
         haveCheckPoint = data.haveCheckPoint;
         lastScene = data.lastScene;
+        collectedItems = data.collectedItems ?? new List<string>();
     }
     public static void Del()
     {
         cutUnlock = false;
         grabUnlock = false;
         haveCheckPoint = false;
+        collectedItems = new List<string>();
     }
 
 
     public static void SaveStats()
     {
-        
+
         PlayerData data = new PlayerData(grabUnlock, cutUnlock, checkPointPosition, haveCheckPoint, lastScene);
+        data.collectedItems = collectedItems;
         string json = JsonUtility.ToJson(data);
-     
         File.WriteAllText(Application.persistentDataPath + "/PlayerStats.json", json);
         Debug.Log(Application.persistentDataPath);
+    }
+
+    public static void AddCollectable(string itemName)
+    {
+        if (!collectedItems.Contains(itemName))
+        {
+            collectedItems.Add(itemName);
+            SaveStats();
+        }
     }
     public static PlayerData LoadStats()
     {

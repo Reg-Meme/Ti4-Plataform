@@ -6,7 +6,6 @@ public class CameraTriggers : MonoBehaviour
 {
     [Header("Config")]
     public bool oneShot = false;
-
     [Tooltip("Tag do objeto que ativa a trigger")]
     public string collisionTag = "Player";
 
@@ -18,14 +17,18 @@ public class CameraTriggers : MonoBehaviour
     public CinemachineCamera enterCamera;
     public CinemachineCamera exitCamera;
 
+    [Header("Player Movement")]
+    [Tooltip("script de movimentação do player")]
+    public Moviment playerMovementScript;
+
     private bool alreadyEntered = false;
     private bool alreadyExited = false;
+
 
     private void OnTriggerEnter(Collider collision)
     {
         if (alreadyEntered) return;
-
-        if (!string.IsNullOrEmpty(collisionTag) &&!collision.CompareTag(collisionTag)) return;
+        if (!string.IsNullOrEmpty(collisionTag) && !collision.CompareTag(collisionTag)) return;
 
         if (useTimer)
         {
@@ -45,9 +48,7 @@ public class CameraTriggers : MonoBehaviour
     private void OnTriggerExit(Collider collision)
     {
         if (useTimer) return;
-
         if (alreadyExited) return;
-
         if (!string.IsNullOrEmpty(collisionTag) && !collision.CompareTag(collisionTag)) return;
 
         CameraManeger.SwitchCamera(exitCamera);
@@ -60,10 +61,11 @@ public class CameraTriggers : MonoBehaviour
 
     private IEnumerator CameraTimer()
     {
+        if (playerMovementScript != null) playerMovementScript.enabled = false;
+
         CameraManeger.SwitchCamera(enterCamera);
-
         yield return new WaitForSeconds(timerSeconds);
-
         CameraManeger.SwitchCamera(exitCamera);
+        if (playerMovementScript != null) playerMovementScript.enabled = true;
     }
 }

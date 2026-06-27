@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.IO;
+using NUnit.Framework;
+using System.Collections.Generic;
 [System.Serializable]
 public class PlayerData 
 {
@@ -8,6 +10,7 @@ public class PlayerData
     public  Vector3 checkPointPosition;
     public  bool haveCheckPoint = false;
     public string lastScene;
+    public List<string> collectedItems = new List<string>();
 
     public PlayerData(bool grabUnlock, bool cutUnlock, Vector3 checkPointPosition, bool haveCheckPoint, string lastScene)
     {
@@ -16,6 +19,7 @@ public class PlayerData
         this.checkPointPosition = checkPointPosition;
         this.haveCheckPoint = haveCheckPoint;
         this.lastScene = lastScene;
+        this.collectedItems = new List<string>();
     }
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created

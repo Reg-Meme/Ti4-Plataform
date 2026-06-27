@@ -15,8 +15,5 @@ public class CheckPoint : MonoBehaviour
                 GameBroadcast.CheckPointSave(transform.position);
              
             }
-
     }
-    
-
 }
