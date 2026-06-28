@@ -14,9 +14,7 @@ public class ResetOnSea : MonoBehaviour
 
         if (_resetPoint == null)
         {
-            GameObject ro = GameObject.FindWithTag("RO");
-            if (ro != null) _resetPoint = ro.transform;
-            else Debug.LogWarning("[ResetOnSea] Nenhum GameObject com a tag 'RO' foi encontrado na cena!");
+            Debug.LogWarning("[ResetOnSea] Nenhum GameObject com a tag 'RO' foi encontrado na cena!");
         }
     }
 
