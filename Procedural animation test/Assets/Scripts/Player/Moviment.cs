@@ -185,7 +185,7 @@ public class Moviment : MonoBehaviour
 
         NoBottleMode = PlayerStats.bottleMode;
 
-        if (PlayerStats.GrabMode)
+        if (PlayerStats.grabUnlock && PlayerStats.GrabMode)
         {
             Control.SetMotorSpeeds(0.01f, 0.08f);
         }

@@ -1,15 +1,16 @@
 using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class ActiveBatery : MonoBehaviour
 {
     public GameObject[] batery;
     public int i = 0;
-
+    public string Name;
     public Material ActivatedTxT;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //cutCall.SetActive(false);
         for (int i = 0; i < batery.Length; i++)
         {
             batery[i].SetActive(false);
@@ -33,7 +34,8 @@ public class ActiveBatery : MonoBehaviour
     }
     void FazAlgo()
     {
-        Debug.Log("TocaAnimacao");
+        //Debug.Log("TocaAnimacao");
+        SceneManager.LoadScene(Name); 
     }
     public void ActivateMaterial()
     {

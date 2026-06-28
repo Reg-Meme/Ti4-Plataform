@@ -19,8 +19,6 @@ public class CutsceneButtons : MonoBehaviour
     
     public async void Skip()
     {
-      
-        
         count++;
         if (count >= 3) return;
         if (count ==1)
