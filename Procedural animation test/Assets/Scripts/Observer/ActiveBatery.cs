@@ -21,10 +21,20 @@ public class ActiveBatery : MonoBehaviour
         {
             batery[i].SetActive(true);
             i++;
+            if(i >= 4) FazAlgo();
             Destroy(other.gameObject);
         }
     }
-
+    [ContextMenu("Socorrororskoer")]
+    void fazAlgo()
+    {
+        i++;
+        Debug.Log("I ak" + i);
+    }
+    void FazAlgo()
+    {
+        Debug.Log("TocaAnimacao");
+    }
     public void ActivateMaterial()
     {
         GetComponent<Renderer>().material = ActivatedTxT;
