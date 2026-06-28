@@ -1,13 +1,14 @@
 using UnityEngine;
-
+using DG.Tweening;
 public class Collectable : MonoBehaviour
 {
-    [Tooltip("Nome único deste coletável")]
+    [Tooltip("Nome ï¿½nico deste coletï¿½vel")]
     public string collectableName;
 
     private void Start()
     {
         if (PlayerStats.collectedItems.Contains(collectableName)) gameObject.SetActive(false);
+        
     }
 
     private void OnTriggerEnter(Collider other)
