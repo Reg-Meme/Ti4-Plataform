@@ -18,7 +18,10 @@ public class LoadScene : MonoBehaviour
         //     }
           PlayerStats.lastScene = name;
           PlayerStats.haveCheckPoint = false;
+          PlayerStats.musicTime = 0;
+          PlayerStats.clip = null;
           PlayerStats.SaveStats();
+
           SceneManager.LoadScene(name);  
         } 
     }

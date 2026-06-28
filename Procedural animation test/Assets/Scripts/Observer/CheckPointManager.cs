@@ -25,6 +25,8 @@ public class CheckPointManager : MonoBehaviour
         PlayerStats.checkPointPosition = newPosition;
         PlayerStats.haveCheckPoint = true;
         PlayerStats.lastScene = SceneManager.GetActiveScene().name;
+        PlayerStats.musicTime = 0;
+        PlayerStats.clip = null;
         PlayerStats.SaveStats();
         Debug.Log("Checkpoint Salvo em: " + newPosition + PlayerStats.haveCheckPoint);
             

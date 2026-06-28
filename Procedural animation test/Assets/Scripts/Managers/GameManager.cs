@@ -30,20 +30,12 @@ public class GameManager : MonoBehaviour
          SceneManager.LoadScene(SceneManager.GetActiveScene().name);
          PlayerStats.IsDead = false;
         
-        PlayerStats.clip = SoundtrackManager.instance.audioSource.clip;
-        PlayerStats.musicTime = SoundtrackManager.instance.audioSource.time;
+       
         //StartCoroutine(Reset());
 
 
     }
     
      
-    IEnumerator reset()
-    {
-         AsyncOperation load = SceneManager.LoadSceneAsync("Gameplay", LoadSceneMode.Single);
-         inputInfo.Initialize();
-
-         yield return load;
-         SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive);
-    }
+   
 }

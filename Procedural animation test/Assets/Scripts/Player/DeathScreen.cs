@@ -46,8 +46,7 @@ public class DeathScreenAni : MonoBehaviour
          Debug.LogWarning("restart");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         
-        PlayerStats.clip = SoundtrackManager.instance.audioSource.clip;
-        PlayerStats.musicTime = SoundtrackManager.instance.audioSource.time;
+        
         inputInfo.Initialize();
     }
 
