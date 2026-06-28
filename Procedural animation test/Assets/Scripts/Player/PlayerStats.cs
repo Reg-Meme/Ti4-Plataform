@@ -19,6 +19,7 @@ public class PlayerStats
     public static bool haveCheckPoint = false;
     public static bool IsDead;
     public static string lastScene;
+    public static bool cutScene;
     public static List<string> collectedItems = new List<string>();
 
     public static void Init(PlayerData data)

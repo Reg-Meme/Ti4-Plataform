@@ -41,11 +41,11 @@ public class FieldOfView : MonoBehaviour
             if (Vector3.Angle(transform.forward, directionToPlayer) < fieldOfViewData.angle / 2)
             {
                 float distanceToPlayer = Vector3.Distance(transform.position, target.position);
-                if(distanceToPlayer < 0.5f)
-                {
-                DeathScreenAni.deathScreen.Killer();
-                    return;
-                }
+                // if(distanceToPlayer < 0.5f)
+                // {
+                // DeathScreenAni.deathScreen.Killer();
+                //     return;
+                // }
                 if (!Physics.Raycast(transform.position, directionToPlayer, distanceToPlayer, fieldOfViewData.obstacles))
                     canSeePlayer = true;
                 else canSeePlayer = false;
@@ -59,6 +59,15 @@ public class FieldOfView : MonoBehaviour
         }
         else if (canSeePlayer)
             canSeePlayer = false;
+    }
+    void OnDrawGizmosSelected()
+    {
+        // 1. Escolhe a cor do Gizmo
+        Gizmos.color = Color.yellow; // Ou verde, azul, etc.
+
+        // 3. Desenha o cubo. 
+        // Como a matriz já calculou o transform.position, passamos apenas o offset local.
+       Gizmos.DrawWireSphere(transform.position, fieldOfViewData.radius);
     }
 
     // Update is called once per frame

@@ -23,7 +23,7 @@ public class SeekState : IEnemyStates
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Enter()
     {
-        
+
         state.agent.speed = state.seekSpeed;
 
     }
@@ -33,11 +33,11 @@ public class SeekState : IEnemyStates
 
     public void Update()
     {
-        if(state.playerInHole)
+        if (state.playerInHole)
         {
-        state.ChangeState(new IddleState(state));
-        return;    
-        } 
+            state.ChangeState(new IddleState(state));
+            return;
+        }
         if (!state.fieldOfView.canSeePlayer)
         {
             timerSerch -= Time.deltaTime;
@@ -54,6 +54,13 @@ public class SeekState : IEnemyStates
         {
             state.agent.SetDestination(Moviment.moviment.transform.position);
             timer = 0;
+        }
+        if (!state.agent.pathPending && state.agent.remainingDistance <= 0.5f)
+        {
+            DeathScreenAni.deathScreen.Killer();
+
+            //AQUI MATA O PLAYER
+            return;
         }
 
 

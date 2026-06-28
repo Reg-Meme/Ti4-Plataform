@@ -16,6 +16,7 @@ public class CheatManager : MonoBehaviour
         InputInfo.LevelChange += ChangeScene;
         InputInfo.LevelChange1 += ChangeScene1;
         InputInfo.LevelChange2 += ChangeScene2;
+        InputInfo.LevelChange3 += ChangeScene3;
 
     }
 
@@ -39,6 +40,7 @@ public class CheatManager : MonoBehaviour
     }
     void ChangeScene3()
     {
+     
         PlayerStats.haveCheckPoint = false;
         PlayerStats.SaveStats();
         SceneManager.LoadScene("BossLevel");

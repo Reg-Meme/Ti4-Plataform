@@ -7,6 +7,7 @@ public class Walk : Move
     float time = 0.0f;
     public override void Movimentation(Vector2 input, Rigidbody rb, float maxSpeed, Transform transform)
     {
+        if(PlayerStats.cutScene) return;
         float dotProduct = Vector3.Dot(transform.up, Vector3.up);
         if (dotProduct < 0)
         {

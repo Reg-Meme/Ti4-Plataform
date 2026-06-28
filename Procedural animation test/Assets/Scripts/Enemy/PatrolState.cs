@@ -44,7 +44,7 @@ public class PatrolState : IEnemyStates
         } 
 
         // if (Vector3.Distance(state.transform.position, state.wayPoint[state.fieldOfView.fieldOfViewData.count].position) <= 0.2f)
-        if (Vector3.Distance(state.transform.position, state.wayPoints.transform.position) <= 0.5f)
+        if (!state.agent.pathPending && state.agent.remainingDistance <= 0.7f)
         {
             //state.fieldOfView.fieldOfViewData.count++;
             //if (state.fieldOfView.fieldOfViewData.count >= state.wayPoint.Length) state.fieldOfView.fieldOfViewData.count = 0;

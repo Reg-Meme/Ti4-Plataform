@@ -24,7 +24,7 @@ public class Seeking : IEnemyStates
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Enter()
     {
-        Debug.Log("here");
+       
         randomPos[0] = state.fieldOfView.fieldOfViewData.pos.position + (Random.insideUnitSphere * state.fieldOfView.fieldOfViewData.radius);
         randomPos[1] = state.fieldOfView.fieldOfViewData.pos.position + (Random.insideUnitSphere * state.fieldOfView.fieldOfViewData.radius);
         randomPos[0].y = state.transform.position.y;
@@ -43,19 +43,20 @@ public class Seeking : IEnemyStates
             state.ChangeState(new SeekState(state));
             return;
         }
+      //  Debug.Log(!state.agent.pathPending && state.agent.remainingDistance <= 0.7f);
+        if (!state.agent.pathPending && state.agent.remainingDistance <= 0.7f)
+        {   
 
-        if (Vector3.Distance(state.transform.position, randomPos[count]) <= 0.5f)
-        {
-            
             count++;
             if (count >= 2)
             {
-                Debug.LogError("to entrando aqui n ");
+                Debug.LogError("to entrando aqui ");
                 state.ChangeState(new PatrolState(state));
                 return;
             }
            state.agent.SetDestination(randomPos[count]);
-
+         
+            Debug.LogError("count: " + count );
 
         }
 

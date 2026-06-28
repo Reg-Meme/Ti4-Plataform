@@ -18,7 +18,7 @@ public class Roll : Move
 
     public override void Movimentation(Vector2 input, Rigidbody rb, float maxSpeed,Transform transform)
     {
-        
+        if(PlayerStats.cutScene) return;
         IsSided = Physics.Raycast(rb.position, Vector3.down, .5f, layerMask);
         Transform cam = Camera.main.transform;
         Vector3 forward = cam.forward;
