@@ -58,6 +58,9 @@ public class UiControl : MonoBehaviour
         }
     }
 
-
+public void ActiveMove(bool tf)
+    {
+        PlayerStats.cutScene = tf;
+    }
     
 }
