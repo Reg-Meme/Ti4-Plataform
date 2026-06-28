@@ -7,7 +7,7 @@ public class CollectablePanel : MonoBehaviour
     public Transform listContainer;
     public GameObject itemPrefab;
     public TextMeshProUGUI summaryText;
-
+    public TMP_FontAsset Font; 
     private void OnEnable()
     {
         PopulateList();
@@ -26,13 +26,16 @@ public class CollectablePanel : MonoBehaviour
 
         int collected = data.collectedItems.Count;
         int total = data.totalCollectables;
-
+        summaryText.font = Font;
         summaryText.text = $"{collected}/{total} coletados";
 
         foreach (string itemName in data.collectedItems)
         {
             GameObject item = Instantiate(itemPrefab, listContainer);
             item.GetComponentInChildren<TextMeshProUGUI>().text = itemName;
+            TextMeshProUGUI itemText = item.GetComponentInChildren<TextMeshProUGUI>();
+            itemText.font = Font;
+            itemText.color = Color.white;
         }
     }
 }

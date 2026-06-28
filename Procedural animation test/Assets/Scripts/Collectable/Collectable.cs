@@ -16,7 +16,7 @@ public class Collectable : MonoBehaviour
         if (!other.CompareTag("Player")) return;
 
         PlayerStats.AddCollectable(collectableName);
-        CollectableUI.Instance.ShowCollectable(collectableName);
+        //CollectableUI.Instance.ShowCollectable(collectableName);
         gameObject.SetActive(false);
     }
 }
