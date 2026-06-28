@@ -20,6 +20,8 @@ public class PlayerStats
     public static bool IsDead;
     public static string lastScene;
     public static bool cutScene;
+    public static AudioClip clip;
+    public static float musicTime;
     public static List<string> collectedItems = new List<string>();
     public static int totalCollectables = 0;
 

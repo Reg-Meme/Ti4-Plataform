@@ -45,6 +45,9 @@ public class DeathScreenAni : MonoBehaviour
     {
          Debug.LogWarning("restart");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        
+        PlayerStats.clip = SoundtrackManager.instance.audioSource.clip;
+        PlayerStats.musicTime = SoundtrackManager.instance.audioSource.time;
         inputInfo.Initialize();
     }
 
@@ -58,7 +61,7 @@ public class DeathScreenAni : MonoBehaviour
 
     public void Killer()
     {
-       Debug.LogError("|Estou na builda");
+       
         PlayerStats.IsDead = true;
         Destroy(Player);
         GameManager.Instance.inputInfo.SetUi();

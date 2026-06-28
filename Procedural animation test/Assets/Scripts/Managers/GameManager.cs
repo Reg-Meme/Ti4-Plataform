@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
             PlayerStats.Init(PlayerStats.LoadStats());
 
         InputInfo.OnResetEvent += ResetLevel;
-        DontDestroyOnLoad(gameObject);
+        
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -29,6 +29,9 @@ public class GameManager : MonoBehaviour
     {
          SceneManager.LoadScene(SceneManager.GetActiveScene().name);
          PlayerStats.IsDead = false;
+        
+        PlayerStats.clip = SoundtrackManager.instance.audioSource.clip;
+        PlayerStats.musicTime = SoundtrackManager.instance.audioSource.time;
         //StartCoroutine(Reset());
 
 
