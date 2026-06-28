@@ -47,7 +47,7 @@ public class PlayerStats
     public static void SaveStats()
     {
 
-        PlayerData data = new PlayerData(grabUnlock, cutUnlock, checkPointPosition, haveCheckPoint, lastScene, clip, musicTime);
+        PlayerData data = new PlayerData(grabUnlock, cutUnlock, checkPointPosition, haveCheckPoint, lastScene, clip);
         data.collectedItems = collectedItems;
         data.totalCollectables = totalCollectables;
         string json = JsonUtility.ToJson(data);

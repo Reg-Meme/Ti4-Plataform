@@ -13,9 +13,9 @@ public class PlayerData
     public List<string> collectedItems = new List<string>();
     public int totalCollectables = 0;
     public AudioClip clip;
-    private float musicTime = 0;
+  
 
-    public PlayerData(bool grabUnlock, bool cutUnlock, Vector3 checkPointPosition, bool haveCheckPoint, string lastScene, AudioClip clip, float musicTime)
+    public PlayerData(bool grabUnlock, bool cutUnlock, Vector3 checkPointPosition, bool haveCheckPoint, string lastScene, AudioClip clip)
     {
         this.grabUnlock = grabUnlock;
         this.cutUnlock = cutUnlock;
@@ -24,8 +24,7 @@ public class PlayerData
         this.lastScene = lastScene;
         this.collectedItems = new List<string>();
         this.clip = clip;
-        this.musicTime = musicTime;
-
+       
     }
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created

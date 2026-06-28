@@ -22,8 +22,7 @@ public class SoundtrackManager : MonoBehaviour
     {
         if (PlayerStats.clip != null)
             audioSource2.clip = PlayerStats.clip;
-        if (PlayerStats.musicTime != 0)
-            audioSource2.time = PlayerStats.musicTime;
+        
         if(audioSource1.clip != null)
        StartCoroutine(MusicEnd(audioSource1.clip, (c,f,t) => CrossFade(clip,transitionTime, true)));
     }
