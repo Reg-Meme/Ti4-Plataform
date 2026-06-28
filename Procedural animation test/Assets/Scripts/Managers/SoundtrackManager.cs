@@ -24,18 +24,19 @@ public class SoundtrackManager : MonoBehaviour
             audioSource2.clip = PlayerStats.clip;
         if (PlayerStats.musicTime != 0)
             audioSource2.time = PlayerStats.musicTime;
+        if(audioSource1.clip != null)
        StartCoroutine(MusicEnd(audioSource1.clip, (c,f,t) => CrossFade(clip,transitionTime, true)));
     }
     public void PlayMusic(AudioClip clip)
     {
-        audioSource2.clip = clip;
-        audioSource2.Play();
+        audioSource1.clip = clip;
+        audioSource1.Play();
     }
     public void SetMusic(AudioClip clip, bool loop)
     {
-        audioSource2.loop = loop;
-        audioSource2.clip = clip;
-        audioSource2.Play();
+        audioSource1.loop = loop;
+        audioSource1.clip = clip;
+        audioSource1.Play();
       
     }
     public void SetLoop(bool loop)

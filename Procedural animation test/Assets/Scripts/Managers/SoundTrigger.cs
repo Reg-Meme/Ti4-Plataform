@@ -7,6 +7,7 @@ public class SoundTrigger : MonoBehaviour
     public bool loop;
     public float transitionTime = 2f;
     public bool haveTransition;
+    public bool taked = false;
     void Start ()
     {
            //StartCoroutine(SoundtrackManager.instance.MusicEnd(clip, (c) => SoundtrackManager.instance.SetMusic(proximoClip)));
@@ -15,13 +16,25 @@ public class SoundTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-
+        if(!taked)
+        {
+            
         if (other.CompareTag("Player"))
         {
             if(!haveTransition)
+            {
+                Debug.Log("n transi");
             if (clip != null) SoundtrackManager.instance.CrossFade(clip,transitionTime,loop);
-            else StartCoroutine(SoundtrackManager.instance.MusicEnd(clip, (c,t,b) => SoundtrackManager.instance.CrossFade(proximoClip,transitionTime,loop)));
-            Destroy(gameObject);
+            }
+            else
+            {
+            SoundtrackManager.instance.CrossFade(clip,transitionTime,false);
+            StartCoroutine(SoundtrackManager.instance.MusicEnd(clip, (c,t,b) => SoundtrackManager.instance.CrossFade(proximoClip,transitionTime,loop)));
+            } 
+           
+           
+        }
+        taked = true;
         }
     }
 }
