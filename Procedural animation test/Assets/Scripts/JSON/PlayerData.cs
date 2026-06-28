@@ -11,6 +11,7 @@ public class PlayerData
     public  bool haveCheckPoint = false;
     public string lastScene;
     public List<string> collectedItems = new List<string>();
+    public int totalCollectables = 0;
 
     public PlayerData(bool grabUnlock, bool cutUnlock, Vector3 checkPointPosition, bool haveCheckPoint, string lastScene)
     {

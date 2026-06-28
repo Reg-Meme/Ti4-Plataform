@@ -35,6 +35,12 @@ public class MainMenuAni : MonoBehaviour
     public float ButtonsGroupFinalAnchor;
     public float BGFadeTime;
 
+    //colectables 
+    public bool collectables;
+    public GameObject CollectablesPanel;
+    [SerializeField] RectTransform CollectablesGroup;
+    [SerializeField] CanvasGroup CollectablesCG;
+
     //optionsTweens&Deco
     public bool options;
     [SerializeField] RectTransform OptionsGroup;
@@ -197,6 +203,24 @@ public class MainMenuAni : MonoBehaviour
         if (OptionsisAni) return;
         options = !options;
     }
+
+    public void CollectablesToggle()
+    {
+        collectables = !collectables;
+
+        if (collectables)
+        {
+            CollectablesPanel.SetActive(true);
+            CollectablesCG.DOFade(1, OptionsTweenDur).SetUpdate(true);
+            CollectablesGroup.DOScaleY(1, OptionsTweenDur).SetUpdate(true);
+        }
+        else
+        {
+            CollectablesCG.DOFade(0, OptionsTweenDur).SetUpdate(true).OnComplete(() => CollectablesPanel.SetActive(false));
+            CollectablesGroup.DOScaleY(0, OptionsTweenDur).SetUpdate(true);
+        }
+    }
+
     public void OptionsAni()
     {
        Sequence intro = DOTween.Sequence().SetUpdate(true);

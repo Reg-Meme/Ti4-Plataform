@@ -21,6 +21,7 @@ public class PlayerStats
     public static string lastScene;
     public static bool cutScene;
     public static List<string> collectedItems = new List<string>();
+    public static int totalCollectables = 0;
 
     public static void Init(PlayerData data)
     {
@@ -30,6 +31,7 @@ public class PlayerStats
         haveCheckPoint = data.haveCheckPoint;
         lastScene = data.lastScene;
         collectedItems = data.collectedItems ?? new List<string>();
+        totalCollectables = data.totalCollectables;
     }
     public static void Del()
     {
@@ -45,9 +47,16 @@ public class PlayerStats
 
         PlayerData data = new PlayerData(grabUnlock, cutUnlock, checkPointPosition, haveCheckPoint, lastScene);
         data.collectedItems = collectedItems;
+        data.totalCollectables = totalCollectables;
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(Application.persistentDataPath + "/PlayerStats.json", json);
         Debug.Log(Application.persistentDataPath);
+    }
+
+    public static void SaveTotalCollectables(int total)
+    {
+        totalCollectables = total;
+        SaveStats();
     }
 
     public static void AddCollectable(string itemName)
