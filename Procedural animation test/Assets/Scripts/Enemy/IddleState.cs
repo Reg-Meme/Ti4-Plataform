@@ -32,6 +32,6 @@ public class IddleState : IEnemyStates
 
     public void Update()
     {
-        if(!state.playerInHole) state.ChangeState(new SeekState(state));
+        if(!state.playerInHole) state.ChangeState(new Seeking(state));
     }
 }
