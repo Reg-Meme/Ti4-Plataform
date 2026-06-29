@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using UnityEditor.Timeline.Actions;
+
 using UnityEngine;
 using UnityEngine.Playables;
 public class SoundtrackManager : MonoBehaviour
@@ -10,7 +10,7 @@ public class SoundtrackManager : MonoBehaviour
     public AudioSource audioSource1;
     public AudioSource audioSource2;
     public bool usingSource1 = true;
-    public PlayableDirector diretor;
+    
     public AudioClip clip;
     public float transitionTime = 2f;
     void Awake()
@@ -43,12 +43,7 @@ public class SoundtrackManager : MonoBehaviour
         audioSource2.loop = loop;
 
     }
-    public void CheckLoop()
-    {
-        if (audioSource2.loop)
-            diretor.time = time;
 
-    }
     public void CrossFade(AudioClip newClip, float transitionTime = 2f, bool loop = true)
     {
         AudioSource audioSource = usingSource1 ? audioSource1 : audioSource2;
